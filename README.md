@@ -4,22 +4,22 @@ This repository holds the most current firmware for CircuitSetup's excellent [Fl
 
 The kit parts are available [here](https://circuitsetup.us/product-category/movie-props/).
 
-Here is my FC, built around this Control Board and the other parts of the kit ([backing board](https://circuitsetup.us/product/flux-capacitor-backing-board/), [window kit](https://circuitsetup.us/product/flux-capacitor-window-kit/); see [here](https://github.com/realA10001986/Flux-Capacitor/blob/main/Hardware/README.md) for more information on the other parts used):
+Here is my FC, built around this Control Board and the other parts of the kit ([backing board](https://circuitsetup.us/product/flux-capacitor-backing-board/), [window kit](https://circuitsetup.us/product/flux-capacitor-window-kit/); see [here](https://github.com/CircuitSetup/Flux-Capacitor/blob/main/Hardware/README.md) for more information on the other parts used):
 
 ![My Flux Capacitor](img/myfc.jpg)
 ![My Flux Capacitor](img/myfc2.jpg)
 
-The Flux Capacitor can be used stand-alone, or in connection with CircuitSetup's [Time Circuits Display](https://tcd.out-a-ti.me). If [built properly](https://github.com/realA10001986/Flux-Capacitor/blob/main/Hardware/README.md), the Flux Capacitor is perfectly fit for mounting in your Delorean.
+The Flux Capacitor can be used stand-alone, or in connection with CircuitSetup's [Time Circuits Display](https://github.com/CircuitSetup/Time-Circuits-Display). If [built properly](https://github.com/CircuitSetup/Flux-Capacitor/blob/main/Hardware/README.md), the Flux Capacitor is perfectly fit for mounting in your Delorean.
 
 Features include
 - movie-accurate default flux sequence, plus 9 alternative flux sequences
 - Optional [flux](#the-flux-sound) sound (4 modes)
-- [Time Travel](#time-travel) function, triggered by button, [Time Circuits Display](https://tcd.out-a-ti.me) (TCD) or via [MQTT](#home-assistant--mqtt)
+- [Time Travel](#time-travel) function, triggered by button, [Time Circuits Display](https://github.com/CircuitSetup/Time-Circuits-Display) (TCD) or via [MQTT](#home-assistant--mqtt)
 - [IR remote controlled](#ir-remote-control); can learn keys from third-party remote
 - [Music player](#the-music-player): Play mp3 files located on an SD card
 - [SD card](#sd-card) support for custom audio files for effects, and music for the Music Player
 - Advanced network-accessible [Config Portal](#the-config-portal) for setup (http://flux.local, hostname configurable)
-- [Wireless communication](#bttf-network-bttfn) with [Time Circuits Display](https://tcd.out-a-ti.me); used for synchonized time travels, alarm, chase speed, night mode, fake power and remote control through TCD keypad
+- [Wireless communication](#bttf-network-bttfn) with [Time Circuits Display](https://github.com/CircuitSetup/Time-Circuits-Display); used for synchonized time travels, alarm, chase speed, night mode, fake power and remote control through TCD keypad
 - [Home Assistant](#home-assistant--mqtt) (MQTT 3.1.1) support
 - Built-in installer for default audio files in addition to OTA firmware updates
 
@@ -29,9 +29,9 @@ Since the bright LEDs draw considerable power, it is recommended to use a short 
 
 ## Installation
 
-If a previous version of the Flux Capacitor firmware is installed on your device, you can update easily using the pre-compiled binary. Enter the [Config Portal](#the-config-portal), click on "Update" and select the pre-compiled binary file provided in this repository ([install/fluxcapacitor-A10001986.ino.nodemcu-32s.bin](https://github.com/realA10001986/Flux-Capacitor/blob/main/install/fluxcapacitor-A10001986.ino.nodemcu-32s.bin)).
+If a previous version of the Flux Capacitor firmware is installed on your device, you can update easily using the pre-compiled binary. Enter the [Config Portal](#the-config-portal), click on "Update" and select the pre-compiled binary file provided in this repository ([install/fluxcapacitor-A10001986.ino.nodemcu-32s.bin](https://github.com/CircuitSetup/Flux-Capacitor/blob/main/install/fluxcapacitor-A10001986.ino.nodemcu-32s.bin)).
 
-If you are using a fresh ESP32 board, please see [fluxcapacitor-A10001986.ino](https://github.com/realA10001986/Flux-Capacitor/blob/main/fluxcapacitor-A10001986/fluxcapacitor-A10001986.ino) for detailed build and upload information, or, if you don't want to deal with source code, compilers and all that nerd stuff, go [here](https://install.out-a-ti.me) and follow the instructions.
+If you are using a fresh ESP32 board, please see [fluxcapacitor-A10001986.ino](https://github.com/CircuitSetup/Flux-Capacitor/blob/main/fluxcapacitor-A10001986/fluxcapacitor-A10001986.ino) for detailed build and upload information, or, if you don't want to deal with source code, compilers and all that nerd stuff, go [here](https://install.out-a-ti.me) and follow the instructions.
 
  *Important: After a firmware update, the inner and outer LEDs might blink alternately for short while after reboot. Do NOT unplug the device during this time.*
 
@@ -67,7 +67,7 @@ The first step is to establish access to the FC's configuration web site ("Confi
 
 As long as the device is unconfigured, it creates a WiFi network of its own named "FC-AP". This is called "Access point mode", or "AP-mode". 
 
-It is ok to leave the FC in this mode, especially if it run stand-alone. In a typical home setup and/or if you also have a [Time Circuits Display](https://tcd.out-a-ti.me), however, you might want to connect the FC to a WiFi network (in case of using it together with a TCD: to the same WiFi network the TCD is connected to). If you have your FC, along with a Time Circuits Display, mounted in a car, you might want to connect the FC to the TCD's very own WiFi network "TCD-AP"; see [here](#car-setup).
+It is ok to leave the FC in this mode, especially if it run stand-alone. In a typical home setup and/or if you also have a [Time Circuits Display](https://github.com/CircuitSetup/Time-Circuits-Display), however, you might want to connect the FC to a WiFi network (in case of using it together with a TCD: to the same WiFi network the TCD is connected to). If you have your FC, along with a Time Circuits Display, mounted in a car, you might want to connect the FC to the TCD's very own WiFi network "TCD-AP"; see [here](#car-setup).
 
 In order to connect your FC to a WiFi network, click on "Configure WiFi". The bare minimum is to select an SSID (WiFi network name) and a WiFi password.
 
@@ -290,7 +290,7 @@ Numbers in brackets are the code to be entered on the TCD keypad if a TCD is con
     </tr>
 </table>
 
-[Here](https://github.com/realA10001986/Flux-Capacitor/blob/main/CheatSheet.pdf) is a cheat sheet for printing or screen-use. (Note that MacOS' preview application has a bug that scrambles the links in the document. Acrobat Reader does it correctly.)
+[Here](https://github.com/CircuitSetup/Flux-Capacitor/blob/main/CheatSheet.pdf) is a cheat sheet for printing or screen-use. (Note that MacOS' preview application has a bug that scrambles the links in the document. Acrobat Reader does it correctly.)
 
 ## The Flux sound
 
@@ -328,7 +328,7 @@ The SD card, apart from being required for [installing](#audio-data-installation
 
 Note that the SD card must be inserted before powering up the device. It is not recognized if inserted while the Flux Capacitor is running. Furthermore, do not remove the SD card while the device is powered.
 
-Since the SD card on the control board is inaccessible after assembling the FC, I used a microSD extension (like [this one](https://www.amazon.com/Memory-Micro-SD-Female-Extension-Extender/dp/B09MS85FQ3/)), and mounted the slot through a hole in the bottom of my FC so that the SD card can be accessed at any time. See [here](https://github.com/realA10001986/Flux-Capacitor/blob/main/Hardware/README.md).
+Since the SD card on the control board is inaccessible after assembling the FC, I used a microSD extension (like [this one](https://www.amazon.com/Memory-Micro-SD-Female-Extension-Extender/dp/B09MS85FQ3/)), and mounted the slot through a hole in the bottom of my FC so that the SD card can be accessed at any time. See [here](https://github.com/CircuitSetup/Flux-Capacitor/blob/main/Hardware/README.md).
 
 ### Sound substitution
 
@@ -466,11 +466,11 @@ Limitations: MQTT Protocol version 3.1.1; TLS/SSL not supported; ".local" domain
 
 ## Car setup
 
-If your FC, along with a [Time Circuits Display](https://tcd.out-a-ti.me/), is mounted in a car, the following network configuration is recommended:
+If your FC, along with a [Time Circuits Display](https://github.com/CircuitSetup/Time-Circuits-Display/), is mounted in a car, the following network configuration is recommended:
 
 #### TCD
 
-- Run your TCD in [*car mode*](https://tcd.out-a-ti.me/#car-mode);
+- Run your TCD in [*car mode*](https://github.com/CircuitSetup/Time-Circuits-Display/#car-mode);
 - disable WiFi power-saving on the TCD by setting **_WiFi power save timer (AP-mode)_** to 0 (zero).
 
 #### Flux Capacitor
