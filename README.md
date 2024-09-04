@@ -1,10 +1,10 @@
 # Firmware for Flux Capacitor
 
-This repository holds the most current firmware for CircuitSetup's excellent [Flux Capacitor Light & Sound Control Board](https://circuitsetup.us/product/flux-capacitor-light-sound-pcb/). The "Flux Capacitor" is a key component of the Delorean Time Machine.
+This [repository](https://fc.out-a-ti.me) holds the most current firmware for CircuitSetup's excellent [Flux Capacitor Light & Sound Control Board](https://circuitsetup.us/product/flux-capacitor-light-sound-pcb/). The "Flux Capacitor" is a key component of the Delorean Time Machine.
 
 The kit parts are available [here](https://circuitsetup.us/product-category/movie-props/).
 
-Here is my FC, built around this Control Board and the other parts of the kit ([backing board](https://circuitsetup.us/product/flux-capacitor-backing-board/), [window kit](https://circuitsetup.us/product/flux-capacitor-window-kit/); see [here](https://github.com/CircuitSetup/Flux-Capacitor/blob/main/Hardware/README.md) for more information on the other parts used):
+Here is my FC, built around this Control Board and the other parts of the kit ([backing board](https://circuitsetup.us/product/flux-capacitor-backing-board/), [window kit](https://circuitsetup.us/product/flux-capacitor-window-kit/); see [here](Hardware/) for more information on the other parts used):
 
 ![My Flux Capacitor](img/myfc.jpg)
 ![My Flux Capacitor](img/myfc2.jpg)
@@ -330,7 +330,7 @@ The SD card, apart from being required for [installing](#audio-data-installation
 
 Note that the SD card must be inserted before powering up the device. It is not recognized if inserted while the Flux Capacitor is running. Furthermore, do not remove the SD card while the device is powered.
 
-Since the SD card on the control board is inaccessible after assembling the FC, I used a microSD extension (like [this one](https://www.amazon.com/Memory-Micro-SD-Female-Extension-Extender/dp/B09MS85FQ3/)), and mounted the slot through a hole in the bottom of my FC so that the SD card can be accessed at any time. See [here](https://github.com/CircuitSetup/Flux-Capacitor/blob/main/Hardware/README.md).
+Since the SD card on the control board is inaccessible after assembling the FC, I used a microSD extension (like [this one](https://www.amazon.com/Memory-Micro-SD-Female-Extension-Extender/dp/B09MS85FQ3/)), and mounted the slot through a hole in the bottom of my FC so that the SD card can be accessed at any time. See [here](Hardware/).
 
 ### Sound substitution
 
