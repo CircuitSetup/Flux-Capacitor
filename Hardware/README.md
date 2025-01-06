@@ -43,7 +43,7 @@ The power connector is an adapter like this, which fits nicely into the bracket:
 Since the bright LEDs draw considerable power, it is recommended to drive the FC at 12V-20V (as opposed to 5V).
 
 ## Window
-The cut (template for the box lid window is located here)[https://github.com/CircuitSetup/Flux-Capacitor/blob/main/Hardware/flux_capacitor_window_dimensions.pdf]. 
+The cut [template for the box lid window is located here](https://github.com/CircuitSetup/Flux-Capacitor/blob/main/Hardware/flux_capacitor_window_dimensions.pdf). 
 
 Inserting the window into the trim can be challenging. Soapy water may help with squeezing the window into the box lid trim.
 Here is the procedure we would recommend:
