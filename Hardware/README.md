@@ -42,6 +42,20 @@ The power connector is an adapter like this, which fits nicely into the bracket:
 
 Since the bright LEDs draw considerable power, it is recommended to drive the FC at 12V-20V (as opposed to 5V).
 
+## Window
+The cut (template for the box lid window is located here)[https://github.com/CircuitSetup/Flux-Capacitor/blob/main/Hardware/flux_capacitor_window_dimensions.pdf]. 
+
+Inserting the window into the trim can be challenging. Soapy water may help with squeezing the window into the box lid trim.
+Here is the procedure we would recommend:
+- Put the trim in the box opening
+- Open the lid so the inside is pointing up
+- Angle the trim so that the lip and groove is as vertical as you can get it without coming off
+- Begin inserting the window so that 2 edges can be inserted into the trim groove
+- Try to push down on the window so that the box lid edge and window are flush, while making sure the window stays in the trim groove on the other edges
+
+If this fails you may need to cut the opening in the box lid a bit more. 
+
+
 ## Torr relays & co
 
 The CircuitSetup back board is made to fit the Torr relay replicas and accessories from [Radbench](https://www.thingiverse.com/thing:5164173)'s collection, such as cable boots, L-brackets and acrylic "light-bars".
