@@ -1,4 +1,4 @@
-# Firmware for Flux Capacitor
+# Flux Capacitor
 
 This [repository](https://fc.out-a-ti.me) holds the most current firmware for CircuitSetup's excellent [Flux Capacitor Light & Sound Control Board](https://circuitsetup.us/product/flux-capacitor-light-sound-pcb/). The "Flux Capacitor" is a key component of the Delorean Time Machine.
 
@@ -188,7 +188,7 @@ In order to only disable the supplied IR remote control, check the option **_Dis
      <td align="center"></td>
     </tr>
     <tr>
-     <td align="center">&#8592;<br>Decrease chase speed (*)/td>
+     <td align="center">&#8592;<br>Decrease chase speed (*)</td>
      <td align="center">OK<br>Execute command</td>
      <td align="center">&#8594;<br>Increase chase speed (*)</td>
     </tr>
@@ -326,7 +326,7 @@ Other ways of triggering a time travel are available if a [Time Circuits Display
 
 ## SD card
 
-Preface note on SD cards: For unknown reasons, some SD cards simply do not work with this device. For instance, I had no luck with Sandisk Ultra 32GB and  "Intenso" cards. If your SD card is not recognized, check if it is formatted in FAT32 format (not exFAT!). Also, the size must not exceed 32GB (as larger cards cannot be formatted with FAT32). Transcend SDHC cards and those work fine in my experience.
+Preface note on SD cards: For unknown reasons, some SD cards simply do not work with this device. For instance, I had no luck with Sandisk Ultra 32GB and  "Intenso" cards. If your SD card is not recognized, check if it is formatted in FAT32 format (not exFAT!). Also, the size must not exceed 32GB (as larger cards cannot be formatted with FAT32). Transcend SDHC cards work fine in my experience.
 
 The SD card, apart from being required for [installing](#audio-data-installation) of the built-in audio data, can be used for substituting built-in sound effects and for music played back by the [Music player](#the-music-player). Also, it is recommended to store [secondary settings](#-save-secondary-settings-on-sd) on the SD card to minimize [Flash Wear](#flash-wear). The chosen chase sequence (*1x) is only stored on SD, so for your selection to be persistent across reboots, an SD card is required.
 
@@ -722,6 +722,18 @@ This procedure ensures that all your settings are copied from the old to the new
 <tr>
      <td align="left">&#9675; &#9675; &#9675; &#9675; &#9675; &#9675; (500ms)<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9679; (500ms)<br>&#9675; &#9675; &#9675; &#9675; &#9675; &#9675; (500ms)<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9679; (500ms)</td>
      <td align="left"><a href="#ir-remote-control">IR Learning</a>: Done</td>
+    </tr>
+<tr>
+     <td align="left">&#9675; &#9679; &#9675; &#9679; &#9675; &#9679;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9679;<br>&#9675; &#9679; &#9675; &#9679; &#9675; &#9679;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9679;</td>
+     <td align="left"><a href="#remote-controlling-the-tcds-keypad">TCD remote control mode</a> started</td>
+    </tr>
+<tr>
+     <td align="left">&#9679; &#9675; &#9679; &#9675; &#9679; &#9675;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9679;<br></td>
+     <td align="left"><a href="#remote-controlling-the-tcds-keypad">TCD remote control mode</a> end</td>
+    </tr>
+<tr>
+     <td align="left">&#9679; &#9679; &#9679; &#9675; &#9679; &#9675;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9679;<br>&#9679; &#9679; &#9679; &#9675; &#9679; &#9675;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9679;<br></td>
+     <td align="left">No music files in currently selected <a href="#the-music-player">music folder</a></td>
     </tr>
 </table>
 
