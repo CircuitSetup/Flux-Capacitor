@@ -1,4 +1,4 @@
-# Hardware tips
+# Flux Capacitor Hardware & Build Information
 
 CircuitSetup provides the [electronics](https://circuitsetup.us/product/flux-capacitor-light-sound-pcb), a [window kit](https://circuitsetup.us/product/flux-capacitor-window-kit) and the [back board](https://circuitsetup.us/product/flux-capacitor-backing-board). Here is some information on the other parts you'll need.
 
@@ -8,7 +8,7 @@ The box is a [Stahlin J1210HPL](https://stahlin.com/product/j-series-12-x-10-x-5
 
 CircuitSetup's kits come with templates for holes and the door window.
 
-For replicating exactly what is seen in the movies, the door latches need to moved inward by one inch:
+For replicating exactly what is seen in the movies, the door latches need to be moved inward by one inch:
 ![latches](Hardware/img/latches.jpg)
 
 **&#9888; Warning: This box is made from molded fiberglass reinforced polyester. This is a highly dangerous material, so wear a proper mask when drilling, sawing or sanding.**
@@ -46,7 +46,7 @@ Since the bright LEDs draw considerable power, it is recommended to drive the FC
 
 The CircuitSetup back board is made to fit the Torr relay replicas and accessories from [Radbench](https://www.thingiverse.com/thing:5164173)'s collection, such as cable boots, L-brackets and acrylic "light-bars".
 
-Since I try to avoid 3D-printed parts as much as possible, I went for replicas made from brass by user [stuff565](https://www.ebay.co.uk/usr/stuff565) on ebay (he is a well known member of the Delorean Time Machine Builders scene). Suitable boots for the ignition cables are sometimes available from [maxthemad](https://www.ebay.co.uk/usr/maxthemad).
+Since I try to avoid 3D-printed parts as much as possible, I went for replicas made from brass by user [stuff565](https://www.ebay.co.uk/usr/stuff565) on ebay (he is a well known member of the Delorean Time Machine Builders scene). Suitable boots for the ignition cables are available [here](https://movieprops.blog/shop/) or (sometimes) from [maxthemad](https://www.ebay.co.uk/usr/maxthemad).
 
 If you go this route, you need to enlarge the holes in CircuitSetup's back board to fit the tubes, and due to their weight, the "relays" need to be screwed onto the back board. The resin inside the relay replicas is fine for screws, a bit of pre-drilling is recommended. I used three screws per "relay".
 
@@ -70,7 +70,7 @@ As a final step I slightly sanded the unpainted top surfaces so that the individ
 
 Elbows: These are aviation plugs going by MS3108B, dimensions 20-29 and 32. On the original, these were made by Cannon (ITT), but those are no longer available. JAE is a suitable replacement, and those offered by Chinese vendors on ebay also match closely. I removed the electrical components inside the plug and used screws to attach it to the box. (Good replicas are available [here](https://movieprops.blog/shop/).)
 
-Big pipe on top: On the Original, allegedly Lasco 2"; I used a Genova 30720 (2"). Beware, many ebay sellers quietely ship other brands/models despite explicitly advertising this type. In order to attach it to the box, I glued a disc of wood into the bottom end, and screwed it onto the top part of the box.
+Big pipe on top: On the Original, allegedly Lasco 2"; I used a Genova 30720 (2"). Beware, many ebay sellers quietely ship other brands/models despite explicitly advertising this type. In order to attach it to the box, I glued a disc of wood into the bottom end, and screwed it onto the top part of the box. (A good replica is now available [here](https://movieprops.blog/shop/).)
 
 The black pipe on the left and the hose on the right are fully custom made; the hose is enclosed in parts used in compressed air equipment. Both are attached using screws.
 

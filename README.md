@@ -9,7 +9,11 @@ Here is my FC, built around this Control Board and the other parts of the kit ([
 ![My Flux Capacitor](img/myfc.jpg)
 ![My Flux Capacitor](img/myfc2.jpg)
 
-The Flux Capacitor can be used stand-alone, or in connection with CircuitSetup's [Time Circuits Display](https://github.com/CircuitSetup/Time-Circuits-Display). If [built properly](Hardware.md), the Flux Capacitor is perfectly fit for mounting in your Delorean.
+| [![Watch the video](https://img.youtube.com/vi/BG8tXd8mnxQ/0.jpg)](https://youtu.be/BG8tXd8mnxQ?si=j7_hBTBNLE-TKOMw) |
+|:--:|
+| Click to watch the video |
+
+The Flux Capacitor can be used stand-alone, or in connection with CircuitSetup's [Time Circuits Display](https://tcd.out-a-ti.me). If [built properly](Hardware.md), the Flux Capacitor is perfectly fit for mounting in your Delorean.
 
 Features include
 - movie-accurate default flux sequence, plus 9 alternative flux sequences
@@ -19,7 +23,7 @@ Features include
 - [Music player](#the-music-player): Play mp3 files located on an SD card
 - [SD card](#sd-card) support for custom audio files for effects, and music for the Music Player
 - Advanced network-accessible [Config Portal](#the-config-portal) for setup (http://flux.local, hostname configurable)
-- [Wireless communication](#bttf-network-bttfn) with [Time Circuits Display](https://github.com/CircuitSetup/Time-Circuits-Display); used for synchronized time travels, alarm, chase speed, night mode, fake power and remote control through TCD keypad, or &#127381; [remote controlling](#remote-controlling-the-tcds-keypad) the TCD keypad.
+- [Wireless communication](#bttf-network-bttfn) with [Time Circuits Display](https://tcd.out-a-ti.me); used for synchronized time travels, alarm, chase speed, night mode, fake power, remote control through TCD keypad, or [remote controlling](#remote-controlling-the-tcds-keypad) the TCD keypad.
 - [Home Assistant](#home-assistant--mqtt) (MQTT 3.1.1) support
 - Built-in installer for default audio files in addition to OTA firmware updates
 
@@ -396,7 +400,7 @@ Note that the TCD's firmware must be up to date for BTTFN. You can use [this](ht
 
 ![BTTFN connection](img/family-wifi-bttfn.png)
 
-In order to connect your FC to the TCD using BTTFN, just enter the TCD's IP address or hostname in the **_IP address or hostname of TCD_** field in the FC's Config Portal. On the TCD, no special configuration is required. Note that you need TCD firmware 2.9.1 or later for using a hostname; previous versions only work with an IP address.
+In order to connect your FC to the TCD using BTTFN, just enter the TCD's IP address or hostname in the **_IP address or hostname of TCD_** field in the FC's Config Portal. On the TCD, no special configuration is required.
   
 Afterwards, the FC and the TCD can communicate wirelessly and 
 - play time travel sequences in sync,
