@@ -8,6 +8,8 @@
  * @author tablatronix
  * @version 0.0.0
  * @license MIT
+ *
+ * Modified by Thomas Winischhofer (A10001986)
  */
 
 
@@ -24,7 +26,16 @@
 
 // A10001986 added start
 #define WM_NOHELP
-#define WM_NODEBUG		
+#define WM_NODEBUG
+#define _A10001986_NO_INFO				// Skip unused functions
+#define _A10001986_NO_RESET
+#define _A10001986_NO_EXIT
+#define _A10001986_NO_CLOSE
+#define _A10001986_NO_STATUS
+#define _A10001986_NO_RESETSETTINGS
+#define _A10001986_STR_RESERVE			// Use String.reserve()
+#define _A10001986_NO_BR				// Kill superfluous <br>s in HTML
+//#define _A10001986_DBG
 // A10001986 end
 
 // #define WM_MDNS            // includes MDNS, also set MDNS with sethostname
@@ -273,7 +284,9 @@ class WiFiManager
     int           getRSSIasQuality(int RSSI);
 
     // erase wifi credentials
+	#ifndef _A10001986_NO_RESETSETTINGS
     void          resetSettings();
+	#endif // _A10001986_NO_RESETSETTINGS
 
     // reboot esp
     void          reboot();
@@ -322,6 +335,10 @@ class WiFiManager
 
     //called when config portal is timeout
     void          setConfigPortalTimeoutCallback( std::function<void()> func );
+	
+    //A10001986 inserted / called after erasing WiFi config, before reboot
+    void          setPostEraseCallback( std::function<void()> func );
+	// --- end
 
     //sets timeout before AP,webserver loop ends and exits even if there has been no setup.
     //useful for devices that failed to connect at some point and got stuck in a webserver loop
@@ -491,7 +508,11 @@ class WiFiManager
 
     // get hostname helper
     String        getWiFiHostname();
-
+	
+	// A10001986 inserted: Calc size of param page in order to build String with reserved size
+	#ifdef _A10001986_STR_RESERVE
+	void		  calcParmPageSize();
+    #endif // _A10001986_STR_RESERVE
 
     std::unique_ptr<DNSServer>        dnsServer;
 
@@ -528,7 +549,7 @@ class WiFiManager
     unsigned long _startconn              = 0; // ms for timing wifi connects
 
     // defaults
-    const byte    DNS_PORT                = 53;
+    const uint8_t DNS_PORT                = 53;
     String        _apName                 = "no-net";
     String        _apPassword             = "";
     String        _ssid                   = ""; // var temp ssid
@@ -656,14 +677,22 @@ class WiFiManager
     void          handleWifi(boolean scan);
     void          handleWifiSave();
     void          handleInfo();
+	#ifndef _A10001986_NO_RESET
     void          handleReset();
+	#endif
     void          handleNotFound();
+	#ifndef _A10001986_NO_EXIT
     void          handleExit();
+	#endif
+	#ifndef _A10001986_NO_CLOSE
     void          handleClose();
+	#endif
     // void          handleErase();
     void          handleErase(boolean opt);
     void          handleParam();
+	#ifndef _A10001986_NO_STATUS
     void          handleWiFiStatus();
+    #endif
     void          handleRequest();
     void          handleParamSave();
     void          doParamSave();
@@ -733,7 +762,11 @@ class WiFiManager
     #endif
 
     // output helpers
-    String        getParamOut();
+    #ifndef _A10001986_STR_RESERVE
+	String        getParamOut();
+    #else
+	void          getParamOut(String &page);
+    #endif // _A10001986_STR_RESERVE
     String        getIpForm(String id, String title, String value);
     String        getScanItemOut();
     String        getStaticOut();
@@ -745,7 +778,12 @@ class WiFiManager
     boolean       validApPassword();
     String        encryptionTypeStr(uint8_t authmode);
     void          reportStatus(String &page);
+	#ifndef _A10001986_NO_INFO
     String        getInfoData(String id);
+	#endif // _A10001986_NO_INFO
+	#ifdef _A10001986_STR_RESERVE
+	unsigned int  getParamOutSize();
+    #endif // _A10001986_STR_RESERVE
 
     // flags
     boolean       connect             = false;
@@ -757,6 +795,19 @@ class WiFiManager
     boolean       portalAbortResult   = false;
     boolean       storeSTAmode        = true; // option store persistent STA mode in connectwifi 
     int           timer               = 0;    // timer for debug throttle for numclients, and portal timeout messages
+	
+	// A10001986 inserted
+	#ifdef _A10001986_STR_RESERVE
+	unsigned int  paramPageSize	  	  = 0;
+	unsigned int  pItemMaxLength	  = 0;
+	unsigned int  pHeadersize		  = 0;
+	unsigned int  pFStartSize		  = 0;
+	unsigned int  pHeadSize			  = 0;
+	#ifdef _A10001986_DBG
+    unsigned long debugPMCtiming 	  = 0;
+	#endif // _A10001986_DBG
+    #endif
+	// --- end
     
     // WiFiManagerParameter
     int         _paramsCount          = 0;
@@ -825,6 +876,9 @@ class WiFiManager
     std::function<void()> _resetcallback;
     std::function<void()> _preotaupdatecallback;
     std::function<void()> _configportaltimeoutcallback;
+	// A10001986 inserted
+	std::function<void()> _posterasecallback;
+	// --- end
 
     template <class T>
     auto optionalIPFromString(T *obj, const char *s) -> decltype(  obj->fromString(s)  ) {

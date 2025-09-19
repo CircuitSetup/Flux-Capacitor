@@ -8,6 +8,8 @@
  * @author tablatronix
  * @version 0.0.0
  * @license MIT
+ *
+ * Modified by Thomas Winischhofer (A10001986)
  */
 
 #include "WiFiManager.h"
@@ -644,14 +646,24 @@ void WiFiManager::setupHTTPServer(){
   server->on(WM_G(R_wifi),       std::bind(&WiFiManager::handleWifi, this, true));
   server->on(WM_G(R_wifinoscan), std::bind(&WiFiManager::handleWifi, this, false));
   server->on(WM_G(R_wifisave),   std::bind(&WiFiManager::handleWifiSave, this));
+  #ifndef _A10001986_NO_INFO
   server->on(WM_G(R_info),       std::bind(&WiFiManager::handleInfo, this));
+  #endif
   server->on(WM_G(R_param),      std::bind(&WiFiManager::handleParam, this));
   server->on(WM_G(R_paramsave),  std::bind(&WiFiManager::handleParamSave, this));
+  #ifndef _A10001986_NO_RESET
   server->on(WM_G(R_restart),    std::bind(&WiFiManager::handleReset, this));
+  #endif
+  #ifndef _A10001986_NO_EXIT
   server->on(WM_G(R_exit),       std::bind(&WiFiManager::handleExit, this));
+  #endif
+  #ifndef _A10001986_NO_CLOSE
   server->on(WM_G(R_close),      std::bind(&WiFiManager::handleClose, this));
+  #endif
   server->on(WM_G(R_erase),      std::bind(&WiFiManager::handleErase, this, false));
+  #ifndef _A10001986_NO_STATUS
   server->on(WM_G(R_status),     std::bind(&WiFiManager::handleWiFiStatus, this));
+  #endif
   server->onNotFound (std::bind(&WiFiManager::handleNotFound, this));
   
   server->on(WM_G(R_update), std::bind(&WiFiManager::handleUpdate, this));
@@ -862,7 +874,7 @@ boolean WiFiManager::process(){
  * @return {[type]} [description]
  */
 uint8_t WiFiManager::processConfigPortal(){
-    if(configPortalActive){
+    if(configPortalActive && dnsServer){
       //DNS handler
       dnsServer->processNextRequest();
     }
@@ -1273,20 +1285,33 @@ void WiFiManager::startWPS() {
 
 String WiFiManager::getHTTPHead(String title){
   String page;
-  page += FPSTR(HTTP_HEAD_START);
+  
+  #ifdef _A10001986_STR_RESERVE
+  if(pHeadSize) {
+	  page.reserve(((pHeadSize + title.length() + 16) / 16) * 16);
+  }
+  #endif // _A10001986_STR_RESERVE
+  
+  page = FPSTR(HTTP_HEAD_START);
   page.replace(FPSTR(T_v), title);
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
 
-  if(_bodyClass != ""){
+  if(_bodyClass != "") {
     String p = FPSTR(HTTP_HEAD_END);
     p.replace(FPSTR(T_c), _bodyClass); // add class str
     page += p;
   }
   else {
     page += FPSTR(HTTP_HEAD_END);
-  } 
+  }
+  
+  #ifdef _A10001986_STR_RESERVE
+  if(!pHeadSize) {
+	  pHeadSize = (((page.length() - title.length() + 16) / 16) * 16) + 16;
+  }
+  #endif // _A10001986_STR_RESERVE
 
   return page;
 }
@@ -1356,7 +1381,9 @@ void WiFiManager::handleWifi(boolean scan) {
   DEBUG_WM(DEBUG_VERBOSE,F("<- HTTP Wifi"));
   #endif
   handleRequest();
+  
   String page = getHTTPHead(FPSTR(S_titlewifi)); // @token titlewifi
+  
   if (scan) {
     #ifdef WM_DEBUG_LEVEL
     // DEBUG_WM(DEBUG_DEV,"refresh flag:",server->hasArg(F("refresh")));
@@ -1373,7 +1400,7 @@ void WiFiManager::handleWifi(boolean scan) {
   pitem = FPSTR(HTTP_FORM_WIFI);
   pitem.replace(FPSTR(T_v), WiFi_SSID());
 
-  if(_showPassword){
+  if(_showPassword) {
     pitem.replace(FPSTR(T_p), WiFi_psk());
   }
   else if(WiFi_psk() != ""){
@@ -1389,7 +1416,11 @@ void WiFiManager::handleWifi(boolean scan) {
   page += FPSTR(HTTP_FORM_WIFI_END);
   if(_paramsInWifi && _paramsCount>0){
     page += FPSTR(HTTP_FORM_PARAM_HEAD);
+	#ifndef _A10001986_STR_RESERVE
     page += getParamOut();
+    #else
+	getParamOut(page);
+    #endif
   }
   page += FPSTR(HTTP_FORM_END);
   page += FPSTR(HTTP_SCAN_LINK);
@@ -1412,18 +1443,46 @@ void WiFiManager::handleParam(){
   DEBUG_WM(DEBUG_VERBOSE,F("<- HTTP Param"));
   #endif
   handleRequest();
+  
+  #ifndef _A10001986_STR_RESERVE
   String page = getHTTPHead(FPSTR(S_titleparam)); // @token titlewifi
+  #else
+  String page;
+  if(paramPageSize) {
+  	page.reserve(paramPageSize);
+  }
+  page = getHTTPHead(FPSTR(S_titleparam)); // @token titlewifi
+  #endif // _A10001986_STR_RESERVE
 
-  String pitem = "";
+  {	// A10001986 - make own scope
+  	String pitem = "";
+  	pitem = FPSTR(HTTP_FORM_START);
+  	pitem.replace(FPSTR(T_v), F("paramsave"));
+  	page += pitem;
+  }
 
-  pitem = FPSTR(HTTP_FORM_START);
-  pitem.replace(FPSTR(T_v), F("paramsave"));
-  page += pitem;
-
+  #ifndef _A10001986_STR_RESERVE
   page += getParamOut();
+  #else
+  getParamOut(page);
+  #endif
   page += FPSTR(HTTP_FORM_END);
   if(_showBack) page += FPSTR(HTTP_BACKBTN);
   reportStatus(page);
+  
+  // TW DEBUG
+  #ifdef _A10001986_DBG
+  page += "..";
+  page += String(pItemMaxLength);
+  page += "..";
+  page += String(paramPageSize);
+  page += "..";
+  page += String(debugPMCtiming);
+  page += "..";
+  page += String(ESP.getFreeHeap());
+  // ---
+  #endif // _A10001986_DBG
+    
   page += FPSTR(HTTP_END);
 
   HTTPSend(page);
@@ -1433,6 +1492,48 @@ void WiFiManager::handleParam(){
   #endif
 }
 
+// A10001986 inserted
+#ifdef _A10001986_STR_RESERVE
+void WiFiManager::calcParmPageSize()
+{	
+    String pitem = "";
+	#ifdef _A10001986_DBG
+	unsigned long now = millis();
+	#endif
+	
+	paramPageSize = 0;
+
+	if(!pHeadersize) {
+		pitem = getHTTPHead(FPSTR(S_titleparam));
+		pHeadersize = pitem.length();
+		pitem = ""; 
+    }
+    paramPageSize += pHeadersize;
+    
+	if(!pFStartSize) {
+    	pitem = FPSTR(HTTP_FORM_START);
+		pitem.replace(FPSTR(T_v), F("paramsave"));
+		pFStartSize = pitem.length();
+		pitem = "";
+	}
+    paramPageSize += pFStartSize;
+	
+    paramPageSize += getParamOutSize();
+    
+    paramPageSize += sizeof(HTTP_FORM_END);
+    if(_showBack) paramPageSize += sizeof(HTTP_BACKBTN);
+    reportStatus(pitem);
+	paramPageSize += pitem.length();
+    paramPageSize += sizeof(HTTP_END);
+	
+	paramPageSize = (((paramPageSize + 15) / 16) * 16) + 256;	// Add add'l buffer for changed Status, etc.
+	
+	#ifdef _A10001986_DBG
+	debugPMCtiming = millis() - now;
+	#endif
+}
+#endif // _A10001986_STR_RESERVE
+// A10001986 end
 
 String WiFiManager::getMenuOut(){
   String page;  
@@ -1665,7 +1766,9 @@ String WiFiManager::WiFiManager::getScanItemOut(){
         }
 
       }
+	  #ifndef _A10001986_NO_BR
       page += FPSTR(HTTP_BR);
+	  #endif
     }
 
     return page;
@@ -1705,20 +1808,28 @@ String WiFiManager::getStaticOut(){
     page += getIpForm(FPSTR(S_dns),FPSTR(S_staticdns),(_sta_static_dns ? _sta_static_dns.toString() : "")); // @token dns
   }
 
+  #ifndef _A10001986_NO_BR
   if(page!="") page += FPSTR(HTTP_BR); // @todo remove these, use css
+  #endif
 
   return page;
 }
 
-String WiFiManager::getParamOut(){
-  String page;
 
+#ifndef _A10001986_STR_RESERVE
+String WiFiManager::getParamOut(){
+	  String page;
+#else
+void WiFiManager::getParamOut(String &page){
+#endif
+	
   #ifdef WM_DEBUG_LEVEL
   DEBUG_WM(DEBUG_DEV,F("getParamOut"),_paramsCount);
   #endif
 
   if(_paramsCount > 0){
 
+	/* // A10001986 commented
     String HTTP_PARAM_temp = FPSTR(HTTP_FORM_LABEL);
     HTTP_PARAM_temp += FPSTR(HTTP_FORM_PARAM);
     bool tok_I = HTTP_PARAM_temp.indexOf(FPSTR(T_I)) > 0;
@@ -1729,6 +1840,8 @@ String WiFiManager::getParamOut(){
     bool tok_l = HTTP_PARAM_temp.indexOf(FPSTR(T_l)) > 0;
     bool tok_v = HTTP_PARAM_temp.indexOf(FPSTR(T_v)) > 0;
     bool tok_c = HTTP_PARAM_temp.indexOf(FPSTR(T_c)) > 0;
+	HTTP_PARAM_temp = "";	// A10001986 inserted
+	*/
 
     char valLength[5];
 
@@ -1739,42 +1852,61 @@ String WiFiManager::getParamOut(){
         #ifdef WM_DEBUG_LEVEL
         DEBUG_WM(DEBUG_ERROR,F("[ERROR] WiFiManagerParameter is out of scope"));
         #endif
+		#ifndef _A10001986_STR_RESERVE
         return "";
+		#endif
       }
     }
-
+	
+	#ifdef _A10001986_STR_RESERVE
+	// Allocate it once, re-use it
+    String pitem;
+	pitem.reserve(pItemMaxLength ? pItemMaxLength : 3072);
+    #endif
+	
     // add the extra parameters to the form
     for (int i = 0; i < _paramsCount; i++) {
      // label before or after, @todo this could be done via floats or CSS and eliminated
-     String pitem;
-      switch (_params[i]->getLabelPlacement()) {
-        case WFM_LABEL_BEFORE:
-          pitem = FPSTR(HTTP_FORM_LABEL);
-          pitem += FPSTR(HTTP_FORM_PARAM);
-          break;
-        case WFM_LABEL_AFTER:
-          pitem = FPSTR(HTTP_FORM_PARAM);
-          pitem += FPSTR(HTTP_FORM_LABEL);
-          break;
-        default:
-          // WFM_NO_LABEL
-          pitem = FPSTR(HTTP_FORM_PARAM);
-          break;
-      }
-
+     #ifndef _A10001986_STR_RESERVE
+	 String pitem;
+     #endif
+      
       // Input templating
       // "<br/><input id='{i}' name='{n}' maxlength='{l}' value='{v}' {c}>";
       // if no ID use customhtml for item, else generate from param string
       if (_params[i]->getID() != NULL) {
-        if(tok_I)pitem.replace(FPSTR(T_I), (String)FPSTR(S_parampre)+(String)i); // T_I id number
-        if(tok_i)pitem.replace(FPSTR(T_i), _params[i]->getID()); // T_i id name
-        if(tok_n)pitem.replace(FPSTR(T_n), _params[i]->getID()); // T_n id name alias
-        if(tok_p)pitem.replace(FPSTR(T_p), FPSTR(T_t)); // T_p replace legacy placeholder token
-        if(tok_t)pitem.replace(FPSTR(T_t), _params[i]->getLabel()); // T_t title/label
+		  // A10001986 moved this here; was outside above if, makes no sense
+	      switch (_params[i]->getLabelPlacement()) {
+	        case WFM_LABEL_BEFORE:
+	          pitem = FPSTR(HTTP_FORM_LABEL);
+			  #ifdef _A10001986_NO_BR
+			  pitem += FPSTR(HTTP_BR);
+			  #endif
+	          pitem += FPSTR(HTTP_FORM_PARAM);
+	          break;
+	        case WFM_LABEL_AFTER:
+	          pitem = FPSTR(HTTP_FORM_PARAM);
+	          pitem += FPSTR(HTTP_FORM_LABEL);
+			  #ifdef _A10001986_NO_BR
+			  pitem += FPSTR(HTTP_BR);
+			  #endif
+	          break;
+	        default:
+	          // WFM_NO_LABEL
+	          pitem = FPSTR(HTTP_FORM_PARAM);
+	          break;
+	      }
+		// A10001986: dump bools, we know what's here
+		// "<label for='{i}'>{t}</label>"; "<br/><input id='{i}' name='{n}' maxlength='{l}' value='{v}' {c}>\n";
+        ///*if(tok_I)*/ pitem.replace(FPSTR(T_I), (String)FPSTR(S_parampre)+(String)i); // T_I id number -- A10001986 commented
+        /*if(tok_i)*/ 	pitem.replace(FPSTR(T_i), _params[i]->getID()); 	// T_i id name
+        /*if(tok_n)*/ 	pitem.replace(FPSTR(T_n), _params[i]->getID()); 	// T_n id name alias
+        ///*if(tok_p)*/	pitem.replace(FPSTR(T_p), FPSTR(T_t)); 				// T_p replace legacy placeholder token -- A10001986 commented
+        /*if(tok_t)*/ 	pitem.replace(FPSTR(T_t), _params[i]->getLabel()); 	// T_t title/label
         snprintf(valLength, 5, "%d", _params[i]->getValueLength());
-        if(tok_l)pitem.replace(FPSTR(T_l), valLength); // T_l value length
-        if(tok_v)pitem.replace(FPSTR(T_v), _params[i]->getValue()); // T_v value
-        if(tok_c)pitem.replace(FPSTR(T_c), _params[i]->getCustomHTML()); // T_c meant for additional attributes, not html, but can stuff
+        /*if(tok_l)*/ 	pitem.replace(FPSTR(T_l), valLength); 				// T_l value length
+        /*if(tok_v)*/ 	pitem.replace(FPSTR(T_v), _params[i]->getValue()); 	// T_v value
+        /*if(tok_c)*/ 	pitem.replace(FPSTR(T_c), _params[i]->getCustomHTML()); // T_c meant for additional attributes
       } else {
         pitem = _params[i]->getCustomHTML();
       }
@@ -1783,9 +1915,91 @@ String WiFiManager::getParamOut(){
     }
   }
 
+  #ifndef _A10001986_STR_RESERVE
   return page;
+  #endif
 }
 
+// A10001986 inserted
+#ifdef _A10001986_STR_RESERVE
+unsigned int WiFiManager::getParamOutSize()
+{
+	unsigned int mysize = 0;
+	
+	pItemMaxLength = 0;
+	
+    if(_paramsCount > 0){
+
+      char valLength[5];
+
+      for (int i = 0; i < _paramsCount; i++) {
+        if (_params[i] == NULL || _params[i]->_length > 99999) {
+          // try to detect param scope issues, doesnt always catch but works ok
+          #ifdef WM_DEBUG_LEVEL
+          DEBUG_WM(DEBUG_ERROR,F("[ERROR getParamOutSize] WiFiManagerParameter is out of scope"));
+          #endif  		
+          return 0;
+        }
+      }
+	  
+      String pitem;       
+      pitem.reserve(3072);
+
+      // add the extra parameters to the form
+      for (int i = 0; i < _paramsCount; i++) {
+
+        // Input templating
+        // "<br/><input id='{i}' name='{n}' maxlength='{l}' value='{v}' {c}>";
+        // if no ID use customhtml for item, else generate from param string
+        if (_params[i]->getID() != NULL) {
+	       // label before or after, @todo this could be done via floats or CSS and eliminated
+	        switch (_params[i]->getLabelPlacement()) {
+		        case WFM_LABEL_BEFORE:
+		          pitem = FPSTR(HTTP_FORM_LABEL);
+				  #ifdef _A10001986_NO_BR
+				  pitem += FPSTR(HTTP_BR);
+				  #endif
+		          pitem += FPSTR(HTTP_FORM_PARAM);
+		          break;
+		        case WFM_LABEL_AFTER:
+		          pitem = FPSTR(HTTP_FORM_PARAM);
+		          pitem += FPSTR(HTTP_FORM_LABEL);
+				  #ifdef _A10001986_NO_BR
+				  pitem += FPSTR(HTTP_BR);
+				  #endif
+		          break;
+		        default:
+		          // WFM_NO_LABEL
+		          pitem = FPSTR(HTTP_FORM_PARAM);
+		          break;
+	        }
+			// "<label for='{i}'>{t}</label>"; "<br/><input id='{i}' name='{n}' maxlength='{l}' value='{v}' {c}>\n";
+	        ///*if(tok_I)*/ pitem.replace(FPSTR(T_I), (String)FPSTR(S_parampre)+(String)i); // T_I id number -- A10001986 commented
+	        /*if(tok_i)*/ 	pitem.replace(FPSTR(T_i), _params[i]->getID()); 	// T_i id name
+	        /*if(tok_n)*/ 	pitem.replace(FPSTR(T_n), _params[i]->getID()); 	// T_n id name alias
+	        ///*if(tok_p)*/	pitem.replace(FPSTR(T_p), FPSTR(T_t)); 				// T_p replace legacy placeholder token -- A10001986 commented
+	        /*if(tok_t)*/ 	pitem.replace(FPSTR(T_t), _params[i]->getLabel()); 	// T_t title/label
+	        snprintf(valLength, 5, "%d", _params[i]->getValueLength());
+	        /*if(tok_l)*/ 	pitem.replace(FPSTR(T_l), valLength); 				// T_l value length
+	        /*if(tok_v)*/ 	pitem.replace(FPSTR(T_v), _params[i]->getValue()); 	// T_v value
+	        /*if(tok_c)*/ 	pitem.replace(FPSTR(T_c), _params[i]->getCustomHTML()); // T_c meant for additional attributes
+        } else {
+          pitem = _params[i]->getCustomHTML();
+        }
+
+        mysize += pitem.length();
+		if(pitem.length() > pItemMaxLength) pItemMaxLength = pitem.length();
+      }
+    }
+	
+	pItemMaxLength = (((pItemMaxLength + 15) / 16) * 16) + 128;
+
+    return mysize;
+}
+#endif // _A10001986_STR_RESERVE
+// A10001986 end
+
+#ifndef _A10001986_NO_STATUS
 void WiFiManager::handleWiFiStatus(){
   #ifdef WM_DEBUG_LEVEL
   DEBUG_WM(DEBUG_VERBOSE,F("<- HTTP WiFi status "));
@@ -1798,6 +2012,7 @@ void WiFiManager::handleWiFiStatus(){
   #endif
   HTTPSend(page);
 }
+#endif // _A10001986_NO_STATUS
 
 /** 
  * HTTPD CALLBACK save form and redirect to WLAN config page again
@@ -1812,6 +2027,13 @@ void WiFiManager::handleWifiSave() {
   //SAVE/connect here
   _ssid = server->arg(F("s")).c_str();
   _pass = server->arg(F("p")).c_str();
+  
+  if(_ssid == "" && _pass != ""){
+      _ssid = WiFi_SSID(true); // password change, placeholder ssid, @todo compare pass to old?, confirm ssid is clean
+      #ifdef WM_DEBUG_LEVEL
+      DEBUG_WM(WM_DEBUG_VERBOSE,F("Detected WiFi password change"));
+      #endif    
+  }
 
   #ifdef WM_DEBUG_LEVEL
   String requestinfo = "SERVER_REQUEST\n----------------\n";
@@ -1969,6 +2191,7 @@ void WiFiManager::doParamSave(){
 /** 
  * HTTPD CALLBACK info page
  */
+#ifndef _A10001986_NO_INFO
 void WiFiManager::handleInfo() {
   #ifdef WM_DEBUG_LEVEL
   DEBUG_WM(DEBUG_VERBOSE,F("<- HTTP Info"));
@@ -2310,10 +2533,12 @@ String WiFiManager::getInfoData(String id){
   }
   return p;
 }
+#endif	// _A10001986_NO_INFO
 
 /** 
  * HTTPD CALLBACK exit, closes configportal if blocking, if non blocking undefined
  */
+#ifndef _A10001986_NO_EXIT
 void WiFiManager::handleExit() {
   #ifdef WM_DEBUG_LEVEL
   DEBUG_WM(DEBUG_VERBOSE,F("<- HTTP Exit"));
@@ -2327,10 +2552,12 @@ void WiFiManager::handleExit() {
   delay(2000);
   abort = true;
 }
+#endif	// _A10001986_NO_EXIT
 
 /** 
  * HTTPD CALLBACK reset page
  */
+#ifndef _A10001986_NO_RESET
 void WiFiManager::handleReset() {
   #ifdef WM_DEBUG_LEVEL
   DEBUG_WM(DEBUG_VERBOSE,F("<- HTTP Reset"));
@@ -2348,6 +2575,7 @@ void WiFiManager::handleReset() {
   delay(1000);
   reboot();
 }
+#endif	// _A10001986_NO_RESET
 
 /** 
  * HTTPD CALLBACK erase page
@@ -2377,6 +2605,13 @@ void WiFiManager::handleErase(boolean opt) {
   HTTPSend(page);
 
   if(ret){
+	  
+	// A10001986 inserted
+    if ( _posterasecallback != NULL) {
+       _posterasecallback();  // @CALLBACK
+    }
+	// A10001986 end
+	 
     delay(2000);
     #ifdef WM_DEBUG_LEVEL
   	DEBUG_WM(F("RESETTING ESP"));
@@ -2419,9 +2654,16 @@ boolean WiFiManager::captivePortal() {
   DEBUG_WM(DEBUG_MAX,"-> " + server->hostHeader());
   #endif
   
-  if(!_enableCaptivePortal) return false; // skip redirections, @todo maybe allow redirection even when no cp ? might be useful
+  if(!_enableCaptivePortal || !configPortalActive) return false; // skip redirections, if cp not enabled or not in ap mode
   
   String serverLoc =  toStringIp(server->client().localIP());
+  if(serverLoc == "0.0.0.0"){
+      if ((WiFi.status()) != WL_CONNECTED)
+        serverLoc = toStringIp(WiFi.softAPIP());
+      else
+        serverLoc = toStringIp(WiFi.localIP());
+  }
+	
   if(_httpPort != 80) serverLoc += ":" + (String)_httpPort; // add port if not default
   bool doredirect = serverLoc != server->hostHeader(); // redirect if hostheader not server ip, prevent redirect loops
   // doredirect = !isIp(server->hostHeader()) // old check
@@ -2444,6 +2686,7 @@ void WiFiManager::stopCaptivePortal(){
 }
 
 // HTTPD CALLBACK, handle close,  stop captive portal, if not enabled undefined
+#ifndef _A10001986_NO_CLOSE
 void WiFiManager::handleClose(){
   DEBUG_WM(DEBUG_VERBOSE,F("Disabling Captive Portal"));
   stopCaptivePortal();
@@ -2455,6 +2698,7 @@ void WiFiManager::handleClose(){
   page += FPSTR(S_closing); // @token closing
   HTTPSend(page);
 }
+#endif	// _A10001986_NO_CLOSE
 
 void WiFiManager::reportStatus(String &page){
   // updateConxResult(WiFi.status()); // @todo: this defeats the purpose of last result, update elsewhere or add logic here
@@ -2482,6 +2726,11 @@ void WiFiManager::reportStatus(String &page){
       }
       else if(_lastconxresult == WL_CONNECT_FAILED){
         // connect failed
+        str.replace(FPSTR(T_c),"D");
+        str.replace(FPSTR(T_r),FPSTR(HTTP_STATUS_OFFFAIL));
+      }
+	  else if(_lastconxresult == WL_CONNECTION_LOST){
+        // connect failed, MOST likely 4WAY_HANDSHAKE_TIMEOUT/incorrect password, state is ambiguous however
         str.replace(FPSTR(T_c),"D");
         str.replace(FPSTR(T_r),FPSTR(HTTP_STATUS_OFFFAIL));
       }
@@ -2610,6 +2859,7 @@ bool WiFiManager::erase(bool opt){
  * ERASES STA CREDENTIALS
  * @access public
  */
+#ifndef _A10001986_NO_RESETSETTINGS
 void WiFiManager::resetSettings() {
 #ifdef WM_DEBUG_LEVEL
   DEBUG_WM(F("resetSettings"));
@@ -2631,6 +2881,7 @@ void WiFiManager::resetSettings() {
   DEBUG_WM(F("SETTINGS ERASED"));
   #endif
 }
+#endif // _A10001986_NO_RESETSETTINGS
 
 // SETTERS
 
@@ -2854,6 +3105,16 @@ void WiFiManager::setConfigPortalTimeoutCallback( std::function<void()> func ) {
   _configportaltimeoutcallback = func;
 }
 
+/** A10001986 inserted
+ * setPostEraseCallback, set a post-erase callback before reboot
+ * @access public
+ * @param {[type]} void (*func)(void)
+ */
+void WiFiManager::setPostEraseCallback( std::function<void()> func ) {
+  _posterasecallback = func;
+}
+// A10001986 end
+
 /**
  * set custom head html
  * custom element will be added to head, eg. new meta,style,script tag etc.
@@ -2862,6 +3123,9 @@ void WiFiManager::setConfigPortalTimeoutCallback( std::function<void()> func ) {
  */
 void WiFiManager::setCustomHeadElement(const char* html) {
   _customHeadElement = html;
+  // A10001986 inserted
+  pHeadSize = 0;		// reset, so it will be re-calculated in getHTTPhead
+  // A10001986 end
 }
 
 /**
@@ -2934,7 +3198,7 @@ void WiFiManager::setShowStaticFields(boolean alwaysShow){
  */
 void WiFiManager::setShowDnsFields(boolean alwaysShow){
   if(_disableIpFields) _staShowDns = alwaysShow ? 1 : -1;
-  _staShowDns = alwaysShow ? 1 : 0;
+  else 				   _staShowDns = alwaysShow ? 1 : 0;
 }
 
 /**
@@ -3332,7 +3596,7 @@ void WiFiManager::DEBUG_WM(wm_debuglevel_t level,Generic text,Genericb textb) {
     uint32_t free = info.total_free_bytes;
     uint16_t max  = info.largest_free_block;
     uint8_t frag = 100 - (max * 100) / free;
-    _debugPort.printf("[MEM] free: %5d | max: %5d | frag: %3d%% \n", free, max, frag);    
+    _debugPort.printf("[MEM] free: %5u | max: %5d | frag: %3d%% \n", free, max, frag);    
     #endif
   }
 
