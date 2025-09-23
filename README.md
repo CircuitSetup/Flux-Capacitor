@@ -39,9 +39,9 @@ If you are using a fresh ESP32 board, please see [fluxcapacitor-A10001986.ino](h
 
  *Important: After a firmware update, the inner and outer LEDs might blink alternately for short while after reboot. Do NOT unplug the device during this time.*
 
-### Audio data installation
+### Sound-pack installation
 
-The firmware comes with audio data ("sound-pack") which needs to be installed separately. The audio data is not updated as often as the firmware itself. If you have previously installed the latest version of the sound-pack, you normally don't have to re-install the audio data when you update the firmware. Only if either a the FC puts up a respective [signal](#appendix-b-led-signals) at startup, or your device is quiet after a firmware update, a re-installation is needed.
+The firmware comes with audio data ("sound-pack") which needs to be installed separately. The sound-pack is not updated as often as the firmware itself. If you have previously installed the latest version of the sound-pack, you normally don't have to re-install it when you update the firmware. Only if either a the FC puts up a respective [signal](#appendix-b-led-signals) at startup, or your device is quiet after a firmware update, a re-installation/update is needed.
 
 The first step is to download "install/sound-pack-xxxxxxxx.zip" and extract it. It contains one file named "FCA.bin".
 
@@ -53,7 +53,7 @@ Then there are two alternative ways to proceed. Note that both methods *require 
 - Copy "FCA.bin" to the root directory of of a FAT32 formatted SD card;
 - power down the Flux Capacitor,
 - insert this SD card into the slot and 
-- power up the Flux Capacitor; the audio data will be installed automatically.
+- power up the Flux Capacitor; the sound-pack will be installed automatically.
 
 After installation, the SD card can be re-used for [other purposes](#sd-card).
 
@@ -348,7 +348,7 @@ Other ways of triggering a time travel are available if a [Time Circuits Display
 
 Preface note on SD cards: For unknown reasons, some SD cards simply do not work with this device. For instance, I had no luck with Sandisk Ultra 32GB and  "Intenso" cards. If your SD card is not recognized, check if it is formatted in FAT32 format (not exFAT!). Also, the size must not exceed 32GB (as larger cards cannot be formatted with FAT32). Transcend SDHC cards work fine in my experience.
 
-The SD card, apart from being required for [installing](#audio-data-installation) of the built-in audio data, can be used for substituting built-in sound effects and for music played back by the [Music player](#the-music-player). Also, it is recommended to store [secondary settings](#-save-secondary-settings-on-sd) on the SD card to minimize [Flash Wear](#flash-wear). The chosen chase sequence (*1x) is only stored on SD, so for your selection to be persistent across reboots, an SD card is required.
+The SD card, apart from being required for [installing](#sound-pack-installation) of the built-in sound-pack, can be used for substituting built-in sound effects and for music played back by the [Music player](#the-music-player). Also, it is recommended to store [secondary settings](#-save-secondary-settings-on-sd) on the SD card to minimize [Flash Wear](#flash-wear). The chosen chase sequence (*1x) is only stored on SD, so for your selection to be persistent across reboots, an SD card is required.
 
 Note that the SD card must be inserted before powering up the device. It is not recognized if inserted while the Flux Capacitor is running. Furthermore, do not remove the SD card while the device is powered.
 
@@ -382,7 +382,7 @@ Those files are not provided here. You can use any mp3, with a bitrate of 128kpb
 
 As of version 1.80 of the FC firmware, above mentioned audio files (both replacements and custom sounds) can either be copied to the SD card using a computer (as before), or uploaded through the Config Portal.
 
-Uploading through the Config Portal works exactly like [installing the default audio files](#audio-data-installation); on the main menu, click "UPDATE". Afterwards choose one or more mp3 files to upload using the bottom file selector, and click "UPLOAD". The firmware will store the uploaded mp3 files on the SD card.
+Uploading through the Config Portal works exactly like [installing the default audio files](#sound-pack-installation); on the main menu, click "UPDATE". Afterwards choose one or more mp3 files to upload using the bottom file selector, and click "UPLOAD". The firmware will store the uploaded mp3 files on the SD card.
 
 In order to delete a file from the SD card, upload a file whose name is prefixed with "delete-". For example: To delete "key1.mp3" from the SD card, either rename your "key1.mp3" into "delete-key1.mp3", or create a new file named "delete-key1.mp3", and upload this file. The firmware detects the "delete-" part and, instead of storing the uploaded file, it throws it away and deletes "key1.mp3" from the SD card.
 
@@ -573,25 +573,41 @@ This leads to the firmware and audio update page.
 
 In order to upload a new firmware binary (such as the ones published here in the install/ folder), select that image file in the top file selector and click "Update".
 
-You can also install the FC's audio data on this page; download the current sound-pack, extract it and select the resulting FCA.bin file in the bottom file selector. Finally, click "Upload". Note that an SD card is required for this operation.
-
-Note that either a firmware or audio data can be uploaded at once, not both at the same time.
+You can also install the FC's sound-pack on this page; download the current sound-pack, extract it and select the resulting FCA.bin file in the bottom file selector. Finally, click "Upload". Note that an SD card is required for this operation.
 
 Finally, this page is also for uploading [custom or replacement sound files](#installing-custom--replacement-audio-files) to the SD card. Select an mp3 file in the bottom file selector and click upload. (Requires firmware 1.80 or later.)
 
 ##### &#9654; Erase WiFi Config
 
-Clicking this (and saying "yes" in the confirmation dialog) erases the WiFi connection configuration (as set up through the *Connect to WiFi* page) and reboots the device; it will restart in "access point" (AP) mode. See [here](#short-summary-of-first-steps).
+Clicking this (and saying "yes" in the confirmation dialog) erases the WiFi connection configuration (as set up through the *Connect to WiFi* page) and reboots the device; it will restart in "access point" (AP) mode. See [here](#connecting-to-a-wifi-network).
 
 ---
 
 ### Setup page
 
-#### Basic settings
+#### <ins>Basic settings</ins>
 
 ##### &#9654; Default flux sound mode
 
-Selects the power-up "flux" sound mode. "Auto: xx secs" enables the beep for xx seconds after triggering a time travel, and upon power-on. Can be changed at any time by typing *00 (off), *01 (on), *02 (Auto 30secs) or *03 (Auto 60secs) followed by OK.
+Selects the power-up "flux" sound mode. "Auto: xx secs" enables the beep for xx seconds after triggering a time travel, upon power-on, and then the TCD sends a respective signal through BTTFN.
+
+Can be changed at any time by typing *00 (off), *01 (on), *02 (Auto 30secs) or *03 (Auto 60secs) followed by OK, or through the TCD's keypad. Note that a change through remote or TCD is not saved.
+
+##### &#9654; Movie sequence for 7 lights
+
+The original flux capacitor circuit was designed for 7 lights per light bar; however, only 6 lights were installed. So there is a visual gap in the movie sequence. This option allows choosing between the 7-lights sequence (with gap), and a 6-lights sequence (without gap). Defaults to enabled.
+
+##### &#9654; Skip Box Light animation
+
+Normally, the Box LEDs flash during the time travel sequence. If you prefer to instead have them constantly on during a time travel, check this option.
+
+##### &#9654; Play time travel sounds
+
+If other props are connected, they might bring their own time travel sound effects. In this case, you can uncheck this to disable the Flux Capacitor's own time travel sounds. Note that this only covers sounds played during time travel, not other sound effects.
+
+##### &#9654; Play TCD-alarm sounds
+
+If a TCD is connected via BTTFN or MQTT, the FC visually signals when the TCD's alarm sounds. If you want the FC to play an alarm sound, check this option.
 
 ##### &#9654; Screen saver timer
 
@@ -603,66 +619,44 @@ The Screen Saver, when active, stops the flux sound and disables all LEDs, until
 - on a connected TCD, a destination date is entered (only if TCD is wirelessly connected) or a time travel event is triggered (also when wired).
 
 The music player will continue to run.
- 
-#### Hardware configuration settings
 
-##### &#9654; Use 'GPIO14' for box lights
+#### <ins>Music Player settings</ins>
 
-Normally, [box lights](#box-lighting) are connected to the "Box LED" connectors. Check this option if your box lights are instead connected to the "GPIO14" connector.
+##### &#9654; Shuffle at startup
 
-##### &#9654; Use speed knob by default
+When checked, songs are shuffled when the device is booted. When unchecked, songs will be played in order.
 
-Check this if your FC has a pot for chasing speed selection and you want to use this pot. Note that if this option is checked, commands regarding chasing speed from the remote control are ignored.
+Shuffle mode can be changed at any time through the FC's remote control (*222 / *555) or via TCD (3222/3555); however, a change through remote or TCD is not saved.
 
-##### &#9654; Disable supplied IR remote control
-
-Check this to disable the supplied remote control; the FC will only accept commands from a learned IR remote (if applicable). 
-
-Note that this only disables the supplied remote, unlike [IR locking](#locking-ir-control), where IR commands from any known remote are ignored.
-
-#### Network settings
+#### <ins>Network settings</ins>
 
 ##### &#9654; Hostname
 
 The device's hostname in the WiFi network. Defaults to 'flux'. This also is the domain name at which the Config Portal is accessible from a browser in the same local network. The URL of the Config Portal then is http://<i>hostname</i>.local (the default is http://flux.local)
 
-If you have more than one Flux Capacitor in your local network, please give them unique hostnames.
+This setting applies to both AP-mode and when your FC is connected to a WiFi network. If you have more than one Flux Capacitor in your local network, please give them unique hostnames.
 
-##### &#9654; AP Mode: Network name appendix
+##### &#9654; WiFi connection attempts
 
-By default, if the FC creates a WiFi network of its own ("AP-mode"), this network is named "FC-AP". In case you have multiple FCs in your vicinity, you can have a string appended to create a unique network name. If you, for instance, enter "-ABC" here, the WiFi network name will be "FC-AP-ABC". Characters A-Z, a-z, 0-9 and - are allowed.
+Number of times the firmware tries to reconnect to a WiFi network, before falling back to AP-mode. See [here](#connecting-to-a-wifi-network)
 
-##### &#9654; AP Mode: WiFi password
+##### &#9654; WiFi connection timeout
+
+Number of seconds before a timeout occurs when connecting to a WiFi network. When a timeout happens, another attempt is made (see immediately above), and if all attempts fail, the device falls back to AP-mode. See [here](#connecting-to-a-wifi-network)
+
+#### <ins>Network settings for AP-mode</ins>
+
+##### &#9654; Network name (SSID) appendix
+
+By default, when the FC creates a WiFi network of its own ("AP-mode"), this network is named "FC-AP". In case you have multiple FCs in your vicinity, you can have a string appended to create a unique network name. If you, for instance, enter "-ABC" here, the WiFi network name will be "FC-AP-ABC". Characters A-Z, a-z, 0-9 and - are allowed.
+
+##### &#9654; Password
 
 By default, and if this field is empty, the FC's own WiFi network ("AP-mode") will be unprotected. If you want to protect your FC access point, enter your password here. It needs to be 8 characters in length and only characters A-Z, a-z, 0-9 and - are allowed.
 
 If you forget this password and are thereby locked out of your FC, enter *123456 followed by OK on the IR remote control; this deletes the WiFi password. Then power-down and power-up your FC and the access point will start unprotected.
 
-##### &#9654; WiFi connection attempts
-
-Number of times the firmware tries to reconnect to a WiFi network, before falling back to AP-mode. See [here](#short-summary-of-first-steps)
-
-##### &#9654; WiFi connection timeout
-
-Number of seconds before a timeout occurs when connecting to a WiFi network. When a timeout happens, another attempt is made (see immediately above), and if all attempts fail, the device falls back to AP-mode. See [here](#short-summary-of-first-steps)
-
-#### Settings for prop communication/synchronization
-
-##### &#9654; TCD connected by wire
-
-Check this if you have a Time Circuits Display connected by wire. Note that a wired connection only allows for synchronized time travel sequences, no other communication takes place.
-
-While you can connect both a button and the TCD to the "time travel" connector on the FC, the button should not be pressed when this option is set, as it might yield unwanted effects.
-
-Also note that the process of [learning keys from an IR remote control](#ir-remote-control) requires this option to be unchecked. After learning keys is done, you can, of course, check this option again.
-
-Do NOT check this option if your TCD is connected wirelessly (BTTFN, MQTT).
-
-##### &#9654; TCD signals Time Travel without 5s lead
-
-Usually, the TCD signals a time travel with a 5 seconds lead, in order to give a prop a chance to play an acceleration sequence before the actual time travel takes place. Since this 5 second lead is unique to CircuitSetup props, and people sometimes want to connect third party props to the TCD, the TCD has the option of skipping this 5 seconds lead. If that is the case, and your Flux Capacitor is connected by wire, you need to set this option.
-
-If your FC is connected wirelessly, this option has no effect.
+#### <ins>Settings for BTTFN communication</ins>
 
 ##### &#9654; IP address or hostname of TCD
 
@@ -688,21 +682,7 @@ If this option is checked, and your TCD is equipped with a fake power switch, th
 
 If the FC is connected to a TCD through BTTFN, this option allows to trigger a synchronized time travel on all BTTFN-connected devices when pressing "0" on the IR remote control or pressing the Time Travel button, just as if the Time Travel was triggered by the TCD. If this option is unchecked, pressing "0" or the Time Travel button only triggers a Time Travel sequence on the FC.
 
-#### Audio-visual options
-
-##### &#9654; Play time travel sounds
-
-If other props are connected, they might bring their own time travel sound effects. In this case, you can uncheck this to disable the Flux Capacitor's own time travel sounds. Note that this only covers sounds played during time travel, not other sound effects.
-
-##### &#9654; Skip Box Light animation
-
-Normally, the Box LEDs flash during the time travel sequence. If you prefer to instead have them constantly on during a time travel, check this option.
-
-##### &#9654; Play TCD-alarm sounds
-
-If a TCD is connected via BTTFN or MQTT, the FC visually signals when the TCD's alarm sounds. If you want the FC to play an alarm sound, check this option.
-
-#### Home Assistant / MQTT settings
+#### <ins>Home Assistant / MQTT settings</ins>
 
 ##### &#9654; Use Home Assistant (MQTT 3.1.1)
 
@@ -716,13 +696,25 @@ The broker server address. Can be a domain (eg. "myhome.me") or an IP address (e
 
 The username (and optionally the password) to be used when connecting to the broker. Can be left empty if the broker accepts anonymous logins.
 
-#### Music Player settings
+#### <ins>Settings for wired connections</ins>
 
-##### &#9654; Shuffle at startup
+##### &#9654; TCD connected by wire
 
-When checked, songs are shuffled when the device is booted. When unchecked, songs will be played in order.
+Check this if you have a Time Circuits Display connected by wire. Note that a wired connection only allows for synchronized time travel sequences, no other communication takes place.
 
-#### Other settings
+While you can connect both a button and the TCD to the "time travel" connector on the FC, the button should not be pressed when this option is set, as it might yield unwanted effects.
+
+Also note that the process of [learning keys from an IR remote control](#ir-remote-control) requires this option to be unchecked. After learning keys is done, you can, of course, check this option again.
+
+Do NOT check this option if your TCD is connected wirelessly (BTTFN, MQTT).
+
+##### &#9654; TCD signals Time Travel without 5s lead
+
+Usually, the TCD signals a time travel with a 5 seconds lead, in order to give a prop a chance to play an acceleration sequence before the actual time travel takes place. Since this 5 second lead is unique to CircuitSetup props, and people sometimes want to connect third party props to the TCD, the TCD has the option of skipping this 5 seconds lead. If that is the case, and your Flux Capacitor is connected by wire, you need to set this option.
+
+If your FC is connected wirelessly, this option has no effect.
+
+#### <ins>Other settings</ins>
 
 ##### &#9654; Save secondary settings on SD
 
@@ -739,6 +731,22 @@ If you want copy settings from one SD card to another, do as follows:
 
 This procedure ensures that all your settings are copied from the old to the new SD card.
 
+#### <ins>Hardware configuration settings</ins>
+
+##### &#9654; Use 'GPIO14' for box lights
+
+Normally, [box lights](#box-lighting) are connected to the "Box LED" connectors. Check this option if your box lights are instead connected to the "GPIO14" connector.
+
+##### &#9654; Use speed knob by default
+
+Check this if your FC has a pot for chasing speed selection and you want to use this pot. Note that if this option is checked, commands regarding chasing speed from the remote control are ignored.
+
+##### &#9654; Disable supplied IR remote control
+
+Check this to disable the supplied remote control; the FC will only accept commands from a learned IR remote (if applicable). 
+
+Note that this only disables the supplied remote, unlike [IR locking](#locking-ir-control), where IR commands from any known remote are ignored.
+
 ## Appendix B: LED signals
 
 <table>
@@ -748,11 +756,11 @@ This procedure ensures that all your settings are copied from the old to the new
     </tr>
  <tr>
      <td align="left">&#9679; &#9679; &#9679; &#9679; &#9679; &#9675;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9679;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9675;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9679;</td>
-     <td align="left">Error: Audio files <a href="#audio-data-installation">not installed</a> or outdated</td>
+     <td align="left">Error: Sound pack <a href="#sound-pack-installation">not installed</a> or outdated</td>
     </tr>
 <tr>
      <td align="left">&#9675; &#9675; &#9679; &#9679; &#9679; &#9679;<br>&#9679; &#9679; &#9679; &#9679; &#9675; &#9675;<br>&#8635;</td>
-     <td align="left">Error: Audio file copy error</td>
+     <td align="left">Error: Sound pack installation error</td>
     </tr>
  <tr>
      <td align="left">&#9675; &#9679; &#9679; &#9679; &#9679; &#9679;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9679;<br>&#9675; &#9679; &#9679; &#9679; &#9679; &#9679;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9679;</td>
