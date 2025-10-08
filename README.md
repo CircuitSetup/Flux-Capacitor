@@ -17,37 +17,37 @@ The Flux Capacitor can be used stand-alone, or in connection with CircuitSetup's
 
 Features include
 - movie-accurate default flux sequence, plus 9 alternative flux sequences
-- Optional [flux](#the-flux-sound) sound (4 modes)
-- [Time Travel](#time-travel) function, triggered by button, [Time Circuits Display](https://github.com/CircuitSetup/Time-Circuits-Display) (TCD) or via [MQTT](#home-assistant--mqtt)
+- optional [flux](#the-flux-sound) sound (4 modes)
+- [Time Travel](#time-travel) function, triggered by button, [Time Circuits Display](https://tcd.out-a-ti.me) (TCD) or via [MQTT](#home-assistant--mqtt)
 - [IR remote controlled](#ir-remote-control); can learn keys from third-party remote
-- [Music player](#the-music-player): Play mp3 files located on an SD card
+- [music player](#the-music-player): Play mp3 files located on an SD card
 - [SD card](#sd-card) support for custom audio files for effects, and music for the Music Player
-- Advanced network-accessible [Config Portal](#the-config-portal) for setup (http://flux.local, hostname configurable)
-- [Wireless communication](#bttf-network-bttfn) with [Time Circuits Display](https://tcd.out-a-ti.me); used for synchronized time travels, alarm, chase speed, night mode, fake power, remote control through TCD keypad, or [remote controlling](#remote-controlling-the-tcds-keypad) the TCD keypad.
+- advanced network-accessible [Config Portal](#the-config-portal) for setup (http://flux.local, hostname configurable)
+- [wireless communication](#bttf-network-bttfn) with [Time Circuits Display](https://tcd.out-a-ti.me); used for synchronized time travels, alarm, chase speed, night mode, fake power, remote control through TCD keypad, or [remote controlling](#remote-controlling-the-tcds-keypad) the TCD keypad.
 - [Home Assistant](#home-assistant--mqtt) (MQTT 3.1.1) support
-- Built-in installer for default audio files in addition to OTA firmware updates
-
+- built-in OTA installer for firmware updates and audio files
+  
 ## Power supply
 
 Since the bright LEDs draw considerable power, it is recommended to use a short cable with large wire diameters (min AWG16) between the power supply and the FC, and to drive the FC at 12V-20V (as opposed to 5V). A long/thin cable, due to its resistance, might cause under-voltage and therefore problems like LEDs behaving erratically or even crashes of the FC's CPU.
 
 ## Installation
 
-If a previous version of the Flux Capacitor firmware is installed on your device, you can update easily using the pre-compiled binary. Enter the [Config Portal](#the-config-portal), click on "Update" and select the pre-compiled binary file provided in this repository ([install/fluxcapacitor-A10001986.ino.nodemcu-32s.bin](https://github.com/CircuitSetup/Flux-Capacitor/blob/main/install/fluxcapacitor-A10001986.ino.nodemcu-32s.bin)).
+If a previous version of the Flux Capacitor firmware is installed on your device, you can update easily using the pre-compiled binary. Enter the [Config Portal](#the-config-portal), click on "Update" and select the pre-compiled binary file provided in this repository ([install/fluxcapacitor-A10001986.ino.nodemcu-32s.bin](https://github.com/realA10001986/Flux-Capacitor/blob/main/install/fluxcapacitor-A10001986.ino.nodemcu-32s.bin)).
 
-If you are using a fresh ESP32 board, please see [fluxcapacitor-A10001986.ino](https://github.com/CircuitSetup/Flux-Capacitor/blob/main/fluxcapacitor-A10001986/fluxcapacitor-A10001986.ino) for detailed build and upload information, or, if you don't want to deal with source code, compilers and all that nerd stuff, go [here](https://install.out-a-ti.me) and follow the instructions.
+If you are using a fresh ESP32 board, please see [fluxcapacitor-A10001986.ino](https://github.com/realA10001986/Flux-Capacitor/blob/main/fluxcapacitor-A10001986/fluxcapacitor-A10001986.ino) for detailed build and upload information, or, if you don't want to deal with source code, compilers and all that nerd stuff, go [here](https://install.out-a-ti.me) and follow the instructions.
 
  *Important: After a firmware update, the inner and outer LEDs might blink alternately for short while after reboot. Do NOT unplug the device during this time.*
 
 ### Sound-pack installation
 
-The firmware comes with audio data ("sound-pack") which needs to be installed separately. The sound-pack is not updated as often as the firmware itself. If you have previously installed the latest version of the sound-pack, you normally don't have to re-install it when you update the firmware. Only if either a the FC puts up a respective [signal](#appendix-b-led-signals) at startup, or your device is quiet after a firmware update, a re-installation/update is needed.
+The firmware comes with a sound-pack which needs to be installed separately. The sound-pack is not updated as often as the firmware itself. If you have previously installed the latest version of the sound-pack, you normally don't have to re-install it when you update the firmware. Only if either a the FC puts up a respective [signal](#appendix-b-led-signals) at startup, or your device is quiet after a firmware update, a re-installation/update is needed.
 
 The first step is to download "install/sound-pack-xxxxxxxx.zip" and extract it. It contains one file named "FCA.bin".
 
 Then there are two alternative ways to proceed. Note that both methods *require an SD card*.
 
-1) Through the [Config Portal](#the-config-portal). Click on *Update*, select this file in the bottom file selector and click on *Upload*. Note that an SD card must be in the FC's slot during this operation.
+1) Through the [Config Portal](#the-config-portal). Click on *Update*, select this file in the bottom file selector and click on *Upload*.
 
 2) Via SD card:
 - Copy "FCA.bin" to the root directory of of a FAT32 formatted SD card;
@@ -71,15 +71,17 @@ The first step is to establish access to the FC's configuration web site ("Confi
 
 Your FC knows two ways of WiFi operation: Either it creates its own WiFi network, or it connects to a pre-existing WiFi network.
 
-As long as your FC is unconfigured, it creates its own WiFi network named "FC-AP". This mode of operation is called "Access point mode", or "AP-mode". 
+As long as your FC is unconfigured, it creates its own WiFi network named "FC-AP". This mode of operation is called **"Access point mode"**, or "AP-mode". 
 
-It is ok to leave it in AP-mode, predominantly if used stand-alone. (To operate your FC in AP-mode, do not configure a WiFi network as described below, or click on "Erase WiFi config" on the Config Portal's main page.)
+It is ok to leave it in AP-mode, predominantly if used stand-alone. (To keep operating your FC in AP-mode, do not configure a WiFi network as described below, or click on "Forget saved WiFi network" on the Config Portal's "WiFi Configuration" page.)
+
+>Please do not leave computers/hand helds permanently connected to the FC's AP. These devices might think they are connected to the internet and therefore hammer the FC with DNS and HTTP requests which might lead to packet loss and disruptions.
 
 >For experts: In the following, the term "WiFi network" is used for both "WiFi network" and "ip network" for simplicity reasons. However, for BTTFN/MQTT communication, the devices must (only) be on the same ip network, regardless of how they take part in it: They can be can be connected to different WiFi networks, if those WiFi networks are part of the same ip network, or, in case of the MQTT broker, by wire. If the TCD operates as access point for other props, connecting a prop to the TCD's WiFi network also takes care of suitable ip network configuration through DHCP.
 
 ##### &#9654; Home setup with a pre-existing local WiFi network
 
-In this case, you can connect your FC to your home WiFi network: Click on "Connect to WiFi" and either select a network from the top of the page or enter a WiFi network name (SSID), and enter your WiFi password. After saving the WiFi network settings, your FC reboots and tries to connect to your selected WiFi network. If that fails, it will again start in access point mode.
+In this case, you can connect your FC to your home WiFi network: Click on "WiFi Configuration" and either select a network from the top of the page or enter a WiFi network name (SSID), and enter your WiFi password. After saving the WiFi network settings, your FC reboots and tries to connect to your selected WiFi network. If that fails, it will again start in access point mode.
 
 >If you have a [Time Circuits Display](https://tcd.out-a-ti.me) note that in order to have both FC and TCD communicate with each other, your FC must be connected to the same network your TCD is connected to. In order to use MQTT, your FC must be connected to the same network your broker is connected to.
 
@@ -87,9 +89,9 @@ In this case, you can connect your FC to your home WiFi network: Click on "Conne
 
 ##### &#9654; Places without a WiFi network
 
-If no TCD is present, keep your FC operating in AP-mode.
+In this case and with no [Time Circuits Display](https://tcd.out-a-ti.me) at hand, keep your FC operating in AP-mode.
 
-If you have a [Time Circuits Display](https://tcd.out-a-ti.me), you can connect your FC to the TCD's own WiFi network: Click on "Connect to WiFi" and either select "TCD-AP" from the top of the page or enter "TCD-AP" under *WiFi network name (SSID)*. If you password-proteced your TCD-AP, enter this password below. See [here](#car-setup) for more details.
+If you have a TCD, you can connect your FC to the TCD's own WiFi network: Run the TCD in AP-Mode, and on your FC's Config Portal, click on "WiFi Configuration" and either select "TCD-AP" from the top of the page or enter "TCD-AP" under *Network name (SSID)*. If you password-proteced your TCD-AP, enter this password below. See [here](#car-setup) for more details.
 
 After completing WiFi setup, your FC is ready for use; you can also continue configuring it to your personal preferences through the Config Portal.
 
@@ -107,8 +109,9 @@ It can be accessed as follows:
 
 - Connect your computer or handheld device to the WiFi network "FC-AP".
 - Navigate your browser to http://flux.local or http://192.168.4.1 to enter the Config Portal.
+- (For proper operation, please disconnect your computer or handheld from FC-AP when you are done with configuring your FC. These devices can cause high network traffic, resulting in severe performance penalties.)
 
-#### If FC is connected to WiFi network
+#### If FC is connected to a WiFi network
 
 - Connect your hand-held/computer to the same (WiFi) network to which the FC is connected, and
 - navigate your browser to http://flux.local
@@ -117,7 +120,7 @@ It can be accessed as follows:
 
   If connecting to http://flux.local fails due to a name resolution error, you need to find out the FC's IP address: Type *90 followed by OK on the supplied remote control and listen, the IP address will be spoken out loud. Then, on your handheld or computer, navigate to http://a.b.c.d (a.b.c.d being the IP address as read out loud by the FC) in order to enter the Config Portal.
 
-In the main menu, click on "Setup" to configure your Flux Capacitor. 
+In the main menu, click on "Settings" to configure your Flux Capacitor. 
 
 | [<img src="img/cps-frag.png">](img/cp_setup.png) |
 |:--:| 
@@ -148,13 +151,15 @@ Your FC kit includes an IR remote control. This remote works out-of-the-box and 
 
 Each time you press a (recognized) key on the remote, an IR feedback LED will briefly light up. This LED is located in the center of the board, next to the bright center LED.
 
-### IR learning
+### IR Learning
 
 Your FC can learn the codes of another IR remote control. Most remotes with a carrier signal of 38kHz (which most IR remotes use) will work. However, some remote controls, especially ones for TVs, send keys repeatedly and/or send different codes alternately. If you had the FC learn a remote and the keys are not (always) recognized afterwards, that remote is of that type and cannot be used.
 
-IR Learning requires a physical [Time Travel](#time-travel) button.
+As of firmware 1.72, IR learning can be initiated by entering *987654 followed by OK on the standard IR remote. (The old method described below is still supported.)
 
-First, go to the Config Portal, uncheck **_TCD connected by wire_** on the Setup page and save. The FC reboots. Afterwards, to start the learning process, hold the [Time Travel](#time-travel) button for a few seconds, until the chasing LEDs stop and [blink twice](#appendix-b-led-signals). Then press "0" on your remote, which the FC will [visually acknowledge](#appendix-b-led-signals). Then press "1", wait for the acknowledgement, and so on. Enter your keys in the following order:
+With earlier firmware versions, IR learning required a physical [Time Travel](#time-travel) button, and the option **_TCD connected by wire_** in the Config Portal needs to be unchecked. To start the learning process, hold the [Time Travel](#time-travel) button for a few seconds. 
+
+When IR learning is started, the chasing LEDs stop and [blink twice](#appendix-b-led-signals). Afterwards, the IR feedback LED will keep blinking - this means the FC is ready to receive a key from your IR remote. Press "0" on your remote, which the FC will [visually acknowledge](#appendix-b-led-signals). Then, again while the IR feedback LED is blinking, press "1", wait for the acknowledgement, and so on. Enter your keys in the following order:
 
 ```0 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 - * - # - Arrow up - Arrow down - Arrow left - Arrow right - OK``` 
 
@@ -307,6 +312,10 @@ Numbers in brackets are the code to be entered on the TCD keypad if a TCD is con
      <td align="left">*123456&#9166;</td><td>3123456</td>
     </tr>
     <tr>
+     <td align="left">Start IR remote <a href="#ir-learning">learning process</a></td>
+     <td align="left">*987654&#9166;</td><td>3987654</td>
+    </tr>
+    <tr>
      <td align="left">Forget learned IR remote control</td>
      <td align="left">*654321&#9166;</td><td>3654321</td>
     </tr>
@@ -348,7 +357,7 @@ Other ways of triggering a time travel are available if a [Time Circuits Display
 
 Preface note on SD cards: For unknown reasons, some SD cards simply do not work with this device. For instance, I had no luck with Sandisk Ultra 32GB and  "Intenso" cards. If your SD card is not recognized, check if it is formatted in FAT32 format (not exFAT!). Also, the size must not exceed 32GB (as larger cards cannot be formatted with FAT32). Transcend SDHC cards work fine in my experience.
 
-The SD card, apart from being required for [installing](#sound-pack-installation) of the built-in sound-pack, can be used for substituting built-in sound effects and for music played back by the [Music player](#the-music-player). Also, it is recommended to store [secondary settings](#-save-secondary-settings-on-sd) on the SD card to minimize [Flash Wear](#flash-wear). The chosen chase sequence (*1x) is only stored on SD, so for your selection to be persistent across reboots, an SD card is required.
+The SD card, apart from being required for [installing](#sound-pack-installation) of the sound-pack, can be used for substituting built-in sound effects and for music played back by the [Music player](#the-music-player). Also, it is _strongly recommended_ to store [secondary settings](#-save-secondary-settings-on-sd) on the SD card to minimize [Flash Wear](#flash-wear). The chosen chase sequence (*1x) is only stored on SD, so for your selection to be persistent across reboots, an SD card is required.
 
 Note that the SD card must be inserted before powering up the device. It is not recognized if inserted while the Flux Capacitor is running. Furthermore, do not remove the SD card while the device is powered.
 
@@ -518,27 +527,29 @@ In order to connect to a MQTT network, a "broker" (such as [mosquitto](https://m
 
 If your broker does not allow anonymous logins, a username and password can be specified.
 
+Note that MQTT is disabled when your FC is operated in AP-mode or when connected to the TCD run in AP-Mode (TCD-AP).
+
 Limitations: MQTT Protocol version 3.1.1; TLS/SSL not supported; ".local" domains (MDNS) not supported; server/broker must respond to PING (ICMP) echo requests. For proper operation with low latency, it is recommended that the broker is on your local network. 
 
 ## Car setup
 
-If your FC, along with a [Time Circuits Display](https://github.com/CircuitSetup/Time-Circuits-Display/), is mounted in a car, the following network configuration is recommended:
+If your FC, along with a [Time Circuits Display](https://tcd.out-a-ti.me/), is mounted in a car, the following network configuration is recommended:
 
 #### TCD
 
-- Run your TCD in [*car mode*](https://github.com/CircuitSetup/Time-Circuits-Display/#car-mode);
-- disable WiFi power-saving on the TCD by setting **_WiFi power save timer (AP-mode)_** to 0 (zero).
+- Run your TCD in [*car mode*](https://tcd.out-a-ti.me/#car-mode);
+- disable WiFi power-saving on the TCD by setting **_Power save timer_** to 0 (zero) in the "AP-mode settings" section on the WiFi Configuration page.
 
 #### Flux Capacitor
 
-Enter the Config Portal on the FC, click on *Setup* and
+Enter the Config Portal on the FC, click on *Settings* and
   - enter *192.168.4.1* into the field **_IP address or hostname of TCD_** under BTTFN settings;
   - check the option **_Follow TCD fake power_** if you have a fake power switch for the TCD (like eg a TFC switch)
   - click on *Save*.
 
 After the FC has restarted, re-enter the FC's Config Portal (while the TCD is powered and in *car mode*) and
-  - click on *Connect to WiFi*,
-  - select the TCD's access point name in the list at the top ("TCD-AP") or enter *TCD-AP* into the *WiFi network name (SSID)* field; if you password-protected your TCD's AP, enter this password in the *password* field. Leave all other fields empty,
+  - click on *WiFi Configuration*,
+  - select the TCD's access point name in the list at the top ("TCD-AP"; if there is no list, click on "WiFi Scan") or enter *TCD-AP* into the *Network name (SSID)* field; if you password-protected your TCD's AP, enter this password in the *password* field. Leave all other fields empty,
   - click on *Save*.
 
 In order to access the FC's Config Portal in your car, connect your hand held or computer to the TCD's WiFi access point ("TCD-AP"), and direct your browser to http://flux.local ; if that does not work, go to the TCD's keypad menu, press ENTER until "BTTFN CLIENTS" is shown, hold ENTER, and look for the FC's IP address there; then direct your browser to that IP by using the URL http://a.b.c.d (a-d being the IP address displayed on the TCD display).
@@ -555,17 +566,13 @@ In order to reduce the number of write operations and thereby prolong the life o
 
 ### Main page
 
-##### &#9654; Connect to WiFi
+##### &#9654; WiFi Configuration
 
-Click this to connect your FC to your local WiFi network (which can also be provided by your [Time Circuits Display](https://tcd.out-a-ti.me) operating in AP mode/car mode). All you need to do is either to click on one of the networks listed at the top or to enter a WiFi network name (SSID), and optionally a passwort (WPAx).
+This leads to the [WiFi configuration page](#wifi-configuration)
 
->By default, the FC requests an IP address via DHCP. However, you can also configure a static IP for the FC by entering the IP, netmask, gateway and DNS server. All four fields must be filled for a valid static IP configuration. If you want to stick to DHCP, leave those four fields empty. If you connect your FC to your Time Circuits Display acting as access point ("TCD-AP"), leave these all empty.
+##### &#9654; Settings
 
-Note that this page is strictly for connecting your FC to an existing WiFi network. If your FC is supposed to operate stand-alone, it runs in "access point mode" (AP-Mode). Settings for AP mode are on the *Setup* page.
-
-##### &#9654; Setup
-
-This leads to the [Setup page](#setup-page).
+This leads to the [Settings page](#settings).
 
 ##### &#9654; Update
 
@@ -575,15 +582,61 @@ In order to upload a new firmware binary (such as the ones published here in the
 
 You can also install the FC's sound-pack on this page; download the current sound-pack, extract it and select the resulting FCA.bin file in the bottom file selector. Finally, click "Upload". Note that an SD card is required for this operation.
 
-Finally, this page is also for uploading [custom or replacement sound files](#installing-custom--replacement-audio-files) to the SD card. Select an mp3 file in the bottom file selector and click upload. (Requires firmware 1.80 or later.)
-
-##### &#9654; Erase WiFi Config
-
-Clicking this (and saying "yes" in the confirmation dialog) erases the WiFi connection configuration (as set up through the *Connect to WiFi* page) and reboots the device; it will restart in "access point" (AP) mode. See [here](#connecting-to-a-wifi-network).
+Finally, this page is also for uploading [custom or replacement sound files](#installing-custom--replacement-audio-files) to the SD card. Select an mp3 file in the bottom file selector and click upload. (Requires firmware 1.80 or later. Maximum 16 files at a time.)
 
 ---
 
-### Setup page
+### WiFi Configuration
+
+Through this page you can either connect your FC to your local WiFi network, or configure AP mode. 
+
+#### <ins>Connecting to an existing WiFi network</ins>
+
+In order to connect your FC to your WiFi network, all you need to do is either to click on one of the networks listed at the top or to enter a __Network name (SSID)__, and optionally a __passwort__ (WPAx).
+
+>By default, the FC requests an IP address via DHCP. However, you can also configure a static IP for the FC by entering the IP, netmask, gateway and DNS server. All four fields must be filled for a valid static IP configuration. If you want to stick to DHCP, leave those four fields empty. If you connect your FC to your Time Circuits Display acting as access point ("TCD-AP"), leave these all empty.
+
+##### &#9654; Forget Saved WiFi Network
+
+Clicking this button (and selecting "yes" in the confirmation dialog) deletes the currently saved WiFi network (SSID and password) and reboots the device; it will restart in "access point" (AP) mode. See [here](#connecting-to-a-wifi-network).
+
+##### &#9654; Hostname
+
+The device's hostname in the WiFi network. Defaults to 'flux'. This also is the domain name at which the Config Portal is accessible from a browser in the same local network. The URL of the Config Portal then is http://<i>hostname</i>.local (the default is http://flux.local)
+
+If you have more than one FC in your local network, please give them unique hostnames.
+
+_This setting applies to both AP-mode and when your FC is connected to a WiFi network._ 
+
+##### &#9654; WiFi connection attempts
+
+Number of times the firmware tries to reconnect to a WiFi network, before falling back to AP-mode. See [here](#connecting-to-a-wifi-network)
+
+##### &#9654; WiFi connection timeout
+
+Number of seconds before a timeout occurs when connecting to a WiFi network. When a timeout happens, another attempt is made (see immediately above), and if all attempts fail, the device falls back to AP-mode. See [here](#connecting-to-a-wifi-network)
+
+#### <ins>Settings for AP-mode</ins>
+
+##### &#9654; Network name (SSID) appendix
+
+By default, when your FC creates a WiFi network of its own ("AP-mode"), this network is named "FC-AP". In case you have multiple FCs in your vicinity, you can have a string appended to create a unique network name. If you, for instance, enter "-ABC" here, the WiFi network name will be "FC-AP-ABC". Characters A-Z, a-z, 0-9 and - are allowed.
+
+##### &#9654; Password
+
+By default, and if this field is empty, the FC's own WiFi network ("FC-AP") will be unprotected. If you want to protect your FC access point, enter your password here. It needs to be 8 characters in length and only characters A-Z, a-z, 0-9 and - are allowed.
+
+If you forget this password and are thereby locked out of your FC, enter *123456 followed by OK on the IR remote control; this deletes the WiFi password. Then power-down and power-up your FC and the access point will start unprotected.
+
+##### &#9654; WiFi channel
+
+Here you can select one out of 13 channels, or have the FC choose a random channel for you. The default channel is 1.
+
+If you are in the US, please select a channel between 1 and 11. All above 11 are not legal. A future update will limit this to 11 channels.
+
+---
+
+### Settings
 
 #### <ins>Basic settings</ins>
 
@@ -628,39 +681,11 @@ When checked, songs are shuffled when the device is booted. When unchecked, song
 
 Shuffle mode can be changed at any time through the FC's remote control (*222 / *555) or via TCD (3222/3555); however, a change through remote or TCD is not saved.
 
-#### <ins>Network settings</ins>
-
-##### &#9654; Hostname
-
-The device's hostname in the WiFi network. Defaults to 'flux'. This also is the domain name at which the Config Portal is accessible from a browser in the same local network. The URL of the Config Portal then is http://<i>hostname</i>.local (the default is http://flux.local)
-
-This setting applies to both AP-mode and when your FC is connected to a WiFi network. If you have more than one Flux Capacitor in your local network, please give them unique hostnames.
-
-##### &#9654; WiFi connection attempts
-
-Number of times the firmware tries to reconnect to a WiFi network, before falling back to AP-mode. See [here](#connecting-to-a-wifi-network)
-
-##### &#9654; WiFi connection timeout
-
-Number of seconds before a timeout occurs when connecting to a WiFi network. When a timeout happens, another attempt is made (see immediately above), and if all attempts fail, the device falls back to AP-mode. See [here](#connecting-to-a-wifi-network)
-
-#### <ins>Network settings for AP-mode</ins>
-
-##### &#9654; Network name (SSID) appendix
-
-By default, when the FC creates a WiFi network of its own ("AP-mode"), this network is named "FC-AP". In case you have multiple FCs in your vicinity, you can have a string appended to create a unique network name. If you, for instance, enter "-ABC" here, the WiFi network name will be "FC-AP-ABC". Characters A-Z, a-z, 0-9 and - are allowed.
-
-##### &#9654; Password
-
-By default, and if this field is empty, the FC's own WiFi network ("AP-mode") will be unprotected. If you want to protect your FC access point, enter your password here. It needs to be 8 characters in length and only characters A-Z, a-z, 0-9 and - are allowed.
-
-If you forget this password and are thereby locked out of your FC, enter *123456 followed by OK on the IR remote control; this deletes the WiFi password. Then power-down and power-up your FC and the access point will start unprotected.
-
 #### <ins>Settings for BTTFN communication</ins>
 
 ##### &#9654; IP address or hostname of TCD
 
-If you want to have your FC to communicate with a Time Circuits Display wirelessly ("BTTF-Network"), enter the IP address of the TCD here. If your TCD is running firmware version 2.9.1 or later, you can also enter the TCD's hostname here instead (eg. 'timecircuits').
+If you want to have your FC to communicate with a Time Circuits Display wirelessly ("BTTF-Network"), enter the TCD's hostname - usually 'timecircuits' - or IP address here.
 
 If you connect your FC to the TCD's access point ("TCD-AP"), the TCD's IP address is 192.168.4.1.
 
