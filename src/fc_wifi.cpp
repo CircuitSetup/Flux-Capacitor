@@ -675,7 +675,7 @@ void wifi_loop()
         stopAudio();
 
         #ifdef FC_DBG
-        Serial.println("Config Portal: Saving config"));
+        Serial.println("Config Portal: Saving config");
         #endif
 
         // Only read parms if the user actually clicked SAVE on the wifi config or params pages
