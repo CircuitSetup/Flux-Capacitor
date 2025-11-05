@@ -43,7 +43,7 @@ If you are using a fresh ESP32 board, please see [fluxcapacitor-A10001986.ino](h
 
 The firmware comes with a sound-pack which needs to be installed separately. The sound-pack is not updated as often as the firmware itself. If you have previously installed the latest version of the sound-pack, you normally don't have to re-install it when you update the firmware. Only if either a the FC puts up a respective [signal](#appendix-b-led-signals) at startup, or your device is quiet after a firmware update, a re-installation/update is needed.
 
-The first step is to download "install/sound-pack-xxxxxxxx.zip" and extract it. It contains one file named "FCA.bin".
+The first step is to download "install/sound-pack-fcXX.zip" and extract it. It contains one file named "FCA.bin".
 
 Then there are two alternative ways to proceed. Note that both methods *require an SD card*.
 
@@ -162,6 +162,16 @@ There are various options to control the Flux Capacitor:
 For the options to trigger a time travel, see [here](#time-travel).
 
 The main control device is the supplied IR remote control. If a TCD is connected through [BTTF-Network](#bttf-network-bttfn), the FC can also be controlled through the TCD's keypad.
+
+### Powering down the FC
+
+The FC sometimes writes data to either the internal flash file system or the SD card. These write operations should not be interrupted by a power loss.
+
+In general, it is safe to power-down the FC when it is idle, after it has been fake-powered-down [through the TCD](#bttf-network-bttfn) or after a time travel sequence. 
+
+Try to avoid powering down the FC
+- when it is clearly busy (such as when copying or renaming audio files);
+- within 15 seconds after changing settings (eg Flux mode, Flux level, box light level, volume, speed, IR lock, chase sequence, ...) through the IR remote control or the TCD keypad.
 
 ### IR remote control
 
@@ -287,7 +297,7 @@ Numbers in brackets are the code to be entered on the TCD keypad if a TCD is con
     </tr>
     <tr>
      <td align="left">Set minimum box light level (0-4)</td>
-     <td align="left">*400&#9166; - *34&#9166;</td><td>3400-3404</td>
+     <td align="left">*400&#9166; - *404&#9166;</td><td>3400-3404</td>
     </tr>
     <tr>
      <td align="left"><a href="#the-music-player">Music Player</a>: Select music folder (0-9)</td>
@@ -314,7 +324,7 @@ Numbers in brackets are the code to be entered on the TCD keypad if a TCD is con
      <td align="left">*70&#9166;</td><td>3070</td>
     </tr>
     <tr>
-     <td align="left"><a href="#wifi-power-saving-features">Re-enable WiFi</a> or re-try to <a href="#-home-setup-with-a-pre-existing-local-wifi-network">connect to WiFi</a></td>
+     <td align="left"><a href="#wifi-power-saving-features">Re-enable WiFi</a> or re-try to <a href="#home-setup-with-a-pre-existing-local-wifi-network">connect to WiFi</a></td>
      <td align="left">*77&#9166;</td><td>-</td>
     </tr>
     <tr>
@@ -365,15 +375,17 @@ The flux sound can be permanently disabled, permanently enabled, or enabled for 
 - after switching on the FC (real or fake power),
 - after a BTTFN event that has impact on the FC (eg. changing speed through a rotary encoder on the TCD)
 
-The different modes are selected by typing *20 (disabled), *21 (enabled), *22 (enabled for 30 secs) or *23 (enabled for 60 secs), followed by OK. The power-up default is selected in the [Config Portal](#appendix-a-the-config-portal).
+The different modes are selected in the [Config Portal](#appendix-a-the-config-portal) or by typing *20 (disabled), *21 (enabled), *22 (enabled for 30 secs) or *23 (enabled for 60 secs), followed by OK.
 
-The flux sound's volume level, relative to general volume, can be adjusted in four levels by typing *30 (lowest) to *33 (loudest), followed by OK. This setting is saved 10 seconds after the last change.
+The flux sound's volume level, relative to general volume, can be adjusted in four levels by typing *30 (lowest) to *33 (highest), followed by OK. 
+
+Both settings, mode and level, are saved 10 seconds after the last change (see also [here](#powering-down-the-fc)).
 
 ## Box lighting
 
 The FC features connectors for box lights, ie LEDs that light up the inside of the FC during the time travel sequence. Those should be installed, they are essential part of the time travel sequence. The kit from CircuitSetup contains suitable high-power LEDs for box lighting, and all four of those must be connected to the "Box LED" connectors. Their ideal location is in each corner, as close to the front (door) as possible.
 
-In normal operation, those LEDs are off. You can, however, configure a minimum box light level to light up the box a little bit if you find it too dark. This level can be chosen out of five, by entering *400 through *404 followed by OK.
+In normal operation, those LEDs are off. You can, however, configure a minimum box light level to light up the box a little bit if you find it too dark. This level can be chosen out of five, by entering *400 through *404 followed by OK. This settings is saved 10 seconds after the last change (see also [here](#powering-down-the-fc)).
 
 <details>
 <summary>More...</summary>
@@ -407,7 +419,8 @@ The FC's built-in sound effects can be substituted by your own sound files on a 
 Your replacements need to be put in the root (top-most) directory of the SD card, be in mp3 format (128kbps max) and named as follows:
 - "flux.mp3". The standard flux sound, played continuously;
 - "alarm.mp3". Played when the alarm sounds (triggered by a Time Circuits Display via BTTFN or MQTT);
-- "0.mp3" through "9.mp3", "dot.mp3": Numbers for IP address read-out.
+- "0.mp3" through "9.mp3", "dot.mp3": Numbers for IP address read-out;
+- "volchg.mp3": Played when using the IR remote to change volume level
 
 The following sounds are time-sync'd to display action. If you decide to substitute these with your own, be prepared to lose synchronicity:
 - "travelstart.mp3". Played when a time travel starts.
@@ -566,9 +579,9 @@ Additionally, the FC features two user chase-LED-signals that can be triggered b
 
 ### Receive commands from Time Circuits Display
 
-If both TCD and FC are connected to the same broker, and the option **_Send event notifications_** is checked on the TCD's side, the FC will receive information on time travel and alarm and play their sequences in sync with the TCD. Unlike BTTFN, however, no other communication takes place.
+If both TCD and FC are connected to the same broker, and the option **_Send time travel/alarm event notifications_** is checked on the TCD's side, the FC will receive information on time travel and alarm and play their sequences in sync with the TCD. Unlike BTTFN, however, no other communication takes place.
 
-MQTT and BTTFN can co-exist. However, the TCD only sends out time travel and alarm notifications through either MQTT or BTTFN, never both. If you have other MQTT-aware devices listening to the TCD's public topic (bttf/tcd/pub) in order to react to time travel or alarm messages, use MQTT (ie check **_Send event notifications_**). If only BTTFN-aware devices are to be used, uncheck this option to use BTTFN as it has less latency.
+MQTT and BTTFN can co-exist. However, the TCD only sends out time travel and alarm notifications through either MQTT or BTTFN, never both. If you have other MQTT-aware devices listening to the TCD's public topic (bttf/tcd/pub) in order to react to time travel or alarm messages, use MQTT (ie check **_Send time travel/alarm event notifications_**). If only BTTFN-aware devices are to be used, uncheck this option to use BTTFN as it has less latency.
 
 ### Setup
 
@@ -616,13 +629,13 @@ The timer can be set to 0 (which disables it; WiFi is never switched off; this i
 
 After WiFi has been switched off due to timer expiration, it can be re-enabled by entering *77 followed by OK, in which case the timers are restarted (ie WiFi is again switched off after timer expiration).
 
-> This command is also used to trigger a re-connection attempt in case your configured WiFi network was not available when the FC was trying to connect, see [here](#-home-setup-with-a-pre-existing-local-wifi-network).
+> This command is also used to trigger a re-connection attempt in case your configured WiFi network was not available when the FC was trying to connect, see [here](#home-setup-with-a-pre-existing-local-wifi-network).
 
 ## Flash Wear
 
 Flash memory has a somewhat limited lifetime. It can be written to only between 10.000 and 100.000 times before becoming unreliable. The firmware writes to the internal flash memory when saving settings and other data. Every time you change settings, data is written to flash memory.
 
-In order to reduce the number of write operations and thereby prolong the life of your Flux Capacitor, it is recommended to use a good-quality SD card and to check **_[Save secondary settings on SD](#-save-secondary-settings-on-sd)_** in the Config Portal; alarm and speed settings as well as learned IR codes are then stored on the SD card (which also suffers from wear but is easy to replace). See [here](#-save-secondary-settings-on-sd) for more information.
+In order to reduce the number of write operations and thereby prolong the life of your Flux Capacitor, it is recommended to use a good-quality SD card and to check **_[Save secondary settings on SD](#-save-secondary-settings-on-sd)_** in the Config Portal; secondary settings as well as learned IR codes are then stored on the SD card (which also suffers from wear but is easy to replace). See [here](#-save-secondary-settings-on-sd) for more information.
 
 ## Appendix A: The Config Portal
 
@@ -713,11 +726,11 @@ See [here](#wifi-power-saving-features).
 
 #### <ins>Basic settings</ins>
 
-##### &#9193; Default flux sound mode
+##### &#9193; Flux sound mode
 
-Selects the power-up "flux" sound mode. "Auto: xx secs" enables the beep for xx seconds after triggering a time travel, upon power-on, and then the TCD sends a respective signal through BTTFN.
+Selects the "flux" sound mode. "Auto: xx secs" enables the beep for xx seconds after triggering a time travel, upon power-on, and then the TCD sends a respective signal through BTTFN.
 
-Can be changed at any time by typing *00 (off), *01 (on), *02 (Auto 30secs) or *03 (Auto 60secs) followed by OK, or through the TCD's keypad. Note that a change through remote or TCD is not saved.
+Can be changed at any time by typing *00 (off), *01 (on), *02 (Auto 30secs) or *03 (Auto 60secs) followed by OK, or through the TCD's keypad. Note that a change through IR remote or TCD is saved 10 seconds after the last change (see [here](#powering-down-the-fc)).
 
 ##### &#9193; Movie sequence for 7 lights
 
@@ -814,7 +827,7 @@ If your FC is connected wirelessly, this option has no effect.
 
 ##### &#9193; Save secondary settings on SD
 
-If this is checked, secondary settings (volume, chase speed, minimum box light level, IR lock status, learned IR keys) are stored on the SD card (if one is present). This helps to minimize write operations to the internal flash memory and to prolong the lifetime of your Flux Capacitor. See [Flash Wear](#flash-wear).
+If this is checked, secondary settings (volume, chase speed, minimum box light level, flux mode and level, IR lock status, learned IR keys, ...) are stored on the SD card (if one is present). This helps to minimize write operations to the internal flash memory and to prolong the lifetime of your Flux Capacitor. See [Flash Wear](#flash-wear).
 
 Apart from Flash Wear, there is another reason for using an SD card for settings: Writing data to internal flash memory can cause delays of up to 1.5 seconds, which interrupt sound playback and have other undesired effects. The FC needs to save data from time to time, so for a smooth experience without unexpected and unwanted delays, please use an SD card and check this option.
 
