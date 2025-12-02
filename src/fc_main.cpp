@@ -474,8 +474,6 @@ void main_setup()
         fluxTimeout = FLUXM3_SECS*1000;
     } else if(playFLUX == 2) 
         fluxTimeout = FLUXM2_SECS*1000;
-    
-    // [formerly started CP here]
 
     // Swap "box light" <> "GPIO14"
     PLforBL = (atoi(settings.usePLforBL) > 0);
@@ -761,7 +759,7 @@ void main_loop()
         }
     }
 
-    // Eval GPS/RotEnc speed
+    // Eval TCD-provided speed
     // We track speed even when off, so we are immediately
     // up to speed when coming back.
     if(useGPSS) {
@@ -793,6 +791,7 @@ void main_loop()
                     //Serial.printf("%d %d %d (%d)\n", shouldBe, isNow, toSet, gpsSpeed);
 
                     lastGPSchange = now;
+
                 }
 
                 usingGPSS = true;
@@ -885,29 +884,27 @@ void main_loop()
                     if(TTFInt && (now - TTfUpdNow >= TTFInt)) {
                         fcLEDs.setSpeed(ttramp[ttrampidx++]);
                         if(ttrampidx == ttrampsize) TTFInt = 0;
-                        /*
-                        int t = fcLEDs.getSpeed();
-                        if(t >= 100)      t -= 50;
-                        else if(t >= 20)  t -= 10;
-                        else if(t > 2)    t--;
-                        fcLEDs.setSpeed(t);
-                        */
                         TTfUpdNow = now;
                     }
                              
                 } else {
-
-                    if(fcLEDs.getSpeed() != 2) {
-                        fcLEDs.setSpeed(2);
-                    }
 
                     TTP0 = false;
                     TTP1 = true;
                     bP1idx = 0;
                     TTstart = now;
                     noIR = true;
-                    if(playTTsounds && !networkAbort) {
-                        play_file("/travelstart.mp3", PA_INTRMUS|PA_ALLOWSD|PA_DYNVOL, 1.0);
+
+                    if(!networkAbort) {
+
+                        if(fcLEDs.getSpeed() != 2) {
+                            fcLEDs.setSpeed(2);
+                        }
+                        
+                        if(playTTsounds) {
+                            play_file("/travelstart.mp3", PA_INTRMUS|PA_ALLOWSD|PA_DYNVOL, 1.0);
+                        }
+
                     }
                 }
             }
@@ -964,14 +961,24 @@ void main_loop()
                     TTP2 = true;
                     cDone = bDone = fDone = false;
                     TTfUpdNow = TTcUpdNow = TTbUpdNow = now;
-                    // For GPS and RotEnc, let normal loop take
+
+                    // For TCD-provided speed, let normal loop take
                     // care of returning to "current" speed; here
-                    // we only switch down one notch.
+                    // we only switch down one notch if we were 
+                    // at max. Otherwise we set it so that P2
+                    // quits to let the loop take care of slowing
+                    // down to actual speed
                     if(usingGPSS && gpsSpeed >= 0) {
-                          TTSSpd = 3;
+                        Serial.printf("TTP1: usingGPSS && gpsSpeed >= 0: %d\n", gpsSpeed);
+                        TTSSpd = fcLEDs.getSpeed();
+                        if(TTSSpd == 2) {
+                            TTSSpd = 3;
+                        }
                     }
-                    if(playTTsounds) {
-                        if(!networkAbort) {
+
+                    // If speed is max, we were aborted in P1, so play sound
+                    if(!networkAbort || (fcLEDs.getSpeed() == 2)) {
+                        if(playTTsounds) {
                             play_file("/timetravel.mp3", PA_INTRMUS|PA_ALLOWSD|PA_DYNVOL, 1.0);
                         }
                     }
@@ -1245,7 +1252,7 @@ void main_loop()
             (!BTTFNBootTO && !lastBTTFNpacket && (now - powerupMillis > 60*1000)) ) {
             tcdNM = false;
             tcdFPO = false;
-            remoteAllowed = false;
+            remoteAllowed = remMode = remHoldKey = false;
             gpsSpeed = -1;
             lastBTTFNpacket = 0;
             BTTFNBootTO = true;
@@ -1892,7 +1899,7 @@ static void handleRemoteCommand()
     // Restore current IR input buffer
     memcpy(inputBuffer, inputBackup, sizeof(inputBuffer));
 
-    // Remote commands do now show positive IR feedback, only error
+    // Remote commands do not show positive IR feedback, only error
     if(doInpReaction < 0) {
         if(doInpReaction < -1 || TTrunning) {
             startIRErrFeedback();
@@ -2045,6 +2052,7 @@ static int execute(bool isIR, bool injected)
                         wifi_getIP(a, b, c, d);
                         sprintf(ipbuf, "%d.%d.%d.%d", a, b, c, d);
                         numfname[1] = ipbuf[0];
+                        fcBusy = true;
                         play_file(numfname, PA_INTRMUS|PA_ALLOWSD);
                         for(int i = 1; i < strlen(ipbuf); i++) {
                             if(ipbuf[i] == '.') {
@@ -2060,15 +2068,17 @@ static int execute(bool isIR, bool injected)
                         waitAudioDone(false);
                         if(wasActiveF && contFlux()) play_flux();
                         else if(wasActiveM)          mp_play();
+                        fcBusy = false;
                         ir_remote.loop(); // Flush IR afterwards
                     } else doInpReaction = -1;
                 }
                 break;
             case 95:                              // *95  enter TCD keypad remote control mode
-                if(!irLocked) {                   //      yes, 'irLocked' - must not be entered while IR is locked
+                if(!irLocked) {                   //      yes, 'irLocked', not 'isIRLocked' - must not be entered while IR is locked
                     if(!TTrunning) {
                         if(BTTFNConnected() && remoteAllowed && !tcdIsBusy) {
                             remMode = true;
+                            remHoldKey = false;
                             fcLEDs.SpecialSignal(FCSEQ_REMSTART);
                         } else {
                             doInpReaction = -1;
@@ -2079,8 +2089,11 @@ static int execute(bool isIR, bool injected)
             case 97:                              // 3097 quits TCD keypad remote control mode
                 if(!isIR) {                       //      command not possible through IR, naturally
                     if(remMode) {
-                        remMode = remHoldKey = false;                    
+                        remMode = remHoldKey = false;
                         bttfn_send_command(BTTFN_REMCMD_KP_BYE, 0, 0);
+                        if(!TTrunning) {
+                            fcLEDs.SpecialSignal(FCSEQ_REMEND);
+                        }
                     }
                 } else doInpReaction = -1;
                 break;    
@@ -2868,15 +2881,22 @@ static void handle_tcd_notification(uint8_t *buf)
     case BTTFN_NOT_SPD:
         seqCnt = GET32(buf, 12);
         if(seqCnt > bttfnTCDSeqCnt || seqCnt == 1) {
-            gpsSpeed = (int16_t)(buf[6] | (buf[7] << 8));
-            if(gpsSpeed > 88) gpsSpeed = 88;
             switch(buf[8] | (buf[9] << 8)) {
             case BTTFN_SSRC_GPS:
                 spdIsRotEnc = false;
                 break;
+            case BTTFN_SSRC_P1:
+                // If packets come out-of-order, we might
+                // get this one before TTrunning, and we
+                // don't want the loop to switch to
+                // usingGPSS only because of P1 speed
+                if(!TTrunning) return;
+                // fall through
             default:
-                spdIsRotEnc = true;
+                spdIsRotEnc = true;  // Also for Remote
             }
+            gpsSpeed = (int16_t)(buf[6] | (buf[7] << 8));
+            if(gpsSpeed > 88) gpsSpeed = 88;
         } else {
             #ifdef FC_DBG
             Serial.printf("Out-of-sequence packet received from TCD %d %d\n", seqCnt, bttfnTCDSeqCnt);
@@ -2933,6 +2953,8 @@ static void handle_tcd_notification(uint8_t *buf)
         break;
     case BTTFN_NOT_BUSY:
         tcdIsBusy = !!(buf[8]);
+        remoteAllowed = !(buf[6] & 0x02);
+        if(!remoteAllowed) remMode = remHoldKey = false;
         break;
     }
 }
@@ -3061,11 +3083,12 @@ static void BTTFNCheckPacket()
             tcdNM  = (BTTFUDPBuf[26] & 0x01) ? true : false;
             tcdFPO = (BTTFUDPBuf[26] & 0x02) ? true : false;   // 1 means fake power off
             remoteAllowed = (BTTFUDPBuf[26] & 0x08) ? TCDSupportsRemKP : false;
-            tcdIsBusy = (BTTFUDPBuf[26] & 0x10) ? true : false; 
+            tcdIsBusy = (BTTFUDPBuf[26] & 0x10) ? true : false;
+            if(!remoteAllowed) remMode = remHoldKey = false;
         } else {
             tcdNM = false;
             tcdFPO = false;
-            remoteAllowed = false;
+            remoteAllowed = remMode = remHoldKey = false;
         }
 
         lastBTTFNpacket = mymillis;
