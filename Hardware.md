@@ -32,7 +32,7 @@ As a speaker, I used [this](https://www.amazon.com/ACEIRMC-Loundspeaker-JST-PH2-
 
 <img width="300" alt="Speaker" src="Hardware/img/speaker.png">
 
-The USB connector is the end of an USB extension cable like this one; I simply trimmed it to fit into the bracket.
+The USB connector is not required for normal use (I installed for firmware development reasons only). I used an USB extension cable like this one; I simply trimmed it to fit into the bracket. Note: Newer CircuitSetup boards come with an USB-C connector on the Control Board instead of the previous Micro-USB.
 
 <img width="300" alt="USB extension" src="Hardware/img/usbcable.png">
 
@@ -68,7 +68,7 @@ As a final step I slightly sanded the unpainted top surfaces so that the individ
 
 ## External stuff
 
-Elbows: These are aviation plugs going by MS3108B, dimensions 20-29 and 32. On the original, these were made by Cannon (ITT), but those are no longer available. JAE is a suitable replacement, and those offered by Chinese vendors on ebay also match closely. I removed the electrical components inside the plug and used screws to attach it to the box. (Good replicas are available [here](https://movieprops.blog/shop/).)
+Elbows: These are aviation plugs going by MS3108B, dimensions "20-29" (that is indeed the designation, not a range) and 32. On the original, these were made by Cannon (ITT), but those are no longer available. JAE is a suitable replacement, and those offered by Chinese vendors on ebay also match closely. I removed the electrical components inside the plug and used screws to attach it to the box. (Good replicas are available [here](https://movieprops.blog/shop/).)
 
 Big pipe on top: On the Original, allegedly Lasco 2"; I used a Genova 30720 (2"). Beware, many ebay sellers quietely ship other brands/models despite explicitly advertising this type. In order to attach it to the box, I glued a disc of wood into the bottom end, and screwed it onto the top part of the box. (A good replica is now available [here](https://movieprops.blog/shop/).)
 

@@ -26,24 +26,26 @@ Features include
 - [wireless communication](#bttf-network-bttfn) with [Time Circuits Display](https://tcd.out-a-ti.me); used for synchronized time travels, alarm, chase speed, night mode, fake power, remote control through TCD keypad, or [remote controlling](#remote-controlling-the-tcds-keypad) the TCD keypad.
 - [Home Assistant](#home-assistant--mqtt) (MQTT) support
 - built-in OTA installer for firmware updates and audio files
-  
+
+>This [repository](https://fc.out-a-ti.me) is the upstream source for CircuitSetup's releases. The only difference is that both code and documentation [here](https://fc.out-a-ti.me) might be ahead in development.
+
 ## Power supply
 
 Since the bright LEDs draw considerable power, it is recommended to use a short cable with large wire diameters (min AWG16) between the power supply and the FC, and to drive the FC at 12V-20V (as opposed to 5V). A long/thin cable, due to its resistance, might cause under-voltage and therefore problems like LEDs behaving erratically or even crashes of the FC's CPU.
 
 ## Installation
 
-If a previous version of the Flux Capacitor firmware is installed on your device, you can update easily using the pre-compiled binary. Enter the [Config Portal](#the-config-portal), click on "Update" and select the pre-compiled binary file provided in this repository ([install/fluxcapacitor-A10001986.ino.nodemcu-32s.bin](https://github.com/realA10001986/Flux-Capacitor/blob/main/install/fluxcapacitor-A10001986.ino.nodemcu-32s.bin)).
+If a previous version of the Flux Capacitor firmware is installed on your device, you can update easily using the pre-compiled binary. Enter the [Config Portal](#the-config-portal), click on *Update*, select the pre-compiled binary file ("xxx.bin") provided in the Release package, and click on *Update*.
 
 If you are using a fresh ESP32 board, please see [fluxcapacitor-A10001986.ino](https://github.com/realA10001986/Flux-Capacitor/blob/main/fluxcapacitor-A10001986/fluxcapacitor-A10001986.ino) for detailed build and upload information, or, if you don't want to deal with source code, compilers and all that nerd stuff, go [here](https://install.out-a-ti.me) and follow the instructions.
 
- *Important: After a firmware update, the inner and outer LEDs might blink alternately for short while after reboot. Do NOT unplug the device during this time.*
+*After a firmware update, the inner and outer LEDs might blink alternately for short while after reboot. Do NOT unplug the device during this time.*
 
 ### Sound-pack installation
 
-The firmware comes with a sound-pack which needs to be installed separately. The sound-pack is not updated as often as the firmware itself. If you have previously installed the latest version of the sound-pack, you normally don't have to re-install it when you update the firmware. Only if either a the FC puts up a respective [signal](#appendix-b-led-signals) at startup, or your device is quiet after a firmware update, a re-installation/update is needed.
+The firmware comes with a sound-pack which needs to be installed separately. The sound-pack is not updated as often as the firmware itself. If you have previously installed the latest version of the sound-pack, you normally don't have to re-install it when you update the firmware. Only if the FC puts up a respective [signal](#appendix-b-led-signals) at startup, a re-installation/update is needed.
 
-The first step is to download "install/sound-pack-fcXX.zip" and extract it. It contains one file named "FCA.bin".
+The first step is to extract "sound-pack-fcXX.zip" (which is included in the Release package). It contains one file, named "FCA.bin".
 
 Next, head to the [Config Portal](#the-config-portal), click on *Update*, select the "FCA.bin" file in the bottom file selector and click on *Upload*.
 
@@ -408,7 +410,7 @@ In normal operation, those LEDs are off. You can, however, configure a minimum b
 
 To travel through time, type "0" on the remote control. The Flux Capacitor will play its time travel sequence.
 
-You can also connect a physical button to your FC; the button must connect "GPIO" to "3.3V" on the "Time Travel" connector. Pressing this button briefly will trigger a time travel.
+You can also connect a physical button to your FC; the button must connect "TT IN" ("GPIO" on earlier versions) to "3.3V" on the "Time Travel" connector. Pressing this button briefly will trigger a time travel.
 
 Other ways of triggering a time travel are available if a [Time Circuits Display](#connecting-a-time-circuits-display) is connected.
 
@@ -532,7 +534,7 @@ Pressing # quits TCD keypad remote control mode, as does issuing command 3097 on
 
 >Note that a wired connection only allows for synchronized time travel sequences, no other communication takes place. A wireless connection over BTTFN/WiFi is much more powerful and therefore recommended over a wired connection.
 
-For a connection by wire, connect GND and GPIO on the Flux Capacitor's "Time Travel" connector to the TCD like in the table below:
+For a connection by wire, connect "GND" and "TT IN" (labeled "GPIO" on earlier boards) on the Flux Capacitor's "Time Travel" connector to the TCD like in the table below:
 
 <table>
     <tr>
@@ -559,7 +561,7 @@ Next, head to the Config Portal and set the option **_TCD connected by wire_**. 
 <details>
 <summary>More...</summary>
   
->You can connect both the TCD and a button to the TT connector. However, the button should not be pressed when the option **_TCD connected by wire_** is set, as it might yield unwanted results. Also, note that the button connects IO13 to 3_3V (not GND!).
+>You can connect both the TCD and a button to the TT connector. However, the button should not be pressed when the option **_TCD connected by wire_** is set, as it might yield unwanted results. Also, note that the button connects "TT IN" to "3_3V" (not "GND"!).
 
 </details>
 
