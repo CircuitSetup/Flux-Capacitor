@@ -13,17 +13,17 @@ Here is my FC, built around the [Control Board](https://circuitsetup.us/product/
 |:--:|
 | Click to watch the video |
 
-The Flux Capacitor can be used stand-alone, or in connection with CircuitSetup's [Time Circuits Display](https://tcd.out-a-ti.me). If [built properly](Hardware.md), the Flux Capacitor is perfectly fit for mounting in your Delorean.
+The Flux Capacitor can be used stand-alone, or in connection with CircuitSetup's [Time Circuits Display](https://circuitsetup.us/product/complete-time-circuits-display-kit/). If [built properly](Hardware.md), the Flux Capacitor is perfectly fit for mounting in your Delorean.
 
 Features include
 - movie-accurate default flux sequence, plus 9 alternative flux sequences
 - optional [flux](#the-flux-sound) sound (4 modes)
-- [Time Travel](#time-travel) function, triggered by button, [Time Circuits Display](https://tcd.out-a-ti.me) (TCD) or via [MQTT](#home-assistant--mqtt)
+- [Time Travel](#time-travel) function, triggered by button, [Time Circuits Display](https://circuitsetup.us/product/complete-time-circuits-display-kit/) (TCD) or via [MQTT](#home-assistant--mqtt)
 - [IR remote controlled](#ir-remote-control); can learn keys from third-party remote
 - [music player](#the-music-player): Play mp3 files located on an SD card
 - [SD card](#sd-card) support for custom audio files for effects, and music for the Music Player
 - advanced network-accessible [Config Portal](#the-config-portal) for setup (http://flux.local, hostname configurable)
-- [wireless communication](#bttf-network-bttfn) with [Time Circuits Display](https://tcd.out-a-ti.me); used for synchronized time travels, alarm, chase speed, night mode, fake power, remote control through TCD keypad, or [remote controlling](#remote-controlling-the-tcds-keypad) the TCD keypad.
+- [wireless communication](#bttf-network-bttfn) with [Time Circuits Display](https://circuitsetup.us/product/complete-time-circuits-display-kit/); used for synchronized time travels, alarm, chase speed, night mode, fake power, remote control through TCD keypad, or [remote controlling](#remote-controlling-the-tcds-keypad) the TCD keypad.
 - [Home Assistant](#home-assistant--mqtt) (MQTT) support
 - built-in OTA installer for firmware updates and audio files
 
@@ -87,7 +87,7 @@ If the FC fails to connect, it falls back to AP-mode. You can trigger another co
 
 #### Places without a WiFi network
 
-In this case and with no [Time Circuits Display](https://tcd.out-a-ti.me) at hand, keep your FC operating in AP-mode.
+In this case and with no [Time Circuits Display](https://circuitsetup.us/product/complete-time-circuits-display-kit/) at hand, keep your FC operating in AP-mode.
 
 If you have a TCD, you can connect your FC to the TCD's own WiFi network: 
 
@@ -372,7 +372,7 @@ Numbers in brackets are the code to be entered on the TCD keypad if a TCD is con
 
 (**) Not supported through HA/MQTT [_INJECT_](#the-inject_x-command) command
 
-[Here](https://github.com/realA10001986/Flux-Capacitor/blob/main/CheatSheet.pdf) is a cheat sheet for printing or screen-use. (Note that MacOS' preview application has a bug that scrambles the links in the document. Acrobat Reader does it correctly.)
+[Here](CheatSheet.pdf) is a cheat sheet for printing or screen-use. (Note that MacOS' preview application has a bug that scrambles the links in the document. Acrobat Reader does it correctly.)
 
 ## The Flux sound
 
@@ -399,7 +399,7 @@ In normal operation, those LEDs are off. You can, however, configure a minimum b
 <details>
 <summary>More...</summary>
   
-> As an alternative to the included LEDs, one could use four pieces of 3W High-Power KEYES LED modules and drive them via the GPIO14 connector. Since those draw quite much power, their power pins should be connected directly to the power supply (provided you drive your FC at 5V; otherwise you need to grab the power from the control board), and only the "PWD" input should be wired to the "IO14" pin of the "GPIO14" connector. If you use the GPIO14 connector for your box LEDs, check the [Use GPIO14 for Box Lights](#-use-gpio14-for-box-lights) option in the Config Portal.
+> As an alternative to the included LEDs one could use four pieces of 3W High-Power KEYES LED modules and drive them via the GPIO14 connector. Since those draw quite much power, their power pins must be connected directly to the power supply (provided you drive your FC at 5V; otherwise you need to install a separate voltage converter from 12V to 5V; _do not grab the 5V from the Control Board, those LEDs draw too much power for the Control Board's power converter to handle._), and only the "PWD" input should be wired to the "IO14" pin of the "GPIO14" connector. If you use the GPIO14 connector for your box LEDs, check the [Use GPIO14 for Box Lights](#-use-gpio14-for-box-lights) option in the Config Portal.
 
 </details>
 
@@ -996,5 +996,5 @@ The username (and optionally the password) to be used when connecting to the bro
 </table>
 
 ---
-_Text & images: (C) Thomas Winischhofer ("A10001986"). See LICENSE._ Source: https://fc.out-a-ti.me  
-_Other props: [Time Circuits Display](https://tcd.out-a-ti.me) ... [SID](https://sid.out-a-ti.me) ... [Dash Gauges](https://dg.out-a-ti.me) ... [VSR](https://vsr.out-a-ti.me) ... [Remote Control](https://remote.out-a-ti.me) ... [TFC](https://tfc.out-a-ti.me)_
+_Text & images: (C) Thomas Winischhofer ("A10001986"). See LICENSE._ [Source](https://fc.out-a%2dti.me)  
+_Other props: [Time Circuits Display](https://tcd.out-a%2dti.me) ... [SID](https://sid.out-a%2dti.me) ... [Dash Gauges](https://dg.out-a%2dti.me) ... [VSR](https://vsr.out-a%2dti.me) ... [Remote Control](https://remote.out-a%2dti.me) ... [TFC](https://tfc.out-a%2dti.me)_
