@@ -1,10 +1,10 @@
 # Flux Capacitor Hardware & Build Information
 
-CircuitSetup provides complete [Flux Capacitors](https://circuitsetup.us/product/delorean-time-machine-flux-capacitor-fully-assembled/), or kit parts such as the [electronics](https://circuitsetup.us/product/flux-capacitor-light-sound-pcb), a [window kit](https://circuitsetup.us/product/flux-capacitor-window-kit) and the [back board](https://circuitsetup.us/product/flux-capacitor-backing-board). Here is some information on the other parts you'll need if you go for the kit parts:
+CircuitSetup provides complete [Flux Capacitors](https://circuitsetup.us/product/delorean-time-machine-flux-capacitor-fully-assembled/) occasionally, and kit parts such as the [electronics](https://circuitsetup.us/product/flux-capacitor-light-sound-pcb), a [window kit](https://circuitsetup.us/product/flux-capacitor-window-kit) and the [back board](https://circuitsetup.us/product/flux-capacitor-backing-board) on a regular basis. Here is some information on the other parts you'll need in addition to the kits:
 
 ## Box
 
-The box is a [Stahlin J1210HPL](https://stahlin.com/product/j-series-12-x-10-x-5-inches-j1210hpl-enclosure/), still available. The color does not match the movies, but it can be spray-painted; a suitable color would be Pantone 423C.
+The box is a [Stahlin J1210HPL](https://stahlin.com/product/j-series-12-x-10-x-5-inches-j1210hpl-enclosure/), still available. The color does not match the movies, but it can be spray-painted; a suitable color would be Rust-Oleum Coastal Grey or Pantone 424C.
 
 CircuitSetup's kits come with templates for holes and the door window.
 
@@ -17,7 +17,7 @@ The Original FC's box, as used in the movies, has six large holes at the bottom.
 
 Instead, I used the buttom for the controls and connectors.
 
-Since the SD card on the control board is inaccessible after assembling the FC (but required to install the audio files, and possibly used for music files), I used a microSD extension (like [this one](https://www.amazon.com/Memory-Micro-SD-Female-Extension-Extender/dp/B09MS85FQ3/)), and mounted the slot through a hole in the bottom of my FC so that the SD card can be accessed at any time.
+Since the SD card on the control board is inaccessible after assembling the FC (but required to install/update the sound-pack), I used a microSD extension (like [this one](https://www.amazon.com/Memory-Micro-SD-Female-Extension-Extender/dp/B09MS85FQ3/)), and mounted the slot through a hole in the bottom of my FC so that the SD card can be accessed at any time.
 
 ![bottom](Hardware/img/bottom.jpg)
 
@@ -28,7 +28,7 @@ From left to right:
 - Speaker (using Radbench's speaker grill "Speaker_Grill_RBv1")
 - USB and power (using Radbench's bracket "PowerUsbMount")
 
-As a speaker, I used [this](https://www.amazon.com/ACEIRMC-Loundspeaker-JST-PH2-0-Interface-Electronic/dp/B0BTM1VCBM/ref=sr_1_8) one; I cut off the latches and glued it onto the back side of the [back board](https://circuitsetup.us/product/flux-capacitor-backing-board).
+As a speaker, I used [this](https://www.amazon.com/ACEIRMC-Loundspeaker-JST-PH2-0-Interface-Electronic/dp/B0BTM1VCBM/ref=sr_1_8) one; I cut off the protruding screw mounts and glued it onto the back side of the [back board](https://circuitsetup.us/product/flux-capacitor-backing-board).
 
 <img width="300" alt="Speaker" src="Hardware/img/speaker.png">
 
@@ -40,29 +40,29 @@ The power connector is an adapter like this, which fits nicely into the bracket:
 
 <img width="300" alt="Power connector" src="Hardware/img/dcadapters.png">
 
-Since the bright LEDs draw considerable power, it is recommended to drive the FC at 12V-20V (as opposed to 5V).
+Since the bright LEDs draw considerable power, it is recommended to use a 4A power supply with a short cable.
 
 ## Torr relays & co
 
-The CircuitSetup back board is made to fit the Torr relay replicas and accessories from [Radbench](https://www.thingiverse.com/thing:5164173)'s collection, such as cable boots, L-brackets and acrylic "light-bars".
+The CircuitSetup back board is basically suitable to fit the Torr relay replicas and accessories from [Radbench](https://www.thingiverse.com/thing:5164173)'s collection, such as L-brackets and acrylic "light-bars".
 
-Since I try to avoid 3D-printed parts as much as possible, I went for replicas made from brass by user [stuff565](https://www.ebay.co.uk/usr/stuff565) on ebay (he is a well known member of the Delorean Time Machine Builders scene). Suitable boots for the ignition cables are available [here](https://movieprops.blog/shop/) or (sometimes) from [maxthemad](https://www.ebay.co.uk/usr/maxthemad).
+Since I try to avoid 3D-printed parts as much as possible, I went for replicas made from brass by user [stuff565](https://www.ebay.co.uk/usr/stuff565) on ebay (he is a well known member of the Delorean Time Machine Builders scene, and active in the [Flux Capacitor Prop Building](https://www.facebook.com/groups/180140257458567/) group on Facebook). 
 
-If you go this route, you need to enlarge the holes in CircuitSetup's back board to fit the tubes, and due to their weight, the "relays" need to be screwed onto the back board. The resin inside the relay replicas is fine for screws, a bit of pre-drilling is recommended. I used three screws per "relay".
+If you go this route, you need to drill new or enlarge preexisting holes in CircuitSetup's back board to fit the tubes, and due to their weight, the "relays" need to be screwed onto the back board. The resin inside the relay replicas is fine for screws, a bit of pre-drilling is recommended. I used three screws per "relay".
 
 Also, for the brass relay replicas, 
 - the L-bracket and the cable boots needs to be larger, and
 - the light bars need to be a bit taller.
 
-Suitable STL-files matching the brass-replicas for brackets ("Relay_L_Bracket_v1"), boots ("Spark_Boot") and light bars ("Light bar - 81x29") are in this repository. (The boots are an alternative to maxthemad's, and need some trimming to fit; I preferred this way because my boots better resemble the ones shown in the movies.)
+Suitable STL-files matching the brass-replicas for brackets ("Relay_L_Bracket_v1") and light bars ("Light bar - 81x29") are in this repository.
 
-The yellow cables are simply yellow 7mm ignition cables, easy to find. The boots are painted in RAL2008, although I don't know if this is authentic. I used the O-rings ("Spark_O-Ring_RBv1", same color as boots) designed by Radbench.
+The yellow cables are simply yellow 7mm ignition cables, easy to find. Suitable boots for the ignition cables are available [here](https://movieprops.blog/shop/), and they come with O-rings.
 
 ## Light bars
 
-The light bars are 10mm acrylic glass. I am sure you'll find someone to cut them for you, an STL file and a pic showing the dimensions are here in this repo ("Light bar - 81x29" and "lightBar_Dims").
+The light bars are 10mm acrylic glass. For above named brass Torr replicas, an STL file and a pic showing the dimensions are here in this repo ("Light bar - 81x29" and "lightBar_Dims"). Other Torr replicas might need other dimensions.
 
-Radbench and others usually spray paint the light bars with "mirror silver" before coating them in black. I had no luck with this since it caused cracks in the acrylic. So I skipped this step and only painted the outsides black (using a _water-based_ color). IMHO the mirror paint is pointless, since the light is reflected by the surface of the acrylic glass anyway. 
+Radbench and others usually spray paint the light bars with "mirror silver" before coating them in black. I had no luck with this as the mirror silver color caused cracks in the acrylic. So I skipped this step and only painted the outsides black (using a _water-based_ color). IMHO the mirror paint is pointless because the light is reflected by the surface of the acrylic glass anyway.
 
 As a final step I slightly sanded the unpainted top surfaces so that the individual LEDs aren't clearly visible in the end.
 
@@ -74,7 +74,7 @@ Big pipe on top: On the Original, allegedly Lasco 2"; I used a Genova 30720 (2")
 
 The black pipe on the left and the hose on the right are fully custom made; the hose is enclosed in parts used in compressed air equipment. Both are attached using screws.
 
-If you avoid 3D-printed parts in general (or use a UV- and heat-resistant resin) and attach parts properly, the FC is perfectly fine to be mounted in an actual Delorean.
+If you avoid 3D-printed parts in general (or use a UV- and heat-resistant filament/resin) and attach parts properly, the FC is perfectly fine to be mounted in an actual Delorean.
 
 
 _Text & images: (C) Thomas Winischhofer ("A10001986"). See LICENSE._ Source: https://fc.out-a-ti.me

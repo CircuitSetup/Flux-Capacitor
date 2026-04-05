@@ -2,9 +2,9 @@
 
 This [repository](https://fc.out-a-ti.me) holds the most current firmware for CircuitSetup's excellent [Flux Capacitor](https://circuitsetup.us/product/delorean-time-machine-flux-capacitor-fully-assembled/). The Flux Capacitor is a key component of the Delorean Time Machine.
 
-You can buy a complete one or kit parts [here](https://circuitsetup.us/product-category/movie-props/).
+You can buy a complete one or kits [here](https://circuitsetup.us/product-category/movie-props/).
 
-Here is my FC, built around the [Control Board](https://circuitsetup.us/product/flux-capacitor-light-sound-kit/) and the other parts of the kit ([backing board](https://circuitsetup.us/product/flux-capacitor-backing-board/), [window kit](https://circuitsetup.us/product/flux-capacitor-window-kit/); see [here](Hardware.md) for more information on the other parts used):
+Below depicted FC was built using CircuitSetup's [Control Board](https://circuitsetup.us/product/flux-capacitor-light-sound-kit/), [backing board](https://circuitsetup.us/product/flux-capacitor-backing-board/) and [window kit](https://circuitsetup.us/product/flux-capacitor-window-kit/). See [here](Hardware.md) for more information on the other parts used.
 
 ![My Flux Capacitor](img/myfc.jpg)
 ![My Flux Capacitor](img/myfc2.jpg)
@@ -33,7 +33,7 @@ For information on updating the firmware on your FC, see [here](#firmware-instal
 
 ## Power supply
 
-Since the bright LEDs draw considerable power, it is recommended to use a short cable with large wire diameters (min AWG16) between the power supply and the FC, and to drive the FC at 12V-20V (as opposed to 5V). A long/thin cable, due to its resistance, might cause under-voltage and therefore problems like LEDs behaving erratically or even crashes of the FC's CPU.
+Since the bright LEDs draw considerable power, it is recommended to use a 4A power supply and a short cable with large wire diameters (min AWG16) between the power supply and the FC. A long/thin cable, due to its resistance, might cause under-voltage and therefore problems like LEDs behaving erratically or even crashes of the FC's CPU.
 
 ## Initial Configuration
 
@@ -920,7 +920,7 @@ If checked, the FC will connect to the broker (if configured) and send and recei
 
 ##### &#9193; Broker IP[:port] or domain[:port]
 
-The broker server address. Can be a domain (eg. "myhome.me") or an IP address (eg "192.168.1.5"). The default port is 1883. If different port is to be used, it can be specified after the domain/IP and a colon ":", for example: "192.168.1.5:1884". Specifying the IP address is preferred over a domain since the DNS call adds to the network overhead. Note that ".local" (MDNS) domains are not supported.
+The broker server address. Can be a domain (eg. "myhome.me") or an IP address (eg "192.168.1.5"). The default port is 1883. If a different port is to be used, it can be specified after the domain/IP and a colon ":", for example: "192.168.1.5:1884". Specifying the IP address is preferred over a domain since the DNS call adds to the network overhead. Note that ".local" (MDNS) domains are not supported.
 
 ##### &#9193; Protocol version
 
