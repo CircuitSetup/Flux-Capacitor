@@ -18,7 +18,7 @@ The Flux Capacitor can be used stand-alone, or in connection with CircuitSetup's
 Features include
 - movie-accurate default flux sequence, plus 9 alternative flux sequences
 - optional [flux](#the-flux-sound) sound (4 modes)
-- [Time Travel](#time-travel) function, triggered by button, [Time Circuits Display](https://circuitsetup.us/product/complete-time-circuits-display-kit/) (TCD) or via [MQTT](#home-assistant--mqtt)
+- [Time Travel](#time-travel) function, triggered by button, [Time Circuits Display](https://circuitsetup.us/product/complete-time-circuits-display-kit/) (TCD) or via [Home Assistant](#home-assistant--mqtt)
 - [IR remote controlled](#ir-remote-control); can learn keys from third-party remote
 - [music player](#the-music-player): Play mp3 files located on an SD card
 - [SD card](#sd-card) support for custom audio files for effects, and music for the Music Player
@@ -83,7 +83,7 @@ Click on "WiFi Configuration" and either select a network from the top of the pa
 
 </details>
 
-If the FC fails to connect, it falls back to AP-mode. You can trigger another connection attempt by entering *77ok.
+If the FC fails to connect, it falls back to AP-mode. You can trigger another connection attempt by entering *77ok on the IR remote control.
 
 #### Places without a WiFi network
 
@@ -153,7 +153,7 @@ Try to avoid powering down the FC
 - when it is clearly busy (such as when copying or renaming audio files);
 - within 15 seconds after changing settings (eg Flux mode, Flux level, box light level, volume, speed, IR lock, chase sequence, ...) through the IR remote control or the TCD keypad.
 
-### IR remote control
+### IR Remote Control
 
 Your FC kit includes an IR remote control. This remote works out-of-the-box and needs no setup. 
 
@@ -172,7 +172,7 @@ See [here](#appendix-b-led-signals) for all supported signals.
 
 ### IR Learning
 
-Your FC can learn the codes of another IR remote control. Most remotes with a carrier signal of 38kHz (which most IR remotes use) will work. However, some remote controls, especially ones for TVs, send keys repeatedly and/or send different codes alternately. If you had the FC learn a remote and the keys are not (always) recognized afterwards, that remote is of that type and cannot be used.
+Your FC can learn the codes of another IR remote control. Most remotes with a carrier signal of 38kHz (which most IR remotes use) will work. However, some remote controls, especially ones for TVs, send keys repeatedly and/or send different codes alternately. If you had the FC learn a remote and the keys are not (always) recognized afterwards or appear to the pressed repeatedly while held, that remote is of that type and cannot be used.
 
 IR learning can be initiated by entering *987654ok on the standard IR remote.
 
@@ -188,15 +188,15 @@ If no key is pressed for 10 seconds, the learning process aborts (as does briefl
 
 To make the FC forget a learned IR remote control, type *654321ok.
 
-### Locking IR control
+### Locking IR Control
 
 You can have your FC ignore IR commands from any IR remote control (be it the default supplied one, be it one you had the FC learn) by entering *70ok. After this sequence, the FC will ignore all IR commands until *70ok is entered again. The purpose of this function is to enable you to use the same remote for your FC and other props.
 
-Note that the status of the IR lock is saved 10 seconds after its last change, and is persistent across reboots.
+The status of the IR lock is saved 10 seconds after its last change, and is persistent across reboots.
 
 In order to only disable the supplied IR remote control, check the option **_Disable supplied IR remote control_** in the [Config Portal](#-disable-supplied-ir-remote-control). In that case, any learned remote will still work.
 
-### Remote control reference
+### Remote Control Reference
 
 <table>
     <tr>
@@ -346,6 +346,14 @@ Numbers in brackets are the code to be entered on the TCD keypad if a TCD is con
      <td align="left">Quit <a href="#remote-controlling-the-tcds-keypad">TCD keypad remote control mode</a></td>
      <td align="left">-</td><td>3097</td>
     </tr>
+   <tr>
+     <td align="left">Disable <a href='#car-setup'>car mode</a><sup>1</sup></td>
+     <td align="left">*990&#9166;</td><td>6990</td>
+    </tr>
+    <tr>
+     <td align="left">Enable <a href='#car-setup'>car mode</a><sup>1</sup></td>
+     <td align="left">*991&#9166;</td><td>6991</td>
+    </tr>
     <tr>
      <td align="left">Reboot the device (**)</td>
      <td align="left">*64738&#9166;</td><td>3064738</td>
@@ -374,7 +382,7 @@ Numbers in brackets are the code to be entered on the TCD keypad if a TCD is con
 
 [Here](CheatSheet.pdf) is a cheat sheet for printing or screen-use. (Note that MacOS' preview application has a bug that scrambles the links in the document. Acrobat Reader does it correctly.)
 
-## The Flux sound
+## The Flux Sound
 
 By default, the FC plays a "flux" sound continuously.
 
@@ -390,7 +398,7 @@ The flux sound's volume level, relative to general volume, can be adjusted in fo
 
 Both settings, mode and level, are saved 10 seconds after the last change (see also [here](#powering-down-the-fc)).
 
-## Box lighting
+## Box Lighting
 
 The FC features connectors for box lights, ie LEDs that light up the inside of the FC during the time travel sequence. Those should be installed, they are essential part of the time travel sequence. The kit from CircuitSetup contains suitable high-power LEDs for box lighting, and all four of those must be connected to the "Box LED" connectors. Their ideal location is in each corner, as close to the front (door) as possible.
 
@@ -403,7 +411,7 @@ In normal operation, those LEDs are off. You can, however, configure a minimum b
 
 </details>
 
-## Time travel
+## Time Travel
 
 To travel through time, type "0" on the remote control. The Flux Capacitor will play its time travel sequence.
 
@@ -411,9 +419,9 @@ You can also connect an external Time Travel button to your FC; the button must 
 
 Other ways of triggering a time travel are available if a [Time Circuits Display](#connecting-a-time-circuits-display) is connected.
 
-## SD card
+## SD Card
 
-Preface note on SD cards: For unknown reasons, some SD cards simply do not work with this device. For instance, I had no luck with Sandisk Ultra 32GB and  "Intenso" cards. If your SD card is not recognized, check if it is formatted in FAT32 format (not exFAT!). Also, the size must not exceed 32GB (as larger cards cannot be formatted with FAT32). Transcend, Sandisk Industrial, Verbatim Premium and Samsung Pro Endurance SDHC cards work fine in my experience.
+>Preface note on SD cards: For unknown reasons, some SD cards simply do not work with this device. For instance, I had no luck with Sandisk Ultra 32GB and  "Intenso" cards. If your SD card is not recognized, check if it is formatted in FAT32 format (not exFAT!). Also, the size must not exceed 32GB (as larger cards cannot be formatted with FAT32). Transcend, Sandisk Industrial, Verbatim Premium and Samsung Pro Endurance SDHC cards work fine in my experience.
 
 The SD card, apart from being required for [installing](#sound-pack-installation) of the sound-pack, can be used for substituting built-in sound effects and for music played back by the [Music player](#the-music-player). Also, it is _strongly recommended_ to store [secondary settings](#-save-secondary-settings-on-sd) on the SD card to minimize [Flash Wear](#flash-wear). The chosen chase sequence (*1x) is only stored on SD, so for your selection to be persistent across reboots, an SD card is required.
 
@@ -454,7 +462,7 @@ Replacements and custom sounds can either be copied to the SD card using a compu
 
 Uploading through the Config Portal works exactly like [installing the sound-pack](#sound-pack-installation); on the main menu, click "Update & Upload". Afterwards choose one or more mp3 files to upload using the bottom file selector, and click "UPLOAD". The firmware will store the uploaded mp3 files on the SD card.
 
-In order to delete a file from the SD card, upload a file whose name is prefixed with "delete-". For example: To delete "key3.mp3" from the SD card, upload a file named "delete-key3.mp3"; the file's contents does not matter, so it's easiest to use a newly created empty file. The firmware detects the "delete-" part and, instead of storing the uploaded file, it throws it away and deletes "key3.mp3" from the SD card.
+To delete a file from the SD card, upload a file whose name is prefixed with "delete-". For example: To delete "key3.mp3" from the SD card, upload a file named "delete-key3.mp3"; the file's contents does not matter, so it's easiest to use a newly created empty file. The firmware detects the "delete-" part and, instead of storing the uploaded file, it throws it away and deletes "key3.mp3" from the SD card.
 
 For technical reasons, the FC must reboot after mp3 files are uploaded in this way.
 
@@ -464,7 +472,7 @@ Please remember that the maximum bitrate for mp3 files is 128kbps. Also note tha
 
 The firmware contains a simple music player to play mp3 files located on the SD card. 
 
-In order to be recognized, your mp3 files need to be organized in music folders named *music0* through *music9*. The folder number is 0 by default, ie the player starts searching for music in folder *music0*. This folder number can be changed using the remote control or through the TCD keypad (305x).
+To be recognized, your mp3 files need to be organized in music folders named *music0* through *music9*. The folder number is 0 by default, ie the player starts searching for music in folder *music0*. This folder number can be changed using the remote control or through the TCD keypad (305x).
 
 The names of the audio files must only consist of three-digit numbers, starting at 000.mp3, in consecutive order. No numbers should be left out. Each folder can hold up to 1000 files (000.mp3-999.mp3). *The maximum bitrate is 128kpbs.*
 
@@ -490,9 +498,13 @@ The TCD can communicate with the FC wirelessly, via the built-in "**B**asic-**T*
 |:--:|
 | Click to watch the video |
 
-BTTFN requires the props all to be connected to the same network, such as, for example, your home WiFi network. BTTFN does not work over the Internet.
+BTTFN requires the props all to be connected to the same network, such as, for example, your home WiFi network, or the TCD acting as access point. BTTFN does not work over the Internet.
 
-![STAmode-bttfn](img/stamode-bttfn.png)
+![STAmode-home](img/stamode-home.png)
+
+<p>&nbsp;</p>
+
+![STAmode-car](img/stamode-car.png)
 
 <details>
 <summary>More...</summary>
@@ -500,14 +512,14 @@ BTTFN requires the props all to be connected to the same network, such as, for e
 >The term "WiFi network" is used for both "WiFi network" and "ip subnet" here for simplicity reasons. However, for BTTFN communication, the devices must be on the same IP subnet, regardless of how they take part in it: They can be connected to different WiFi networks, if those WiFi networks are part of the same ip subnet.
 </details>
 
-In order to connect your FC to the TCD using BTTFN, just enter the TCD's IP address or hostname in the **_IP address or hostname of TCD_** field in the FC's Config Portal. On the TCD, no special configuration is required.
+To connect your FC to the TCD, just enter the TCD's hostname - usually "timecircuits" - in the **_Hostname or IP address of TCD_** field in the FC's Config Portal. On the TCD, no special configuration is required. 
   
 Afterwards, the FC and the TCD can communicate wirelessly and 
 - play time travel sequences in sync,
 - both play an alarm-sequence when the TCD's alarm occurs,
 - the FC can be remote controlled through the TCD's keypad (command codes 3xxx),
 - the FC can remote control the TCD's keypad (see [below](#remote-controlling-the-tcds-keypad))
-- the FC queries the TCD for GPS speed if desired to adapt chase speed to GPS speed,
+- the FC queries the TCD for speed (GPS, rotary encoder, Remote), if desired, to adapt its chase speed,
 - the FC queries the TCD for fake power and night mode, in order to react accordingly if so configured,
 - pressing "0" on the IR remote control or the FC's Time Travel button can trigger a synchronized Time Travel on all BTTFN-connected devices, just like if that Time Travel was triggered through the TCD.
 
@@ -517,11 +529,13 @@ You can use BTTF-Network and MQTT at the [same time](#receive-commands-from-time
 
 The FC can, through its IR remote control, remote control the TCD keypad. The TCD will react to pressing a key on the IR remote as if that key was pressed on the TCD keypad.
 
-In order to start TCD keypad remote control, type *95ok on the FC's IR remote control (or issue command 3095 from the TCD or through [HA/MQTT](#control-the-fc-via-mqtt)).
+As a prerequisite, the TCD must be set to permit remote control. This is done on the TCD through keypad command 995.
+
+To start TCD keypad remote control, type *95ok on the FC's IR remote control (or issue command 3095 from the TCD or through [HA/MQTT](#control-the-fc-via-mqtt)).
 
 Keys 0-9 as well as OK (=ENTER) on your IR remote control will now be registered by the TCD as key presses.
 
-"Holding" a key on the TCD keypad is emulated by pressing * followed by the key, for instance *1 (in order to toggle the TCD alarm). Only keys 0-9 can be "held".
+"Holding" a key on the TCD keypad is emulated by pressing * followed by the key, for instance *1 (to toggle the TCD alarm). Holding "OK" is only accepted by the TCD to stop the alarm, but not for entering the keypad menu.
 
 Pressing # quits TCD keypad remote control mode, as does issuing command 3097 on the TCD or through HA/MQTT.
 
@@ -623,33 +637,35 @@ If your broker does not allow anonymous logins, a username and password can be s
 
 Limitations: TLS/SSL not supported; ".local" domains (MDNS) not supported; server/broker must respond to PING (ICMP) echo requests. For proper operation with low latency, it is recommended that the broker is on your local network. MQTT is disabled when your FC is operated in AP-mode or when connected to the TCD run in AP-Mode (TCD-AP).
 
-## Car setup
+## Car Setup
 
-If your FC, along with a [Time Circuits Display](https://tcd.out-a-ti.me/), is mounted in a car, the following network configuration is recommended:
+If your FC, along with a [Time Circuits Display](https://tcd.out-a-ti.me/), is mounted in a car or other places without a local WiFi network, the following network configuration is recommended:
 
 ![STAmode-car](img/stamode-car2.png)
 
+This configuration can easily achieved by putting both the TCD and the SID in *Car Mode*:
+
 #### TCD
 
-- Run your TCD in [*car mode*](https://tcd.out-a-ti.me/#car-mode);
-- disable WiFi power-saving on the TCD by setting **_Power save timer_** to 0 (zero) in the "AP-mode settings" section on the WiFi Configuration page.
+- Set **_Power save timer_** to 0 (zero) in the "AP-mode settings" section on the *WiFi Configuration* page
+- Put your TCD in [*Car Mode*](https://tcd.out-a-ti.me/#car-mode) by issuing keypad command 991.
 
 #### Flux Capacitor
 
-Enter the Config Portal on the FC, click on *Settings* and
-  - enter *192.168.4.1* into the field **_IP address or hostname of TCD_** under BTTFN settings;
-  - click on *Save*.
+One-time configuration steps:
+- Enter the Config Portal on the FC, click on *Settings* and check that the hostname of the TCD (usually "timecircuits") is present in the  **_Hostname or IP address of TCD_** under *Wireless communication (BTTF-Network)* settings; do not use an IP address.
+- Furthermore, on the *WiFi Configuration* page, check that the TCD's WiFi network name (SSID; usually "TCD-AP") and password (if the TCD is configured with a password) are present under *Car mode settings*.
 
-After the FC has restarted, re-enter the FC's Config Portal (while the TCD is powered and in *car mode*) and
-  - click on *WiFi Configuration*,
-  - select the TCD's access point name in the list at the top ("TCD-AP"; if there is no list, click on "Scan for Networks") or enter *TCD-AP* into the *Network name (SSID)* field; if you password-protected your TCD's AP, enter this password in the *password* field. Leave all other fields empty,
-  - click on *Save*.
+If everything is in place, you can enable Car mode on the FC by typing *991ok on the remote. The FC will reboot and attempt to connect to the TCD's AP.
 
-In order to access the FC's Config Portal in your car, connect your handheld or computer to the TCD's WiFi access point ("TCD-AP"), and direct your browser to http://flux.local ; if that does not work, go to the TCD's keypad menu, press ENTER until "BTTFN CLIENTS" is shown, hold ENTER, and look for the FC's IP address there; then direct your browser to that IP by using the URL http://a.b.c.d (a-d being the IP address displayed on the TCD display).
+You can switch between your "normal" (home, iPhone, ..) WiFi connection and Car mode by entering *990ok or *991ok, respectively.
 
-This "car setup" can also be used in a home setup with no local WiFi network present.
+To access the FC's Config Portal in Car mode, connect your handheld or computer to the TCD's WiFi network ("TCD-AP"), and direct your browser to http://flux.local.
 
-## WiFi power saving features
+  ><details><summary>If that fails...</summary>
+  >If connecting to http://flux.local fails due to a name resolution error, go to the TCD's keypad menu, navigate to "BTTFN CLIENTS", and look for the FC's IP address there; then direct your browser to that IP by using the URL http://a.b.c.d (a-d being the IP address displayed on the TCD display)</details>
+
+## WiFi Power Saving Features
 
 The Config Portal offers an option for WiFi power saving for AP-mode (ie when the device acts as an access point). This option configures a timer after whose expiration WiFi is switched off; the device is no longer transmitting or receiving data over WiFi.
 
@@ -717,7 +733,7 @@ This leads to the [HomeAssistant/MQTT Settings page](#hamqtt-settings).
 
 This leads to the firmware update and audio upload page.
 
-In order to upload a new firmware, such as published in the [Release packages](https://github.com/realA10001986/Flux-Capacitor/releases), select the "**fluxcapacitor-A10001986-Vx.xxx.bin**" or "**Flux_Capacitor_vX.YY.bin**" file as contained in the Release package in the _top_ file selector and click *Update*.
+To upload a new firmware, such as published in the [Release packages](https://github.com/realA10001986/Flux-Capacitor/releases), select the "**fluxcapacitor-A10001986-Vx.xxx.bin**" or "**Flux_Capacitor_vX.YY.bin**" file as contained in the Release package in the _top_ file selector and click *Update*.
 
 You can also install the FC's sound-pack on this page; download the sound-pack (which is included in every [Release package](https://github.com/realA10001986/Flux-Capacitor/releases)), extract it and select the resulting FCA.bin file in the _bottom_ file selector. Finally, click *Upload*. Note that an SD card is required for this operation.
 
@@ -733,15 +749,25 @@ Through this page you can either connect your FC to your local WiFi network, or 
 
 #### <ins>Connecting to an existing WiFi network</ins>
 
-In order to connect your FC to your WiFi network, all you need to do is either to click on one of the networks listed at the top or to enter a __Network name (SSID)__, and optionally a __password__ (WPAx). If there is no list displayed, click on "Scan for Networks".
+To connect your FC to your WiFi network, all you need to do is either to click on one of the networks listed at the top or to enter a __Network name (SSID)__, and optionally a __password__ (WPAx). If there is no list displayed, click on "Scan for Networks".
 
->By default, the FC requests an IP address via DHCP. However, you can also configure a static IP for the FC by entering the IP, netmask, gateway and DNS server. All four fields must be filled for a valid static IP configuration. If you want to stick to DHCP, leave those four fields empty. If you connect your FC to your Time Circuits Display acting as access point ("TCD-AP"), leave these all empty.
+>By default, the FC requests an IP address via DHCP. However, you can also configure a static IP for the FC by entering the IP, netmask, gateway and DNS server. All four fields must be filled for a valid static IP configuration. If you want to stick to DHCP, leave those four fields empty.
 
 If there are several APs with identical SSID in your area, you can select a specific AP to use by its BSSID (AP's MAC address). You can either manually find out your AP's BSSID and enter it, or have it filled out automatically: Click "Scan for networks", then "Show all". If you click on an AP, its BSSID will be copied into BSSID field in the form below. To see which AP is which, hover over the name to see its BSSID as a tooltip.
 
 ##### &#9193; Forget Saved WiFi Network
 
 Checking this box (and clicking SAVE) deletes the currently saved WiFi network (SSID and password as well as static IP data) and reboots the device; it will restart in "access point" (AP) mode. See [here](#connecting-to-a-wifi-network).
+
+##### &#9193; Car mode settings
+
+In Car mode, the device connects to the TCD-AP as configured here instead of the WiFi network configured above. 
+
+Enter your TCD's network name (usually "TCD-AP") in **_Network name (SSID) of TCD-AP_** and the TCD's AP password (if configured on the TCD) in **_Password for TCD-AP_**. 
+
+>In the unlikely case that multiple TCD's are in range, you can single out your TCD by its BSSID. The TCD displays its BSSID on its *WiFi Configuration* page (starting version 3.23).
+
+If you want to enter Car mode immediately, check **_Enable car mode_**. You can also later enable Car mode by typing *991ok on the remote. *990ok disables Car mode.
 
 ##### &#9193; Hostname
 
@@ -837,17 +863,15 @@ The music player will continue to run.
 
 #### <ins>Settings for BTTFN communication</ins>
 
-##### &#9193; IP address or hostname of TCD
+##### &#9193; Hostname or IP address of TCD
 
-If you want to have your FC to communicate with a Time Circuits Display wirelessly ("BTTF-Network"), enter the TCD's hostname - usually 'timecircuits' - or IP address here.
-
-If you connect your FC to the TCD's access point ("TCD-AP"), the TCD's IP address is 192.168.4.1.
+If you want to have your FC to communicate with a Time Circuits Display wirelessly ("BTTF-Network"), enter the TCD's hostname - usually 'timecircuits' - or IP address here. Hostname is preferred because it makes the setup independent of the network environment.
 
 ##### &#9193; Adapt chase speed to TCD-provided speed
 
-If this option is checked and your TCD is equipped with a GPS sensor or a rotary encoder, the FC will adapt its chase speed to current GPS speed or the reading of the encoder, respectively. 
+If this option is checked and your TCD is equipped with a GPS sensor or a rotary encoder, or a [Futaba Remote](https://remote.out-a-ti.me) is present, the FC will adapt its chase speed to current speed as transmitted by the TCD.
 
-While the FC receives GPS speed (or the reading from a rotary encoder) from the TCD, IR controls and MQTT commands for chase speed are not entirely ignored: They have no visual effect, but they are saved.
+While the FC receives speed from the TCD, IR controls and MQTT commands for chase speed are not entirely ignored: They have no visual effect, but they are saved.
 
 ##### &#9193; Follow TCD night-mode
 
