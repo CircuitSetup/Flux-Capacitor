@@ -13,7 +13,7 @@ Below depicted FC was built using CircuitSetup's [Control Board](https://circuit
 |:--:|
 | Click to watch the video |
 
-The Flux Capacitor can be used stand-alone, or in connection with CircuitSetup's [Time Circuits Display](https://circuitsetup.us/product/complete-time-circuits-display-kit/). If [built properly](Hardware.md), the Flux Capacitor is perfectly fit for mounting in your Delorean.
+The Flux Capacitor can be used stand-alone or in connection with CircuitSetup's [Time Circuits Display](https://circuitsetup.us/product/complete-time-circuits-display-kit/). If [built properly](Hardware.md), the Flux Capacitor is perfectly fit for mounting in your Delorean.
 
 Features include
 - movie-accurate default flux sequence, plus 9 alternative flux sequences
@@ -22,18 +22,14 @@ Features include
 - [IR remote controlled](#ir-remote-control); can learn keys from third-party remote
 - [music player](#the-music-player): Play mp3 files located on an SD card
 - [SD card](#sd-card) support for custom audio files for effects, and music for the Music Player
-- advanced network-accessible [Config Portal](#the-config-portal) for setup (http://flux.local, hostname configurable)
-- [wireless communication](#bttf-network-bttfn) with [Time Circuits Display](https://circuitsetup.us/product/complete-time-circuits-display-kit/); used for synchronized time travels, alarm, chase speed, night mode, fake power, remote control through TCD keypad, or [remote controlling](#remote-controlling-the-tcds-keypad) the TCD keypad.
+- advanced network-accessible [Config Portal](#the-config-portal) for setup (http://flux.local)
+- [wireless communication](#bttf-network-bttfn) with [Time Circuits Display](https://circuitsetup.us/product/complete-time-circuits-display-kit/); used for synchronized time travels, alarm, chase speed, night mode, fake power, remote control through TCD keypad and [remote controlling](#remote-controlling-the-tcds-keypad) the TCD keypad.
 - [Home Assistant](#home-assistant--mqtt) (MQTT) support
 - built-in OTA installer for firmware updates and audio files
 
 >[This repository](https://fc.out-a-ti.me) is the upstream source for CircuitSetup's releases. The only difference is that both code and documentation [here](https://fc.out-a-ti.me) might be ahead in development.
 
 For information on updating the firmware on your FC, see [here](#firmware-installation--firmware-update).
-
-## Power supply
-
-Since the bright LEDs draw considerable power, it is recommended to use a 4A power supply and a short cable with large wire diameters (min AWG16) between the power supply and the FC. A long/thin cable, due to its resistance, might cause under-voltage and therefore problems like LEDs behaving erratically or even crashes of the FC's CPU.
 
 ## Initial Configuration
 
@@ -47,9 +43,9 @@ The first step is to establish access to the FC's configuration web site ("Confi
 
 ### Connecting to a WiFi network
 
-Your FC knows two ways of WiFi operation: Either it creates its own WiFi network, or it connects to a pre-existing WiFi network.
+Your FC knows two ways of WiFi operation: Either it creates its own WiFi network or it connects to a pre-existing WiFi network.
 
-As long as your FC is unconfigured, it creates its own WiFi network named "FC-AP". This mode of operation is called **"Access point mode"**, or **"AP-mode"**. In this mode, computers/handhelds can connect to your FC in order to access the Config Portal, but ways of communication end right here. There is no inter-prop-communication ([BTTFN](#bttf-network-bttfn)) and no [HA/MQTT](#home-assistant--mqtt).
+As long as your FC is unconfigured, it creates its own WiFi network named "FC-AP". This mode of operation is called **"Access point mode"** or **"AP-mode"**. In this mode, computers/handhelds can connect to your FC in order to access the Config Portal, but ways of communication end right here. There is no inter-prop-communication ([BTTFN](#bttf-network-bttfn)) and no [HA/MQTT](#home-assistant--mqtt).
  
 ![APmode](img/apmode.png)
 
@@ -77,7 +73,7 @@ Click on "WiFi Configuration" and either select a network from the top of the pa
 <details>
 <summary>More...</summary>
 
->If there are several APs with identical SSID in your area, you can select a specific AP to use by its BSSID (AP's MAC address). You can either manually find out your AP's BSSID and enter it, or have it filled out automatically: Click "Scan for networks", then "Show all". If you click on an AP, its BSSID will be copied into BSSID field in the form below. To see which AP is which, hover over the name to see its BSSID as a tooltip.
+>If there are several APs with identical SSID in your area, you can select a specific AP to use by its BSSID (AP's MAC address). You can either manually find out your AP's BSSID and enter it or have it filled out automatically: Click "Scan for networks", then "Show all". If you click on an AP, its BSSID will be copied into BSSID field in the form below. To see which AP is which, hover over the name to see its BSSID as a tooltip.
 
 >Your FC requests an IP address via DHCP, unless you entered valid data in the fields for static IP addresses (IP, gateway, netmask, DNS). If the device is inaccessible as a result of incorrect static IPs, wait until it has completed its startup sequence, then type \*123456ok on the IR remote; static IP data will be deleted and the device will return to DHCP after a reboot.
 
@@ -172,7 +168,7 @@ See [here](#appendix-b-led-signals) for all supported signals.
 
 ### IR Learning
 
-Your FC can learn the codes of another IR remote control. Most remotes with a carrier signal of 38kHz (which most IR remotes use) will work. However, some remote controls, especially ones for TVs, send keys repeatedly and/or send different codes alternately. If you had the FC learn a remote and the keys are not (always) recognized afterwards or appear to the pressed repeatedly while held, that remote is of that type and cannot be used.
+Your FC can learn the codes of another IR remote control. Most remotes with a carrier signal of 38kHz (which most IR remotes use) will work. However, some remote controls, especially ones for TVs, send keys repeatedly and/or send different codes alternately. If you had the FC learn a remote and the keys are not (always) recognized afterwards or appear to be pressed repeatedly while held, that remote is of that type and cannot be used.
 
 IR learning can be initiated by entering *987654ok on the standard IR remote.
 
@@ -386,7 +382,7 @@ Numbers in brackets are the code to be entered on the TCD keypad if a TCD is con
 
 By default, the FC plays a "flux" sound continuously.
 
-The flux sound can be permanently disabled, permanently enabled, or enabled for 30 or 60 seconds
+The flux sound can be permanently disabled, permanently enabled or enabled for 30 or 60 seconds
 
 - upon triggering a time travel,
 - after switching on the FC (real or fake power),
@@ -449,7 +445,7 @@ The following sounds are time-sync'd to display action. If you decide to substit
 The firmware supports some additional user-provided sound effects, which it will load from the SD card. If the respective file is present, it will be used. If that file is absent, no sound will be played.
 
 - "user1.mp3", "user2.mp3": Played when the FC receives [MQTT commands](#home-assistant--mqtt) "USER1" and "USER2", respectively.
-- "key1.mp3", "key3.mp3", "key4.mp3", "key6.mp3", "key7.mp3", "key9.mp3": Will be played if you press the "1"/"3"/"4"/"6"/"7"/"9" button on your remote, through IR commands *50x, or through [TCD](#commandref) and [HA/MQTT](#control-the-fc-via-mqtt)
+- "key1.mp3", "key3.mp3", "key4.mp3", "key6.mp3", "key7.mp3", "key9.mp3": Will be played if you press the "1"/"3"/"4"/"6"/"7"/"9" button on your remote, through IR commands *50x or through [TCD](#commandref) and [HA/MQTT](#control-the-fc-via-mqtt)
 - "key2.mp3", "key5.mp3", "key8.mp3": Can be played through IR commands *50x or commands from [TCD](#commandref) and [HA/MQTT](#control-the-fc-via-mqtt).
 
 > The seemingly odd way of accessing keyX files through the IR remote is because of synchronicity with other props, especially the TCD and its keymap where the Music Player also occupies keys 2, 5, 8.
@@ -458,7 +454,7 @@ Those files are not provided here. You can use any mp3, with a bitrate of 128kpb
 
 ### Installing Custom & Replacement Audio Files
 
-Replacements and custom sounds can either be copied to the SD card using a computer, or uploaded through the Config Portal.
+Replacements and custom sounds can either be uploaded through the Config Portal or copied to the SD card using a computer.
 
 Uploading through the Config Portal works exactly like [installing the sound-pack](#sound-pack-installation); on the main menu, click "Update & Upload". Afterwards choose one or more mp3 files to upload using the bottom file selector, and click "UPLOAD". The firmware will store the uploaded mp3 files on the SD card.
 
@@ -531,7 +527,7 @@ The FC can, through its IR remote control, remote control the TCD keypad. The TC
 
 As a prerequisite, the TCD must be set to permit remote control. This is done on the TCD through keypad command 995.
 
-To start TCD keypad remote control, type *95ok on the FC's IR remote control (or issue command 3095 from the TCD or through [HA/MQTT](#control-the-fc-via-mqtt)).
+To start TCD keypad remote control, type *95ok on the FC's IR remote control or issue keypad command 3095 on the TCD.
 
 Keys 0-9 as well as OK (=ENTER) on your IR remote control will now be registered by the TCD as key presses.
 
@@ -669,7 +665,7 @@ To access the FC's Config Portal in Car mode, connect your handheld or computer 
 
 The Config Portal offers an option for WiFi power saving for AP-mode (ie when the device acts as an access point). This option configures a timer after whose expiration WiFi is switched off; the device is no longer transmitting or receiving data over WiFi.
 
-The timer can be set to 0 (which disables it; WiFi is never switched off; this is the default), or 10-99 minutes. 
+The timer can be set to 0 (which disables it; WiFi is never switched off; this is the default) or 10-99 minutes. 
 
 After WiFi has been switched off due to timer expiration, it can be re-enabled by entering *77ok, in which case the timers are restarted (ie WiFi is again switched off after timer expiration).
 
@@ -687,7 +683,7 @@ If a previous version of the Flux Capacitor firmware is installed on your device
 
 <details>
 <summary>Installing on a fresh ESP32...</summary>
-If you are using a fresh ESP32, please go <a href="https://install.out-a-ti.me">here</a> and follow the instructions, or - if you are a nerd and want to deal with source code, compilers'n'stuff - see <a href="https://github.com/realA10001986/Flux-Capacitor/blob/main/fluxcapacitor-A10001986/fluxcapacitor-A10001986.ino">fluxcapacitor-A10001986.ino</a> for detailed build and upload information.
+If you are using a fresh ESP32, please go <a href="https://install.out-a-ti.me">here</a> and follow the instructions or - if you are a nerd and want to deal with source code, compilers'n'stuff - see <a href="https://github.com/realA10001986/Flux-Capacitor/blob/main/fluxcapacitor-A10001986/fluxcapacitor-A10001986.ino">fluxcapacitor-A10001986.ino</a> for detailed build and upload information.
 </details>
 
 *After a firmware update, the inner and outer LEDs might blink alternately for short while after reboot. Do NOT unplug the device during this time.*
@@ -745,7 +741,7 @@ Finally, this page is also for uploading [custom or replacement sound files](#in
 
 ### WiFi Configuration
 
-Through this page you can either connect your FC to your local WiFi network, or configure AP mode. 
+Through this page you can either connect your FC to your local WiFi network or configure AP mode. 
 
 #### <ins>Connecting to an existing WiFi network</ins>
 
@@ -753,7 +749,7 @@ To connect your FC to your WiFi network, all you need to do is either to click o
 
 >By default, the FC requests an IP address via DHCP. However, you can also configure a static IP for the FC by entering the IP, netmask, gateway and DNS server. All four fields must be filled for a valid static IP configuration. If you want to stick to DHCP, leave those four fields empty.
 
-If there are several APs with identical SSID in your area, you can select a specific AP to use by its BSSID (AP's MAC address). You can either manually find out your AP's BSSID and enter it, or have it filled out automatically: Click "Scan for networks", then "Show all". If you click on an AP, its BSSID will be copied into BSSID field in the form below. To see which AP is which, hover over the name to see its BSSID as a tooltip.
+If there are several APs with identical SSID in your area, you can select a specific AP to use by its BSSID (AP's MAC address). You can either manually find out your AP's BSSID and enter it or have it filled out automatically: Click "Scan for networks", then "Show all". If you click on an AP, its BSSID will be copied into BSSID field in the form below. To see which AP is which, hover over the name to see its BSSID as a tooltip.
 
 ##### &#9193; Forget Saved WiFi Network
 
@@ -795,7 +791,7 @@ If you forget this password and are thereby locked out of your FC, enter *123456
 
 ##### &#9193; WiFi channel
 
-Here you can select one out of 11 channels, or have the FC choose a random channel for you. The default channel is 1. Preferred are channels 1, 6 and 11.
+Here you can select one out of 11 channels or have the FC choose a random channel for you. The default channel is 1. Preferred are channels 1, 6 and 11.
 
 WiFI channel selection is key for a trouble-free operation. Disturbed WiFi communication can lead to disrupted sequences, packet loss, hanging or freezing props, and other problems. A good article on WiFi channel selection is [here](https://community.ui.com/questions/Choosing-the-right-Wifi-Channel-on-2-4Ghz-Why-Conventional-Wisdom-is-Wrong/ea2ffae0-8028-45fb-8fbf-60569c6d026d).
 
@@ -820,7 +816,7 @@ See [here](#wifi-power-saving-features).
 
 Selects the "flux" sound mode. "Auto: xx secs" enables the beep for xx seconds after triggering a time travel, upon power-on, and then the TCD sends a respective signal through BTTFN.
 
-Can be changed at any time by typing *00ok (off), *01ok (on), *02ok (Auto 30secs) or *03ok (Auto 60secs), or through the TCD's keypad. Note that a change through IR remote or TCD is saved 10 seconds after the last change (see [here](#powering-down-the-fc)).
+Can be changed at any time by typing *20ok (off), *21ok (on), *22ok (Auto 30secs) or *23ok (Auto 60secs), or through the TCD's keypad. Note that a change through IR remote or TCD is saved 10 seconds after the last change (see [here](#powering-down-the-fc)).
 
 ##### &#9193; Movie sequence for 7 lights
 
