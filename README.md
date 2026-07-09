@@ -180,7 +180,7 @@ When IR learning is started, the chase LEDs stop and [light all up](#appendix-b-
 
 If your remote control lacks the \* (starts command sequence) and \# (aborts command sequence) keys, you can use any other key, of course. \* could be eg. "menu" or "setup", \# could be "exit" or "return".
 
-If no key is pressed for 10 seconds, the learning process aborts (as does briefly pressing the Time Travel button): The keys already learned are forgotten and nothing is saved.
+If no key is pressed for 20 seconds, the learning process aborts (as does briefly pressing the Time Travel button): The keys already learned are forgotten and nothing is saved.
 
 To make the FC forget a learned IR remote control, type *654321ok.
 
@@ -200,7 +200,7 @@ In order to only disable the supplied IR remote control, check the option **_Dis
     </tr>
     <tr>
      <td align="center">1<br><a href="#additional-custom-sounds">Play "key1.mp3"</a><br>[3001]</td>
-     <td align="center">2<br><a href="#the-music-player">Music Player</a>: Previous song<br>[3002]</td>
+     <td align="center">2<br><a href="#the-music-player">Music Player</a>: Previous track<br>[3002]</td>
      <td align="center">3<br><a href="#additional-custom-sounds">Play "key3.mp3"</a><br>[3003]</td>
     </tr>
     <tr>
@@ -210,7 +210,7 @@ In order to only disable the supplied IR remote control, check the option **_Dis
     </tr>
     <tr>
      <td align="center">7<br><a href="#additional-custom-sounds">Play "key7.mp3"</a><br>[3007]</td>
-     <td align="center">8<br><a href="#the-music-player">Music Player</a>: Next song<br>[3008]</td>
+     <td align="center">8<br><a href="#the-music-player">Music Player</a>: Next track<br>[3008]</td>
      <td align="center">9<br><a href="#additional-custom-sounds">Play "key9.mp3"</a><br>[3009]</td>
     </tr>
     <tr>
@@ -272,7 +272,7 @@ Numbers in brackets are the code to be entered on the TCD keypad if a TCD is con
     </tr>
      <tr>
      <td align="left">Select audio volume level (00-19)</td>
-     <td align="left">*300&#9166; - *319&#9166;</td><td>3300-3319</td>
+     <td align="left">*300&#9166; - *320&#9166;</td><td>3300-3320</td>
     </tr>
     <tr>
      <td align="left">Enable built-in volume knob</td>
@@ -295,11 +295,11 @@ Numbers in brackets are the code to be entered on the TCD keypad if a TCD is con
      <td align="left">*555&#9166;</td><td>3555</td>
     </tr> 
     <tr>
-     <td align="left"><a href="#the-music-player">Music Player</a>: Go to song 0</td>
+     <td align="left"><a href="#the-music-player">Music Player</a>: Go to track 0</td>
      <td align="left">*888&#9166;</td><td>3888</td>
     </tr>
     <tr>
-     <td align="left"><a href="#the-music-player">Music Player</a>: Go to song xxx</td>
+     <td align="left"><a href="#the-music-player">Music Player</a>: Go to track xxx</td>
      <td align="left">*888xxx&#9166;</td><td>3888xxx</td>
     </tr>
     <tr>
@@ -376,7 +376,7 @@ Numbers in brackets are the code to be entered on the TCD keypad if a TCD is con
 
 (**) Not supported through HA/MQTT [_INJECT_](#the-inject_x-command) command
 
-[Here](CheatSheet.pdf) is a cheat sheet for printing or screen-use. (Note that MacOS' preview application has a bug that scrambles the links in the document. Acrobat Reader does it correctly.)
+[Here](CheatSheet.pdf) is a cheat sheet for printing or screen-use.
 
 ## The Flux Sound
 
@@ -421,7 +421,7 @@ Other ways of triggering a time travel are available if a [Time Circuits Display
 
 The SD card, apart from being required for [installing](#sound-pack-installation) of the sound-pack, can be used for substituting built-in sound effects and for music played back by the [Music player](#the-music-player). Also, it is _strongly recommended_ to store [secondary settings](#-save-secondary-settings-on-sd) on the SD card to minimize [Flash Wear](#flash-wear). The chosen chase sequence (*1x) is only stored on SD, so for your selection to be persistent across reboots, an SD card is required.
 
-Note that the SD card must be inserted before powering up the device. It is not recognized if inserted while the Flux Capacitor is running. Furthermore, do not remove the SD card while the device is powered.
+The SD card must be inserted before powering up the device. It is not recognized if inserted while the Flux Capacitor is running. Furthermore, do not remove the SD card while the device is powered.
 
 Since the SD card on the control board is inaccessible after assembling the FC, I used a microSD extension (like [this one](https://www.amazon.com/Memory-Micro-SD-Female-Extension-Extender/dp/B09MS85FQ3/)), and mounted the slot through a hole in the bottom of my FC so that the SD card can be accessed at any time. See [here](Hardware.md).
 
@@ -462,23 +462,29 @@ To delete a file from the SD card, upload a file whose name is prefixed with "de
 
 For technical reasons, the FC must reboot after mp3 files are uploaded in this way.
 
-Please remember that the maximum bitrate for mp3 files is 128kbps. Also note that the uploaded file is stored to the root folder of the SD card, so this way of uploading cannot be used to upload songs for the Music Player. 
+The maximum bitrate for mp3 files is 128kbps. 
+
+The uploaded files are stored to the root folder of the SD card, so this way of uploading cannot be used to upload music files for the Music Player. 
 
 ## The Music Player
 
 The firmware contains a simple music player to play mp3 files located on the SD card. 
 
-To be recognized, your mp3 files need to be organized in music folders named *music0* through *music9*. The folder number is 0 by default, ie the player starts searching for music in folder *music0*. This folder number can be changed using the remote control or through the TCD keypad (305x).
+*The maximum bitrate is __128kpbs__. The free [Adapter](https://macroplant.com/adapter/audio-converter) tool can re-encode your mp3 files in batches.*
 
-The names of the audio files must only consist of three-digit numbers, starting at 000.mp3, in consecutive order. No numbers should be left out. Each folder can hold up to 1000 files (000.mp3-999.mp3). *The maximum bitrate is 128kpbs.*
+To be recognized, your mp3 files need to be organized in music folders named *music0* through *music9*. The folder number is 0 by default, i.e. the player starts searching for music in folder *music0*. To select a different folder, type *5Xok on the remote control.
 
-Since manually renaming mp3 files is somewhat cumbersome, the firmware can do this for you - provided you can live with the files being sorted in alphabetical order: Just copy your files with their original filenames to the music folder; upon boot or upon selecting a folder containing such files, they will be renamed following the 3-digit name scheme (as mentioned: in alphabetic order). You can also add files to a music folder later, they will be renamed properly; when you do so, delete the file "TCD_DONE.TXT" from the music folder on the SD card so that the firmware knows that something has changed. The renaming process can take a while (11 minutes for 1000 files in bad cases). Mac users are advised to delete the ._ files from the SD before putting it back into the FC as this speeds up the process. _While the renaming is in progress, the FC's chase LEDs shows the fraction of files still left to be processed._
+The names of the audio files must only consist of three-digit numbers, starting at 000.mp3, in consecutive order. No numbers should be left out. Each folder can hold up to 1000 files (000.mp3-999.mp3). 
 
-To start and stop music playback, press 5 on your remote. Pressing 2 jumps to the previous song, pressing 8 to the next one.
+Since manually renaming mp3 files is somewhat cumbersome, the firmware can do this for you: Just copy your files with their original filenames to a music folder of your choice; when selecting that folder (*5Xok), the files will be sorted alphabetically and renamed according to the 3-digit name scheme. (If you want your tracks in a specific order, you must rename them, for instance by inserting a letter or number at the start.) The renaming process can take a while (11 minutes for 1000 files in bad cases). Mac users are advised to delete the ._ files from the SD before putting it back into the FC as this speeds up the process. While the renaming is in progress, the FC's chase LEDs show the fraction of files still left to be processed.
 
-By default, the songs are played in order, starting at 000.mp3, followed by 001.mp3 and so on. By entering \*555ok, you can switch to shuffle mode, in which the songs are played in random order. Type \*222ok to switch back to consecutive mode. Shuffle mode is saved and persistent.
+To add files to a music folder later, just copy them to the folder and delete the file "TCD_DONE.TXT" (so that the firmware knows that something has changed). 
 
-Entering \*888ok re-starts the player at song #000, and \*888xxxok (xxx = three-digit number) jumps to song #xxx.
+To start and stop music playback, press 5 on your remote. Pressing 2 jumps to the previous track, pressing 8 to the next one.
+
+By default, the tracks are played in order, starting at 000.mp3, followed by 001.mp3 and so on. By entering \*555ok, you can switch to shuffle mode, in which the tracks are played in random order. Type \*222ok to switch back to consecutive mode. Shuffle mode is saved and persistent.
+
+Entering \*888ok re-starts the player at track #000, and \*888xxxok (xxx = three-digit number) jumps to track #xxx.
 
 See [here](#remote-control-reference) for a list of controls of the music player.
 
@@ -519,8 +525,6 @@ Afterwards, the FC and the TCD can communicate wirelessly and
 - the FC queries the TCD for fake power and night mode, in order to react accordingly if so configured,
 - pressing "0" on the IR remote control or the FC's Time Travel button can trigger a synchronized Time Travel on all BTTFN-connected devices, just like if that Time Travel was triggered through the TCD.
 
-You can use BTTF-Network and MQTT at the [same time](#receive-commands-from-time-circuits-display).
-
 #### Remote controlling the TCD's keypad
 
 The FC can, through its IR remote control, remote control the TCD keypad. The TCD will react to pressing a key on the IR remote as if that key was pressed on the TCD keypad.
@@ -539,7 +543,7 @@ Pressing # quits TCD keypad remote control mode, as does issuing command 3097 on
 
 ### Connecting a TCD by wire
 
->Note that a wired connection only allows for synchronized time travel sequences, no other communication takes place. A wireless connection over BTTFN/WiFi is much more powerful and therefore recommended over a wired connection.
+>A wired connection only allows for synchronized time travel sequences, no other communication takes place. A wireless connection over BTTFN/WiFi is much more powerful and therefore recommended over a wired connection.
 
 For a connection by wire, connect "GND" and "TT IN" (labeled "GPIO" on earlier boards) on the Flux Capacitor's "Time Travel" connector to the TCD like in the table below:
 
@@ -574,7 +578,9 @@ Next, head to the Config Portal and set the option **_TCD connected by wire_**. 
 
 ## Home Assistant / MQTT
 
-The FC supports MQTT protocol versions 3.1.1 and 5.0 for the following features:
+By means of MQTT, the FC can be remote controlled through commands sent to **bttf/fc/cmd**.
+
+The FC supports MQTT protocol versions 3.1.1 and 5.0.
 
 ### Control the FC via MQTT
 
@@ -582,18 +588,21 @@ The FC can be controlled through messages sent to topic **bttf/fc/cmd**. Support
 - TIMETRAVEL: Start a [time travel](#time-travel)
 - FASTER, SLOWER: Make chase faster or slower. Only if speed knob is deactivated.
 - RESETSPEED: Reset chase speed to default. Only if speed knob is deactivated.
-- CHASE_x: x being 0-9, change chase pattern
+- CHASE_x: x being 0-9, select chase pattern
 - FLUX_OFF: Disables the [flux sound](#the-flux-sound)
 - FLUX_ON: Enables the [flux sound](#the-flux-sound)
 - FLUX_30: Enables the [flux sound](#the-flux-sound) for 30 seconds
 - FLUX_60 Enables the [flux sound](#the-flux-sound) for 60 seconds
 - MP_PLAY: Starts the [Music Player](#the-music-player)
 - MP_STOP: Stops the [Music Player](#the-music-player)
-- MP_NEXT: Jump to next song
-- MP_PREV: Jump to previous song
+- MP_NEXT: Jump to next [Music Player](#the-music-player) track
+- MP_PREV: Jump to previous [Music Player](#the-music-player) track
 - MP_SHUFFLE_ON: Enables shuffle mode in [Music Player](#the-music-player)
 - MP_SHUFFLE_OFF: Disables shuffle mode in [Music Player](#the-music-player)
 - MP_FOLDER_x: x being 0-9, set folder number for [Music Player](#the-music-player)
+- MP_REQSTATUS: Publish current [music player status](#-publish-music-player-status-to-bttffcmpstatus) to bttf/fc/mpstatus
+- VOLUME_UP, VOLUME_DOWN: Increase/decrease volume by a notch
+- VOLUME_SET_x: Set volume to x% (x=0-100)
 - USER1, USER2: User commands, see below
 - PLAYKEY_x: Play keyX.mp3 (from SD card), X being in the range from 1 to 9.
 - STOPKEY: Stop playback of keyX file. Does nothing if no keyX file is currently played back.
@@ -612,12 +621,6 @@ To set volume level to 10 (3310), issue the following command: **INJECT_3310**
 To play "key2.mp3" (3502), issue **INJECT_3502**
 
 To select the 'music1' folder (3051), issue **INJECT_3051**
-
-### Receive commands from Time Circuits Display
-
-If both TCD and FC are connected to the same broker, and the option **_Publish time travel and alarm events_** is checked on the TCD's side, the FC will receive information on time travel and alarm and play their sequences in sync with the TCD. Unlike BTTFN, however, no other communication takes place.
-
-MQTT and BTTFN can co-exist. However, the TCD only sends out time travel and alarm notifications through either MQTT or BTTFN, never both. If you have other MQTT-aware devices listening to the TCD's public topic (bttf/tcd/pub) in order to react to time travel or alarm messages, use MQTT (ie check **_Publish time travel and alarm events_**). If only BTTFN-aware devices are to be used, uncheck this option to use BTTFN as it has less latency.
 
 ### Setup
 
@@ -639,7 +642,7 @@ If your FC, along with a [Time Circuits Display](https://tcd.out-a-ti.me/), is m
 
 ![STAmode-car](img/stamode-car2.png)
 
-This configuration can easily achieved by putting both the TCD and the SID in *Car Mode*:
+This configuration can easily achieved by putting both the TCD and the FC in *Car Mode*:
 
 #### TCD
 
@@ -649,7 +652,7 @@ This configuration can easily achieved by putting both the TCD and the SID in *C
 #### Flux Capacitor
 
 One-time configuration steps:
-- Enter the Config Portal on the FC, click on *Settings* and check that the hostname of the TCD (usually "timecircuits") is present in the  **_Hostname or IP address of TCD_** under *Wireless communication (BTTF-Network)* settings; do not use an IP address.
+- Enter the Config Portal on the FC, click on *Settings* and check that the hostname of the TCD (usually "timecircuits") is present in the  **_Hostname or IP address of TCD_** under *Wireless communication (BTTF-Network)* settings; do _not_ use an IP address.
 - Furthermore, on the *WiFi Configuration* page, check that the TCD's WiFi network name (SSID; usually "TCD-AP") and password (if the TCD is configured with a password) are present under *Car mode settings*.
 
 If everything is in place, you can enable Car mode on the FC by typing *991ok on the remote. The FC will reboot and attempt to connect to the TCD's AP.
@@ -692,7 +695,7 @@ If you are using a fresh ESP32, please go <a href="https://install.out-a-ti.me">
 
 The firmware comes with a sound-pack which needs to be installed separately. The sound-pack is not updated as often as the firmware itself. There will be a message in the Config Portal and a respective [signal](#appendix-b-led-signals) at startup when/if the sound-pack needs to be updated.
 
-_Note that installing the sound-pack requires an [SD card](#sd-card)._
+_Installing the sound-pack requires an [SD card](#sd-card)._
 
 The first step is to extract "sound-pack-fcXX.zip" (which is included in every [Release package](https://github.com/realA10001986/Flux-Capacitor/releases)). It contains one file, named "FCA.bin".
 
@@ -731,7 +734,7 @@ This leads to the firmware update and audio upload page.
 
 To upload a new firmware, such as published in the [Release packages](https://github.com/realA10001986/Flux-Capacitor/releases), select the "**fluxcapacitor-A10001986-Vx.xxx.bin**" or "**Flux_Capacitor_vX.YY.bin**" file as contained in the Release package in the _top_ file selector and click *Update*.
 
-You can also install the FC's sound-pack on this page; download the sound-pack (which is included in every [Release package](https://github.com/realA10001986/Flux-Capacitor/releases)), extract it and select the resulting FCA.bin file in the _bottom_ file selector. Finally, click *Upload*. Note that an SD card is required for this operation.
+You can also install the FC's sound-pack on this page; download the sound-pack (which is included in every [Release package](https://github.com/realA10001986/Flux-Capacitor/releases)), extract it and select the resulting FCA.bin file in the _bottom_ file selector. Finally, click *Upload*. An SD card is required for this operation.
 
 See also [here](#firmware-installation--firmware-update).
 
@@ -761,9 +764,9 @@ In Car mode, the device connects to the TCD-AP as configured here instead of the
 
 Enter your TCD's network name (usually "TCD-AP") in **_Network name (SSID) of TCD-AP_** and the TCD's AP password (if configured on the TCD) in **_Password for TCD-AP_**. 
 
->In the unlikely case that multiple TCD's are in range, you can single out your TCD by its BSSID. The TCD displays its BSSID on its *WiFi Configuration* page (starting version 3.23).
+>In the unlikely case that multiple TCD's are in range, you can single out your TCD by its BSSID. The TCD displays its BSSID on its *WiFi Configuration* page.
 
-If you want to enter Car mode immediately, check **_Enable car mode_**. You can also later enable Car mode by typing *991ok on the remote. *990ok disables Car mode.
+If you want to enter Car mode immediately after saving your settings, check **_Enable car mode now_**. You can also later enable Car mode by typing *991ok on the remote. *990ok disables Car mode.
 
 ##### &#9193; Hostname
 
@@ -816,7 +819,7 @@ See [here](#wifi-power-saving-features).
 
 Selects the "flux" sound mode. "Auto: xx secs" enables the beep for xx seconds after triggering a time travel, upon power-on, and then the TCD sends a respective signal through BTTFN.
 
-Can be changed at any time by typing *20ok (off), *21ok (on), *22ok (Auto 30secs) or *23ok (Auto 60secs), or through the TCD's keypad. Note that a change through IR remote or TCD is saved 10 seconds after the last change (see [here](#powering-down-the-fc)).
+Can be changed at any time by typing *20ok (off), *21ok (on), *22ok (Auto 30secs) or *23ok (Auto 60secs), or through the TCD's keypad. A change through IR remote or TCD is saved 10 seconds after the last change (see [here](#powering-down-the-fc)).
 
 ##### &#9193; Movie sequence for 7 lights
 
@@ -828,7 +831,9 @@ Normally, the Box LEDs flash during the time travel sequence. If you prefer to i
 
 ##### &#9193; Play time travel sounds
 
-If other props are connected, they might bring their own time travel sound effects. In this case, you can uncheck this to disable the Flux Capacitor's own time travel sounds. Note that this only covers sounds played during time travel, not other sound effects.
+If other props are connected, they might bring their own time travel sound effects. In this case, you can uncheck this to disable the Flux Capacitor's own time travel sounds. 
+
+This option only covers sounds played during time travel, not other sound effects.
 
 ##### &#9193; Play TCD-alarm sounds
 
@@ -922,7 +927,7 @@ Normally, [box lights](#box-lighting) are connected to the "Box LED" connectors.
 
 ##### &#9193; Use speed knob by default
 
-Check this if your FC has a pot for chasing speed selection and you want to use this pot. Note that if this option is checked, commands regarding chasing speed from the remote control are ignored.
+Check this if your FC has a pot for chasing speed selection and you want to use this pot. If this option is checked, commands regarding chasing speed from the remote control are ignored.
 
 ##### &#9193; Disable supplied IR remote control
 
@@ -949,6 +954,26 @@ The firmware supports MQTT 3.1.1 and 5.0. There is no difference in features, so
 ##### &#9193; User[:Password]
 
 The username (and optionally the password) to be used when connecting to the broker. Can be left empty if the broker accepts anonymous logins.
+
+##### &#9193; Publish Music Player status to bttf/fc/mpstatus
+
+This option enables the Music Player's backchannel. The backchannel carries feedback and status information on the Music Player which can be used to comfortably remote-control the FC's Music Player through HomeAssistant/MQTT.
+
+This option should be left unchecked if not used.
+
+Backchannel data is sent to _bttf/fc/mpstatus_ on every change. It can also be triggered at any point by sending __MP_REQSTATUS__ to _bttf/fc/cmd_.
+
+The data published on the backchannel is a JSON object, containing the following keys:
+- __S__: State. _Value_ can be "P" for playing, "I" for idle, and "O" for off/busy. In 'off' state, the FC does not take commands.
+- __C__: Current track. _Value_ is an unsigned integer >= 0 as a string.
+- __F__: First track. This tells the remote control where to start counting track numbers. _Value_ is always 0 (zero) as a string.
+- __L__: Last track. This tells the remote control the last and highest possible track number. _Value_ is an unsigned integer >= 0 and <= 999 as a string.
+- __V__: Volume. This is an integer as a string. If -1, volume control is unavailable. Otherwise 0-100.
+- __SH__: Shuffle. This is an integer as a string, either "0" for 'off', or "1" for 'on'.
+
+Example: __{"S":"I","C":"1","V":"20","F":"0","L":"67","SH":"0"}__
+
+The backchannel is used/required by the upcoming A10001986 [Lou's Cafe Jukebox](https://jb.out-a-ti.me).
 
 ## Appendix B: LED signals
 
@@ -1017,4 +1042,5 @@ The username (and optionally the password) to be used when connecting to the bro
 
 ---
 _Text & images: (C) Thomas Winischhofer ("A10001986"). See LICENSE._ [Source](https://fc.out-a%2dti.me)  
-_Other props: [Time Circuits Display](https://tcd.out-a%2dti.me) ... [SID](https://sid.out-a%2dti.me) ... [Dash Gauges](https://dg.out-a%2dti.me) ... [VSR](https://vsr.out-a%2dti.me) ... [Remote Control](https://remote.out-a%2dti.me) ... [TFC](https://tfc.out-a%2dti.me)_
+_Other props: [Time Circuits Display](https://tcd.out-a%2dti.me) ... [SID](https://sid.out-a%2dti.me) ... [Dash Gauges](https://dg.out-a%2dti.me) ... [VSR](https://vsr.out-a%2dti.me) ... [Remote Control](https://remote.out-a%2dti.me) ... [TFC](https://tfc.out-a%2dti.me) ... [Jukebox](https://jb.out-a%2dti.me)_
+ 
