@@ -29,15 +29,15 @@ Features include
 
 >[This repository](https://fc.out-a-ti.me) is the upstream source for CircuitSetup's releases. The only difference is that both code and documentation [here](https://fc.out-a-ti.me) might be ahead in development.
 
-For information on updating the firmware on your FC, see [here](#firmware-installation--firmware-update).
+For information on updating the firmware of your FC, see [here](#firmware-installation--firmware-update).
 
 ## Initial Configuration
 
 >The following instructions only need to be followed once, on fresh FCs. They do not need to be repeated after a firmware update.
 
-The first step is to establish access to the FC's configuration web site ("Config Portal") in order to configure your FC:
+The first step is to establish access to the FC's configuration website ("Config Portal") in order to configure your FC:
 
-- Power up your FC and wait until the startup sequence has completed.
+- Power up your FC and wait a few seconds.
 - Connect your computer or handheld device to the WiFi network "FC-AP".
 - Navigate your browser to http://flux.local or http://192.168.4.1 to enter the Config Portal.
 
@@ -73,7 +73,7 @@ Click on "WiFi Configuration" and either select a network from the top of the pa
 <details>
 <summary>More...</summary>
 
->If there are several APs with identical SSID in your area, you can select a specific AP to use by its BSSID (AP's MAC address). You can either manually find out your AP's BSSID and enter it or have it filled out automatically: Click "Scan for networks", then "Show all". If you click on an AP, its BSSID will be copied into BSSID field in the form below. To see which AP is which, hover over the name to see its BSSID as a tooltip.
+>If there are several APs with identical SSID nearby, you can select a specific AP by its BSSID (AP's MAC address). You can either manually find out your AP's BSSID and enter it or have it filled out automatically: Click "Scan for networks", then "Show all". If you click on an AP, its BSSID will be copied into BSSID field in the form below. To see which AP is which, hover over the name to see its BSSID as a tooltip.
 
 >Your FC requests an IP address via DHCP, unless you entered valid data in the fields for static IP addresses (IP, gateway, netmask, DNS). If the device is inaccessible as a result of incorrect static IPs, wait until it has completed its startup sequence, then type \*123456ok on the IR remote; static IP data will be deleted and the device will return to DHCP after a reboot.
 
@@ -340,7 +340,7 @@ Numbers in brackets are the code to be entered on the TCD keypad if a TCD is con
     </tr>
     <tr>
      <td align="left">Quit <a href="#remote-controlling-the-tcds-keypad">TCD keypad remote control mode</a></td>
-     <td align="left">-</td><td>3097</td>
+     <td align="left">#</td><td>3097</td>
     </tr>
    <tr>
      <td align="left">Disable <a href='#car-setup'>car mode</a><sup>1</sup></td>
@@ -417,9 +417,9 @@ Other ways of triggering a time travel are available if a [Time Circuits Display
 
 ## SD Card
 
->Preface note on SD cards: Only SD/SDHC/SDXC cards up to 32GB are supported. Card needs to be FAT32-formatted (not exFAT). Transcend, Sandisk Ultra (as of firmware version 1.105) and Industrial, Verbatim Premium and Samsung Pro Endurance SDHC cards usually work fine. Some SD cards might not be recognized due to off-specs initialization quirks. SDUC cards are not supported.
+>Only SD/SDHC/SDXC cards up to 32GB are supported. Card needs to be FAT32-formatted (not exFAT). Transcend, Sandisk Ultra (as of firmware version 1.105) and Industrial, Verbatim Premium and Samsung Pro Endurance SDHC cards usually work fine. Some SD cards might not be recognized due to off-specs initialization quirks. SDUC cards are not supported.
 
-The SD card, apart from being required for [installing](#sound-pack-installation) of the sound-pack, can be used for substituting built-in sound effects and for music played back by the [Music player](#the-music-player). Also, it is _strongly recommended_ to store [secondary settings](#-save-secondary-settings-on-sd) on the SD card to minimize [Flash Wear](#flash-wear). The chosen chase sequence (*1x) is only stored on SD, so for your selection to be persistent across reboots, an SD card is required.
+The SD card, apart from being required for [installing](#sound-pack-installation) the sound-pack, can be used for substituting built-in sound effects and for music played back by the [Music player](#the-music-player). Also, it is _strongly recommended_ to store [secondary settings](#-save-secondary-settings-on-sd) on the SD card to minimize [Flash Wear](#flash-wear). The chosen chase sequence (*1x) is only stored on SD, so for your selection to be persistent across reboots, an SD card is required.
 
 The SD card must be inserted before powering up the device. It is not recognized if inserted while the Flux Capacitor is running. Furthermore, do not remove the SD card while the device is powered.
 
@@ -427,7 +427,7 @@ Since the SD card on the control board is inaccessible after assembling the FC, 
 
 ### Sound substitution
 
-The FC's built-in sound effects can be substituted by your own sound files on a FAT32-formatted SD card. These files will be played back directly from the SD card during operation, so the SD card has to remain in the slot.
+The FC's built-in sound effects can be substituted by your own sound files stored on the SD card. These files will be played back directly from the SD card during operation, so the SD card has to remain in the slot.
 
 Your replacements need to be put in the root (top-most) directory of the SD card, be in mp3 format (128kbps max) and named as follows:
 - "flux.mp3". The standard flux sound, played continuously;
@@ -454,7 +454,7 @@ Those files are not provided here. You can use any mp3, with a bitrate of 128kpb
 
 ### Installing Custom & Replacement Audio Files
 
-Replacements and custom sounds can either be uploaded through the Config Portal or copied to the SD card using a computer.
+Replacements and custom sounds can either be uploaded through the Config Portal or copied to the SD card’s root folder using a computer.
 
 Uploading through the Config Portal works exactly like [installing the sound-pack](#sound-pack-installation); on the main menu, click "Update & Upload". Afterwards choose one or more mp3 files to upload using the bottom file selector, and click "UPLOAD". The firmware will store the uploaded mp3 files on the SD card.
 
@@ -472,7 +472,7 @@ The firmware contains a simple music player to play mp3 files located on the SD 
 
 *The maximum bitrate is __128kpbs__. The free [Adapter](https://macroplant.com/adapter/audio-converter) tool can re-encode your mp3 files in batches.*
 
-To be recognized, your mp3 files need to be organized in music folders named *music0* through *music9*. The folder number is 0 by default, i.e. the player starts searching for music in folder *music0*. To select a different folder, type *5Xok on the remote control.
+To be recognized, your mp3 files need to be organized in music folders named *music0* through *music9*. The folder number is 0 by default, i.e. the player starts searching for music in folder *music0*. To select a different folder, type *5Xok on the remote control, X being 0 through 9.
 
 The names of the audio files must only consist of three-digit numbers, starting at 000.mp3, in consecutive order. No numbers should be left out. Each folder can hold up to 1000 files (000.mp3-999.mp3). 
 
@@ -752,7 +752,7 @@ To connect your FC to your WiFi network, all you need to do is either to click o
 
 >By default, the FC requests an IP address via DHCP. However, you can also configure a static IP for the FC by entering the IP, netmask, gateway and DNS server. All four fields must be filled for a valid static IP configuration. If you want to stick to DHCP, leave those four fields empty.
 
-If there are several APs with identical SSID in your area, you can select a specific AP to use by its BSSID (AP's MAC address). You can either manually find out your AP's BSSID and enter it or have it filled out automatically: Click "Scan for networks", then "Show all". If you click on an AP, its BSSID will be copied into BSSID field in the form below. To see which AP is which, hover over the name to see its BSSID as a tooltip.
+If there are several APs with identical SSID nearby, the FC will connect to the first one it finds, which might not be the one with the strongest signal. It is therefore recommended to select the nearest/strongest AP by its BSSID (AP's MAC address). You can either manually find out your AP's BSSID and enter it or have it filled out automatically: Click "Scan for networks", then "Show all". If you click on an AP, its BSSID will be copied into BSSID field in the form below. To see which AP is which, hover over the name to see its BSSID as a tooltip.
 
 ##### &#9193; Forget Saved WiFi Network
 
@@ -817,7 +817,7 @@ See [here](#wifi-power-saving-features).
 
 ##### &#9193; Flux sound mode
 
-Selects the "flux" sound mode. "Auto: xx secs" enables the beep for xx seconds after triggering a time travel, upon power-on, and then the TCD sends a respective signal through BTTFN.
+Selects the "flux" sound mode. "Auto: xx secs" enables the flux sound for xx seconds after triggering a time travel, upon power-on, and then the TCD sends a respective signal through BTTFN.
 
 Can be changed at any time by typing *20ok (off), *21ok (on), *22ok (Auto 30secs) or *23ok (Auto 60secs), or through the TCD's keypad. A change through IR remote or TCD is saved 10 seconds after the last change (see [here](#powering-down-the-fc)).
 
@@ -973,7 +973,7 @@ The data published on the backchannel is a JSON object, containing the following
 
 Example: __{"S":"I","C":"1","V":"20","F":"0","L":"67","SH":"0"}__
 
-The backchannel is used/required by the upcoming A10001986 [Lou's Cafe Jukebox](https://jb.out-a-ti.me).
+The backchannel is used/required by the A10001986 [Lou's Cafe Jukebox](https://jb.out-a-ti.me).
 
 ## Appendix B: LED signals
 
