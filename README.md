@@ -158,6 +158,10 @@ Your FC kit includes an IR remote control. This remote works out-of-the-box and 
 |:--:| 
 | *The FC's standard IR remote control* |
 
+Control through the IR remote works through single-key presses and command sequences.
+- Single key actions are triggered by pressing key ```0```-```9```, ```Arrow up```, ```Arrow down```, ```Arrow left``` or ```Arrow right```.
+- Command sequences are started by pressing ```*``` followed by a numerical code, and concluded by ```ok```. ```#``` aborts command sequence entry (for example, in case of mistyping).
+
 Each time you press a key on the remote, an IR feedback LED will briefly light up. This LED is located in the center of the board, next to the bright center LED.
 
 Apart from the feedback LED, your FC will also show some feedback signals through its chase LEDs:
@@ -178,9 +182,13 @@ IR learning can be initiated by entering ```*987654ok``` on the standard IR remo
 
 >Alternatively, IR learning can be started by pressing and holding a connected [Time Travel](#time-travel) button for a few seconds (while the option **_TCD connected by wire_** in the Config Portal is unchecked).
 
-When IR learning is started, the chase LEDs stop and [light all up](#appendix-b-led-signals). Afterwards, the key to be pressed is announced and the IR feedback LED will keep blinking - this means the FC is ready to receive a key from your IR remote. Press ```0``` on your remote, which the FC will [visually acknowledge](#appendix-b-led-signals). Then, again, after the announcement and while the IR feedback LED is blinking, press ```1```, wait for the acknowledgement, and so on. Enter your keys in the following order:
+When IR learning is started, the chase LEDs stop and [light all up](#appendix-b-led-signals). Afterwards, the key to be pressed is announced and the IR feedback LED will keep blinking - this means the FC is ready to receive a key from your IR remote. Press ```0``` on your remote, which the FC will [visually acknowledge](#appendix-b-led-signals). Then, again, after the announcement and while the IR feedback LED is blinking, press ```1```, wait for the acknowledgement, and so on. 
 
-```0``` - ```1``` - ```2``` - ```3``` - ```4``` - ```5``` - ```6``` - ```7``` - ```8``` - ```9``` - ```*``` - ```#``` - ```Arrow up``` - ```Arrow down``` - ```Arrow left``` - ```Arrow right``` - ```OK``` 
+<!-- When IR learning is started, the FC stops the chase and guides you through the process by announcing the key to press as well as signals through the chase LEDs. Each key is requested twice to sort out unsuitable remote controls. The process starts by the FC briefly lighting up all chase LEDs and announcing "0". At this point, press 0 on your IR remote control. The FC will acknowledge code reception by a [LED signal](#appendix-b-led-signals) and say "again". Now press 0 again. If the received IR codes match, the FC will proceed to the next key. If a key fails verification, ie if the codes sent on first and second key press don't match, the FC will abort and show an "error" signal. -->
+
+Keys are requested in the following order:
+
+```0``` - ```1``` - ```2``` - ```3``` - ```4``` - ```5``` - ```6``` - ```7``` - ```8``` - ```9``` - ```*``` - ```#``` - ```Arrow up``` - ```Arrow down``` - ```Arrow left``` - ```Arrow right``` - ```ok``` 
 
 If your remote control lacks the ```*``` (starts command sequence) and ```#``` (aborts command sequence) keys, you can use any other key, of course. ```*``` could be eg. "menu" or "setup", ```#``` could be "exit" or "return".
 
@@ -367,7 +375,7 @@ Numbers in brackets are the code to be entered on the TCD keypad if a TCD is con
      <td align="left"><code>*123456ok</code></td><td><code>3123456</code></td>
     </tr>
     <tr>
-     <td align="left">Start IR remote <a href="#ir-learning">learning process (**)</a></td>
+     <td align="left">Start IR remote <a href="#ir-learning">learning process</a> (**)</td>
      <td align="left"><code>*987654ok</code></td><td><code>3987654</code></td>
     </tr>
     <tr>
@@ -472,7 +480,8 @@ The uploaded files are stored to the root folder of the SD card, so this way of 
 
 The firmware contains a simple music player to play mp3 files located on the SD card. 
 
-*The maximum bitrate is __128kpbs__. The free [Adapter](https://macroplant.com/adapter/audio-converter) tool can re-encode your mp3 files in batches.*
+> [!NOTE]
+> The maximum mp3 bitrate is __128kpbs__. The free [Adapter](https://macroplant.com/adapter/audio-converter) tool can re-encode your mp3 files in batches.
 
 To be recognized, your mp3 files need to be organized in music folders named *music0* through *music9*. The folder number is 0 by default, i.e. the player starts searching for music in folder *music0*. To select a different folder, issue command sequences ```*50ok``` through ```*59ok``` on the remote control.
 
@@ -684,7 +693,7 @@ In order to reduce the number of write operations and thereby prolong the life o
 
 ## Firmware Installation / Firmware Update
 
-If a previous version of the Flux Capacitor firmware is installed on your device, you can update easily using the pre-compiled binary. Enter the [Config Portal](#the-config-portal), click on "Update & Upload", select the pre-compiled binary file ("**fluxcapacitor-A10001986-Vx.xxx.bin**" or "**Flux_Capacitor_vX.YY.bin**") provided in the [Release package](https://github.com/realA10001986/Flux-Capacitor/releases), and click on *Update*.
+To update the firmware of your FC, enter the [Config Portal](#the-config-portal), click on "Update & Upload", select the pre-compiled binary file ("**fluxcapacitor-A10001986-Vx.xxx.bin**" or "**Flux_Capacitor_vX.YY.bin**") provided in the [Release package](https://github.com/realA10001986/Flux-Capacitor/releases) and click on *Update*.
 
 <details>
 <summary>Installing on a fresh ESP32...</summary>
@@ -985,19 +994,19 @@ The backchannel is used/required by the A10001986 [Lou's Cafe Jukebox](https://j
 <table>
     <tr>
      <td align="left">&#9679; &#9679; &#9675; &#9675; &#9679; &#9679;</td>
-     <td align="left">Successful input from IR (optional)</td>
+     <td align="left">IR command sequence execution successful</td>
     </tr>
     <tr>
      <td align="left">&#9675; &#9679; &#9679; &#9679; &#9679; &#9675;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9679;<br>&#9675; &#9679; &#9679; &#9679; &#9679; &#9675;</td>
-     <td align="left">Bad/unsuccessful input from IR</td>
+     <td align="left">Bad/unsuccessful command sequence</td>
     </tr>
     <tr>
      <td align="left">&#9675; &#9679; &#9679; &#9679; &#9679; &#9679;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9675;<br>&#8635;</td>
-     <td align="left">Please wait, busy</td>
+     <td align="left">Busy, please wait</td>
     </tr>
     <tr>
      <td align="left">&#9679; &#9679; &#9679; &#9679; &#9679; &#9675;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9679;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9675;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9679;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9675;</td>
-     <td align="left">Error: Sound pack <a href="#sound-pack-installation">not installed</a> or outdated</td>
+     <td align="left">Error: Sound pack <a href="#sound-pack-installation">not installed</a> or outdated. Shown briefly at power-up.</td>
     </tr>
     <tr>
      <td align="left">&#9679; &#9679; &#9679; &#9679; &#9675; &#9675;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9679;<br>&#8635;</td>
@@ -1005,19 +1014,19 @@ The backchannel is used/required by the A10001986 [Lou's Cafe Jukebox](https://j
     </tr>
     <tr>
      <td align="left">&#9679; &#9679; &#9679; &#9675; &#9675; &#9675;<br>&#9675; &#9675; &#9675; &#9679; &#9679; &#9679;<br>&#8635;</td>
-     <td align="left"><a href="#receive-commands-from-time-circuits-display">Alarm</a> (from TCD via BTTFN/MQTT)</td>
+     <td align="left"><a href="#bttf-network-bttfn">Alarm</a> (from TCD via BTTFN/MQTT)</td>
     </tr>
     <tr>
-     <td align="left">&#9675; &#9675; &#9675; &#9675; &#9675; &#9675; (2000ms)</td>
-     <td align="left"><a href="#ir-remote-control">IR Learning</a>: Start</td>
+     <td align="left">&#9675; &#9675; &#9675; &#9675; &#9675; &#9675;</td>
+     <td align="left"><a href="#ir-learning">IR Learning</a>: Start</td>
     </tr>
     <tr>
      <td align="left">&#9675; &#9675; &#9679; &#9679; &#9675; &#9675;<br></td>
-     <td align="left"><a href="#ir-remote-control">IR Learning</a>: Next</td>
+     <td align="left"><a href="#ir-learning">IR Learning</a>: Next</td>
     </tr>
     <tr>
      <td align="left">&#9679; &#9679; &#9675; &#9675; &#9679; &#9679;</td>
-     <td align="left"><a href="#ir-remote-control">IR Learning</a>: Done</td>
+     <td align="left"><a href="#ir-learning">IR Learning</a>: Done</td>
     </tr>
     <tr>
      <td align="left">&#9675; &#9679; &#9679; &#9679; &#9679; &#9679;</td>
@@ -1033,15 +1042,15 @@ The backchannel is used/required by the A10001986 [Lou's Cafe Jukebox](https://j
     </tr>
     <tr>
      <td align="left">&#9675; &#9675; &#9675; &#9679; &#9679; &#9679;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9679;<br>&#8635; 5x</td>
-     <td align="left">User signal 1</td>
+     <td align="left"><a href="#user1-user2">User signal 1</a></td>
     </tr>
     <tr>
      <td align="left"> &#9679; &#9679; &#9679; &#9675; &#9675; &#9675;<br>&#9679; &#9679; &#9679; &#9679; &#9679; &#9679;<br>&#8635; 5x</td>
-     <td align="left">User signal 2</td>
+     <td align="left"><a href="#user1-user2">User signal 2</a></td>
     </tr>
     <tr>
      <td align="left"> &#9679; &#9675; &#9679; &#9675; &#9679; &#9675;</td>
-     <td align="left">Firmware update available; shown briefly at power-up (optional)</td>
+     <td align="left">Firmware update available. Shown briefly at power-up.</td>
     </tr>
 </table>
 
