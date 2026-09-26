@@ -159,13 +159,13 @@ Your FC kit includes an IR remote control. This remote works out-of-the-box and 
 | *The FC's standard IR remote control* |
 
 Control through the IR remote works through single-key presses and command sequences.
-- Single key actions are triggered by pressing key ```0```-```9```, ```Arrow up```, ```Arrow down```, ```Arrow left``` or ```Arrow right```.
+- Single key actions are triggered by pressing keys ```0```-```9```, ```Arrow up```, ```Arrow down```, ```Arrow left``` or ```Arrow right```.
 - Command sequences are started by pressing ```*``` followed by a numerical code, and concluded by ```ok```. ```#``` aborts command sequence entry (for example, in case of mistyping).
 
-Each time you press a key on the remote, an IR feedback LED will briefly light up. This LED is located in the center of the board, next to the bright center LED.
+Each time you press a key on the remote, an IR feedback LED will briefly light up. This LED is located in the center of the circuit board, next to the bright center LED.
 
 Apart from the feedback LED, your FC will also show some feedback signals through its chase LEDs:
-- By default, when initiating a command sequence by pressing ```*```, the FC will start to show each key pressed afterwards by lighting up another chase LED. This kind of feedback can be disabled using command sequence ```*63ok``` or in the Config Portal.
+- By default, when initiating a command sequence by pressing ```*```, the FC will stop the chase and acknowledge each key pressed afterwards by lighting up another chase LED. This kind of feedback can be disabled using command sequence ```*63ok``` or in the Config Portal.
 - By default, after executing a command, the FC will show a "success" signal. This kind of feedback can be disabled using command sequence ```*62ok``` or in the Config Portal.
 - If a command was unsuccessful or not recognized, a "bad input" signal will be shown.
 
@@ -182,9 +182,7 @@ IR learning can be initiated by entering ```*987654ok``` on the standard IR remo
 
 >Alternatively, IR learning can be started by pressing and holding a connected [Time Travel](#time-travel) button for a few seconds (while the option **_TCD connected by wire_** in the Config Portal is unchecked).
 
-When IR learning is started, the chase LEDs stop and [light all up](#appendix-b-led-signals). Afterwards, the key to be pressed is announced and the IR feedback LED will keep blinking - this means the FC is ready to receive a key from your IR remote. Press ```0``` on your remote, which the FC will [visually acknowledge](#appendix-b-led-signals). Then, again, after the announcement and while the IR feedback LED is blinking, press ```1```, wait for the acknowledgement, and so on. 
-
-<!-- When IR learning is started, the FC stops the chase and guides you through the process by announcing the key to press as well as signals through the chase LEDs. Each key is requested twice to sort out unsuitable remote controls. The process starts by the FC briefly lighting up all chase LEDs and announcing "0". At this point, press 0 on your IR remote control. The FC will acknowledge code reception by a [LED signal](#appendix-b-led-signals) and say "again". Now press 0 again. If the received IR codes match, the FC will proceed to the next key. If a key fails verification, ie if the codes sent on first and second key press don't match, the FC will abort and show an "error" signal. -->
+When IR learning is started, the FC stops the chase and guides you through the process by announcing the key to press as well as signals through the chase LEDs. Each key is requested twice to sort out unsuitable remote controls. The process starts by the FC briefly lighting up all chase LEDs and announcing "0". At this point, press 0 on your IR remote control. The FC will acknowledge code reception by a [LED signal](#appendix-b-led-signals) and say "again". Now press 0 again. If the received IR codes match, the FC will proceed to the next key. If a key fails verification, ie if the codes sent on first and second key press don't match, the FC will abort and show an "error" signal.
 
 Keys are requested in the following order:
 
@@ -198,7 +196,7 @@ To make the FC forget a learned IR remote control, type ```*654321ok```.
 
 ### Locking IR Control
 
-You can have your FC ignore IR commands from any IR remote control (be it the default supplied one, be it one you had the FC learn) by entering ```*70ok```. After this sequence, the FC will ignore all IR commands until ```*70ok``` is entered again. The purpose of this function is to enable you to use the same remote for your FC and other props.
+You can have your FC ignore IR commands from any IR remote control (be it the supplied one, be it one you had the FC learn) by entering ```*70ok```. After this sequence, the FC will ignore all IR commands until ```*70ok``` is entered again. The purpose of this function is to enable you to use the same remote for your FC and other props.
 
 The status of the IR lock is saved 10 seconds after its last change, and is persistent across reboots.
 
@@ -211,19 +209,19 @@ In order to only disable the supplied IR remote control, check the option **_Dis
      <td align="center" colspan="3">Single key actions<br>[Code on TCD keypad]</td>
     </tr>
     <tr>
-     <td align="center"><code>1</code><br><a href="#additional-custom-sounds">Play "key1.mp3"</a><br>[<code>3001</code>]</td>
-     <td align="center"><code>2</code><br><a href="#the-music-player">Music Player</a>: Previous track<br>[<code>3002</code>]</td>
-     <td align="center"><code>3</code><br><a href="#additional-custom-sounds">Play "key3.mp3"</a><br>[<code>3003</code>]</td>
+     <td align="center"><code>1</code><br><a href="#additional-custom-sounds">Play "key1.mp3"</a><br>[<code>3001</code>]<br><br><br></td>
+     <td align="center"><code>2</code><br><a href="#the-music-player">Music Player</a>: Previous track<br>[<code>3002</code>]<br><br><br></td>
+     <td align="center"><code>3</code><br><a href="#additional-custom-sounds">Play "key3.mp3"</a><br>[<code>3003</code>]<br><br><br></td>
     </tr>
     <tr>
-     <td align="center"><code>4</code><br><a href="#additional-custom-sounds">Play "key4.mp3"</a><br>[<code>3004</code>]</td>
-     <td align="center"><code>5</code><br><a href="#the-music-player">Music Player</a>: Play/Stop<br>[<code>3005</code>]</td>
-     <td align="center"><code>6</code><br><a href="#additional-custom-sounds">Play "key6.mp3"</a><br>[<code>3006</code>]</td>
+     <td align="center"><code>4</code><br><a href="#additional-custom-sounds">Play "key4.mp3"</a><br>[<code>3004</code>]<br><br><br></td>
+     <td align="center"><code>5</code><br><a href="#the-music-player">Music Player</a>: Play/Stop<br>[<code>3005</code>]<br><br><br></td>
+     <td align="center"><code>6</code><br><a href="#additional-custom-sounds">Play "key6.mp3"</a><br>[<code>3006</code>]<br><br><br></td>
     </tr>
     <tr>
-     <td align="center"><code>7</code><br><a href="#additional-custom-sounds">Play "key7.mp3"</a><br>[<code>3007</code>]</td>
-     <td align="center"><code>8</code><br><a href="#the-music-player">Music Player</a>: Next track<br>[<code>3008</code>]</td>
-     <td align="center"><code>9</code><br><a href="#additional-custom-sounds">Play "key9.mp3"</a><br>[<code>3009</code>]</td>
+     <td align="center"><code>7</code><br><a href="#additional-custom-sounds">Play "key7.mp3"</a><br>[<code>3007</code>]<br><br><br></td>
+     <td align="center"><code>8</code><br><a href="#the-music-player">Music Player</a>: Next track<br>[<code>3008</code>]<br><br><br></td>
+     <td align="center"><code>9</code><br><a href="#additional-custom-sounds">Play "key9.mp3"</a><br>[<code>3009</code>]<br>or<br>Trigger <a href="#-9-on-ir-remote-refills-plutonium-chamber">"Refill Plutonium chamber"</a></td>
     </tr>
     <tr>
      <td align="center"><code>*</code><br>Start command sequence</td>
@@ -392,7 +390,7 @@ Numbers in brackets are the code to be entered on the TCD keypad if a TCD is con
 
 ## The Flux Sound
 
-By default, the FC plays a "flux" sound continuously.
+The "flux" sound is an electrical-sounding, low volume background noise. By default, the FC does not play a "flux" sound. 
 
 The flux sound can be permanently disabled, permanently enabled or enabled for 30 or 60 seconds
 
@@ -455,8 +453,8 @@ The following sounds are time-sync'd to display action. If you decide to substit
 
 The firmware supports some additional user-provided sound effects, which it will load from the SD card. If the respective file is present, it will be used. If that file is absent, no sound will be played.
 
-- "user1.mp3", "user2.mp3": Played when the FC receives [MQTT commands](#home-assistant--mqtt) "USER1" and "USER2", respectively.
 - "key1.mp3" - "key9.mp3": Will be played through IR commands ```*501ok``` - ```*509ok``` or commands from [TCD](#commandref) and [HA/MQTT](#control-the-fc-via-mqtt). The respective "keyX.mp3" file will also be played if you press the ```1```/```3```/```4```/```6```/```7```/```9``` button on your remote.
+- "user1.mp3", "user2.mp3": Played when the FC receives [MQTT commands](#home-assistant--mqtt) "USER1" and "USER2", respectively.
 
 > The seemingly odd way of accessing keyX files through the IR remote is because of synchronicity with other props, especially the TCD and its keymap where the Music Player also occupies keys 2, 5, 8.
 
@@ -481,7 +479,7 @@ The uploaded files are stored to the root folder of the SD card, so this way of 
 The firmware contains a simple music player to play mp3 files located on the SD card. 
 
 > [!NOTE]
-> The maximum mp3 bitrate is __128kpbs__. The free [Adapter](https://macroplant.com/adapter/audio-converter) tool can re-encode your mp3 files in batches.
+> The maximum mp3 bitrate is __128kpbs__. The free [Adapter&#10548;](https://macroplant.com/adapter/audio-converter) tool can re-encode your mp3 files in batches.
 
 To be recognized, your mp3 files need to be organized in music folders named *music0* through *music9*. The folder number is 0 by default, i.e. the player starts searching for music in folder *music0*. To select a different folder, issue command sequences ```*50ok``` through ```*59ok``` on the remote control.
 
@@ -489,7 +487,7 @@ The names of the audio files must only consist of three-digit numbers, starting 
 
 Since manually renaming mp3 files is somewhat cumbersome, the firmware can do this for you: Just copy your files with their original filenames to a music folder of your choice; when selecting that folder, the files will be sorted alphabetically and renamed according to the 3-digit name scheme. (If you want your tracks in a specific order, you must rename them, for instance by inserting a letter or number at the start.) The renaming process can take a while (11 minutes for 1000 files in bad cases). Mac users are advised to delete the ._ files from the SD before putting it back into the FC as this speeds up the process. While the renaming is in progress, the FC's chase LEDs show the fraction of files still left to be processed.
 
-To add files to a music folder later, just copy them to the folder and delete the file "TCD_DONE.TXT" (so that the firmware knows that something has changed). 
+To add files to a music folder later, just copy them to the music folder, and delete the cache file "musicXc" (X being the folder number) located in the top-most folder. That way that the firmware knows that something has changed and will re-examine the folder.
 
 To start and stop music playback, press ```5``` on your remote. Pressing ```2``` jumps to the previous track, pressing ```8``` to the next one.
 
@@ -525,7 +523,7 @@ BTTFN requires the props all to be connected to the same network, such as, for e
 >The term "WiFi network" is used for both "WiFi network" and "ip subnet" here for simplicity reasons. However, for BTTFN communication, the devices must be on the same IP subnet, regardless of how they take part in it: They can be connected to different WiFi networks, if those WiFi networks are part of the same ip subnet.
 </details>
 
-To connect your FC to the TCD, just enter the TCD's hostname - usually "timecircuits" - in the **_Hostname or IP address of TCD_** field in the FC's Config Portal. On the TCD, no special configuration is required. 
+To connect your FC to the TCD, just enter the TCD's hostname - usually "timecircuits" - in the **_Hostname of TCD_** field in the FC's Config Portal. On the TCD, no special configuration is required. 
   
 Afterwards, the FC and the TCD can communicate wirelessly and 
 - play time travel sequences in sync,
@@ -546,7 +544,7 @@ To start TCD keypad remote control, type ```*95ok``` on the FC's IR remote contr
 
 Keys ```0```-```9``` as well as ```ok``` (= ```ENTER``` on the TCD) on your IR remote control will now be registered by the TCD as key presses.
 
-"Holding" a key on the TCD keypad is emulated by pressing ```*``` followed by the key, for instance ```*1``` (to toggle the TCD alarm). Holding ```ok``` (= ```ENTER```) is only accepted by the TCD to stop the alarm, but not for entering the keypad menu.
+"Holding" a key on the TCD keypad is emulated by pressing ```*``` followed by the key, for instance ```*1``` to toggle the TCD alarm. ```*ok``` (= holding ```ENTER```) is only accepted by the TCD to stop the alarm, but not for entering the keypad menu.
 
 Pressing ```#``` quits TCD keypad remote control mode, as does issuing command ```3097``` on the TCD or through HA/MQTT.
 
@@ -663,7 +661,7 @@ This configuration can easily be achieved by putting both the TCD and the FC in 
 #### Flux Capacitor
 
 One-time configuration steps:
-- Enter the Config Portal on the FC, click on *Settings* and check that the hostname of the TCD (usually "timecircuits") is present in the  **_Hostname or IP address of TCD_** under *Wireless communication (BTTF-Network)* settings; do _not_ use an IP address.
+- Enter the Config Portal on the FC, click on *Settings* and check that the hostname of the TCD (usually "timecircuits") is present in the  **_Hostname of TCD_** under *Wireless communication (BTTF-Network)* settings.
 - Furthermore, on the *WiFi Configuration* page, check that the TCD's WiFi network name (SSID; usually "TCD-AP") and password (if the TCD is configured with a password) are present under *Car mode settings*.
 
 If everything is in place, you can enable Car mode on the FC by typing ```*991ok``` on the remote. The FC will reboot and attempt to connect to the TCD's AP.
@@ -766,7 +764,7 @@ To connect your FC to your WiFi network, all you need to do is either to click o
 
 >By default, the FC requests an IP address via DHCP. However, you can also configure a static IP for the FC by entering the IP, netmask, gateway and DNS server. All four fields must be filled for a valid static IP configuration. If you want to stick to DHCP, leave those four fields empty.
 
-If there are several APs with identical SSID nearby, the FC will connect to the first one it finds, which might not be the one with the strongest signal. It is therefore recommended to select the nearest/strongest AP by its BSSID (AP's MAC address). You can either manually find out your AP's BSSID and enter it or have it filled out automatically: Click "Scan for networks", then "Show all". If you click on an AP, its BSSID will be copied into BSSID field in the form below. To see which AP is which, hover over the name to see its BSSID as a tooltip.
+If there are several APs with identical SSID nearby, the FC will connect to the first one it finds, which might not be the one with the strongest signal. It is therefore recommended to select the nearest/strongest AP by its BSSID (AP's MAC address, a unique identifier for a specific AP). You can either manually find out your AP's BSSID and enter it or have it filled out automatically: Click "Scan for networks", then "Show all". If you click on an AP, its BSSID will be copied into BSSID field in the form below. To see which AP is which, hover over the name to see its BSSID as a tooltip.
 
 ##### &#9193; Forget Saved WiFi Network
 
@@ -778,7 +776,8 @@ In Car mode, the device connects to the TCD-AP as configured here instead of the
 
 Enter your TCD's network name (usually "TCD-AP") in **_Network name (SSID) of TCD-AP_** and the TCD's AP password (if configured on the TCD) in **_Password for TCD-AP_**. 
 
->In the unlikely case that multiple TCD's are in range, you can single out your TCD by its BSSID. The TCD displays its BSSID on its *WiFi Configuration* page.
+The **_TCD-AP BSSID_** field is optional for you to fill out. The TCD displays its BSSID (unique access point identifier) on its *WiFi Configuration* page, so you could copy it into this field on your FC. If the _TCD-AP BSSID_ field is left empty, it will be filled out automatically upon the first successful connection to your TCD in Car Mode. This pairs your FC to your TCD and avoids connecting to other people's TCDs at meet-ups with other cars nearby.
+> If you ever need to connect your FC to a different TCD (or, for instance, swap out your TCD's circuit board), this field needs to be cleared in order to pair your FC to the new TCD. Note that if the FC fails to connect to a BSSID-identified TCD, it will boot into [AP-Mode](#connecting-to-a-wifi-network) ("FC-AP").
 
 If you want to enter Car mode immediately after saving your settings, check **_Enable car mode now_**. You can also later enable Car mode by typing ```*991ok``` on the remote. ```*990ok``` disables Car mode.
 
@@ -878,9 +877,9 @@ The music player will continue to run.
 
 #### <ins>Settings for BTTFN communication</ins>
 
-##### &#9193; Hostname or IP address of TCD
+##### &#9193; Hostname of TCD
 
-If you want to have your FC to communicate with a Time Circuits Display wirelessly ("BTTF-Network"), enter the TCD's hostname - usually 'timecircuits' - or IP address here. Hostname is preferred because it makes the setup independent of the network environment.
+If you want to have your FC to communicate with a Time Circuits Display wirelessly ("BTTF-Network"), enter the TCD's hostname - usually 'timecircuits' - here. Although specifying the TCD's IP address is supported as well, the hostname is preferred because it makes your setup independent of the network environment.
 
 ##### &#9193; Adapt chase speed to TCD-provided speed
 
@@ -888,23 +887,31 @@ If this option is checked and your TCD is equipped with a GPS sensor or a rotary
 
 While the FC receives speed from the TCD, IR controls and MQTT commands for chase speed are not entirely ignored: They have no visual effect, but they are saved.
 
-##### &#9193; Follow TCD night-mode
-
-If this option is checked, and your TCD goes into night mode, the FC will activate the Screen Saver with a very short timeout, and reduce its audio volume.
-
 ##### &#9193; Follow TCD fake power
 
 If this option is checked, and your TCD is equipped with a fake power switch, the FC will also fake-power up/down. If fake power is off, no LED is active and the FC will ignore all input from buttons, knobs and the IR control.
 
-##### &#9193; '0' and button trigger BTTFN-wide TT
+##### &#9193; Follow TCD night-mode
+
+If this option is checked, and your TCD goes into night mode, the FC will activate the Screen Saver with a very short timeout, and reduce its audio volume.
+
+##### &#9193; '0' and button trigger BTTFN-wide Time Travel
 
 If the FC is connected to a TCD through BTTFN, this option allows to trigger a synchronized time travel on all BTTFN-connected devices when pressing ```0``` on the IR remote control or pressing the Time Travel button, just as if the Time Travel was triggered by the TCD. If this option is unchecked, pressing ```0``` or the Time Travel button only triggers a Time Travel sequence on the FC.
+
+##### &#9193; '9' on IR remote refills Plutonium chamber
+
+This option determines the function of key ```9``` on the IR remote control: 
+
+If unchecked, pressing ```9``` plays ["key9.mp3"](#additional-custom-sounds) on your SD card. This is the default.
+
+If this option is checked, pressing ```9``` will issue a "Refill Plutonium Chamber" command for your [Dash Gauges](https://dg.out-a-ti.me). (Requires TCD firmware 3.27 or newer.)
 
 #### <ins>Settings for wired connections</ins>
 
 ##### &#9193; TCD connected by wire
 
-Check this if you have a Time Circuits Display connected by wire. Note that a wired connection only allows for synchronized time travel sequences, no other communication takes place.
+Check this if you have a Time Circuits Display connected to the FC by wire. Note that a wired connection only allows for synchronized time travel sequences, no other communication takes place.
 
 While you can connect both a button and the TCD to the "time travel" connector on the FC, the button should not be pressed when this option is set, as it might yield unwanted effects.
 
