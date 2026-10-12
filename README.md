@@ -21,22 +21,25 @@ Features include
 - [Time Travel](#time-travel) function, triggered by button, [Time Circuits Display](https://circuitsetup.us/product/complete-time-circuits-display-kit/) (TCD) or via [Home Assistant](#home-assistant--mqtt)
 - [IR remote controlled](#ir-remote-control); can learn keys from third-party remote
 - [music player](#the-music-player): Play mp3 files located on an SD card
-- [SD card](#sd-card) support for custom audio files for effects, and music for the Music Player
 - advanced network-accessible [Config Portal](#the-config-portal) for setup (http://flux.local)
 - [wireless communication](#bttf-network-bttfn) with [Time Circuits Display](https://circuitsetup.us/product/complete-time-circuits-display-kit/); used for synchronized time travels, alarm, chase speed, night mode, fake power, remote control through TCD keypad and [remote controlling](#remote-controlling-the-tcds-keypad) the TCD keypad.
 - [Home Assistant](#home-assistant--mqtt) (MQTT) support
 - built-in OTA installer for firmware updates and audio files
 - &#128007; &#129370; &#129370; &#127381;
 
->[This repository](https://fc.out-a-ti.me) is the upstream source for CircuitSetup's releases. The only difference is that both code and documentation [here](https://fc.out-a-ti.me) might be ahead in development.
+>[The A10001986 repository](https://fc.out-a-ti.me) is the upstream source for CircuitSetup's releases. There are no differences between A10001986 and CircuitSetup releases of the same version.
 
 For information on updating the firmware of your FC, see [here](#firmware-installation--firmware-update).
 
 ## Initial Configuration
 
->The following instructions only need to be followed once, on fresh FCs. They do not need to be repeated after a firmware update.
+**Some key features of your FC require an SD card.** The first step is therefore to put a **good-quality** ("endurance", "industrial", "long life", ...) **and empty microSD card into the card slot**. The SD card must be inserted before powering up the FC. It is not recognized if inserted while the FC is running. Furthermore, do not remove the SD card while the FC is powered.
 
-The first step is to establish access to the FC's configuration website ("Config Portal") in order to configure your FC:
+>SD/SDHC/SDXC cards up to 32GB are supported. The card needs to be FAT32-formatted (not exFAT). Transcend, Sandisk Ultra and Industrial, Verbatim Premium and Samsung Pro Endurance SDHC cards usually work fine. Some SD cards might not be recognized due to off-specs initialization quirks. SDUC cards are not supported.
+
+>Since the SD card on the control board is inaccessible after assembling the FC, I used a microSD extension (like [this one](https://www.amazon.com/Memory-Micro-SD-Female-Extension-Extender/dp/B09MS85FQ3/)), and mounted the slot through a hole in the bottom of my FC so that the SD card can be accessed at any time. See [here](Hardware.md).
+
+The second step is to establish access to the FC's configuration website ("Config Portal") in order to configure your FC:
 
 - Power up your FC and wait a few seconds.
 - Connect your computer or handheld device to the WiFi network "FC-AP".
@@ -76,7 +79,7 @@ Click on "WiFi Configuration" and either select a network from the top of the pa
 
 >If there are several APs with identical SSID nearby, you can select a specific AP by its BSSID (AP's MAC address). You can either manually find out your AP's BSSID and enter it or have it filled out automatically: Click "Scan for networks", then "Show all". If you click on an AP, its BSSID will be copied into BSSID field in the form below. To see which AP is which, hover over the name to see its BSSID as a tooltip.
 
->Your FC requests an IP address via DHCP, unless you entered valid data in the fields for static IP addresses (IP, gateway, netmask, DNS). If the device is inaccessible as a result of incorrect static IPs, wait until it has completed its startup sequence, then type ```*123456ok``` on the IR remote; static IP data will be deleted and the device will return to DHCP after a reboot.
+>Your FC requests an IP address via DHCP, unless you entered valid data in the fields for static IP addresses (IP, gateway, netmask, DNS). If the device is inaccessible as a result of incorrect static IPs, wait until it has completed its startup sequence, then type ```*123456ok```<!-- ```*123457ok```--> on the IR remote; static IP data will be deleted and the device will return to DHCP after a reboot.
 
 </details>
 
@@ -369,9 +372,19 @@ Numbers in brackets are the code to be entered on the TCD keypad if a TCD is con
      <td align="left"><code>*53281ok</code></td><td><code>3053281</code></td>
     </tr>
     <tr>
-     <td align="left">Delete static IP address and AP WiFI password (**)</td>
+     <td align="left">Delete static IP address and AP WiFi password (**)</td>
      <td align="left"><code>*123456ok</code></td><td><code>3123456</code></td>
     </tr>
+    <!--
+      <tr>
+     <td align="left">Delete FC-AP WiFi password (**)</td>
+     <td align="left"><code>*123456ok</code></td><td><code>3123456</code></td>
+    </tr>
+      <tr>
+     <td align="left">Delete static IP configuration (**)</td>
+     <td align="left"><code>*123457ok</code></td><td><code>3123457</code></td>
+    </tr>
+      -->
     <tr>
      <td align="left">Start IR remote <a href="#ir-learning">learning process</a> (**)</td>
      <td align="left"><code>*987654ok</code></td><td><code>3987654</code></td>
@@ -425,15 +438,7 @@ You can also connect an external Time Travel button to your FC; the button must 
 
 Other ways of triggering a time travel are available if a [Time Circuits Display](#connecting-a-time-circuits-display) is connected.
 
-## SD Card
-
->Only SD/SDHC/SDXC cards up to 32GB are supported. Card needs to be FAT32-formatted (not exFAT). Transcend, Sandisk Ultra (as of firmware version 1.105) and Industrial, Verbatim Premium and Samsung Pro Endurance SDHC cards usually work fine. Some SD cards might not be recognized due to off-specs initialization quirks. SDUC cards are not supported.
-
-The SD card, apart from being required for [installing](#sound-pack-installation) the sound-pack, can be used for substituting built-in sound effects and for music played back by the [Music player](#the-music-player). Also, it is _strongly recommended_ to store [secondary settings](#-save-secondary-settings-on-sd) on the SD card to minimize [Flash Wear](#flash-wear). The chosen chase sequence (```*1x```) is only stored on SD, so for your selection to be persistent across reboots, an SD card is required.
-
-The SD card must be inserted before powering up the device. It is not recognized if inserted while the Flux Capacitor is running. Furthermore, do not remove the SD card while the device is powered.
-
-Since the SD card on the control board is inaccessible after assembling the FC, I used a microSD extension (like [this one](https://www.amazon.com/Memory-Micro-SD-Female-Extension-Extender/dp/B09MS85FQ3/)), and mounted the slot through a hole in the bottom of my FC so that the SD card can be accessed at any time. See [here](Hardware.md).
+## Sound Customization
 
 ### Sound substitution
 
@@ -487,7 +492,7 @@ The names of the audio files must only consist of three-digit numbers, starting 
 
 Since manually renaming mp3 files is somewhat cumbersome, the firmware can do this for you: Just copy your files with their original filenames to a music folder of your choice; when selecting that folder, the files will be sorted alphabetically and renamed according to the 3-digit name scheme. (If you want your tracks in a specific order, you must rename them, for instance by inserting a letter or number at the start.) The renaming process can take a while (11 minutes for 1000 files in bad cases). Mac users are advised to delete the ._ files from the SD before putting it back into the FC as this speeds up the process. While the renaming is in progress, the FC's chase LEDs show the fraction of files still left to be processed.
 
-To add files to a music folder later, just copy them to the music folder, and delete the cache file "musicXc" (X being the folder number) located in the top-most folder. That way that the firmware knows that something has changed and will re-examine the folder.
+To add files to a music folder later, just copy them to the folder and delete the corresponding cache file "musicXc" (X being the folder number) located in the top-most folder. That way that the firmware knows that something has changed and will re-examine the folder. 
 
 To start and stop music playback, press ```5``` on your remote. Pressing ```2``` jumps to the previous track, pressing ```8``` to the next one.
 
@@ -683,32 +688,39 @@ After WiFi has been switched off due to timer expiration, it can be re-enabled b
 
 > This command is also used to trigger a re-connection attempt in case your configured WiFi network was not available when the FC was trying to connect, see [here](#home-setup-with-a-pre-existing-local-wifi-network).
 
-## Flash Wear
-
-Flash memory has a somewhat limited lifetime. It can be written to only between 10.000 and 100.000 times before becoming unreliable. The firmware writes to the internal flash memory when saving settings and other data. Every time you change settings, data is written to flash memory.
-
-In order to reduce the number of write operations and thereby prolong the life of your Flux Capacitor, it is recommended to use a good-quality SD card and to check **_[Save secondary settings on SD](#-save-secondary-settings-on-sd)_** in the Config Portal; secondary settings as well as learned IR codes are then stored on the SD card (which also suffers from wear but is easy to replace). See [here](#-save-secondary-settings-on-sd) for more information.
-
 ## Firmware Installation / Firmware Update
 
-To update the firmware of your FC, enter the [Config Portal](#the-config-portal), click on "Update & Upload", select the pre-compiled binary file ("**fluxcapacitor-A10001986-Vx.xxx.bin**" or "**Flux_Capacitor_vX.YY.bin**") provided in the [Release package](https://github.com/realA10001986/Flux-Capacitor/releases) and click on *Update*.
+The firmware consists of two parts: The main firmware, and a sound-pack.
+
+First, download main firmware and sound-pack. Both files are in every [Release package](https://github.com/realA10001986/Flux-Capacitor/releases/latest), and named
+- "**fluxcapacitor-A10001986-Vx.xxx.bin**" for A10001986 releases, "**Flux_Capacitor_vX.YY.bin**" for CircuitSetup releases,
+- "**sound-pack-fcXX.zip**" for A10001986 releases, "**FCA.bin**" for CircuitSetup releases.
+
+### Main firmware
+
+To update the main firmware of your FC, 
+- enter the [Config Portal](#the-config-portal),
+- click on "Update & Upload",
+- select the downloaded main firmware file in the _top_ file selector, and
+- click on *Update*. 
 
 <details>
 <summary>Installing on a fresh ESP32...</summary>
 If you are using a fresh ESP32, please go <a href="https://install.out-a-ti.me">here</a> and follow the instructions or - if you are a nerd and want to deal with source code, compilers'n'stuff - see <a href="https://github.com/realA10001986/Flux-Capacitor/blob/main/fluxcapacitor-A10001986/fluxcapacitor-A10001986.ino">fluxcapacitor-A10001986.ino</a> for detailed build and upload information.
 </details>
 
-*After a firmware update, the inner and outer LEDs might blink alternately for short while after reboot. Do NOT unplug the device during this time.*
-
 ### Sound-pack installation
 
-The firmware comes with a sound-pack which needs to be installed separately. The sound-pack is not updated as often as the firmware itself. There will be a message in the Config Portal and a respective [signal](#appendix-b-led-signals) at startup when/if the sound-pack needs to be updated.
+After updating the main firmware, there will be a notification on the Config Portal (and the FC will show a respective [signal](#appendix-b-led-signals) at startup) when/if the sound-pack also needs to be updated. 
 
-_Installing the sound-pack requires an [SD card](#sd-card)._
+_Installing the sound-pack requires an [SD card](#initial-configuration)._
 
-The first step is to extract "sound-pack-fcXX.zip" (which is included in every [Release package](https://github.com/realA10001986/Flux-Capacitor/releases)). It contains one file, named "FCA.bin".
-
-Next, head to the [Config Portal](#the-config-portal), click on "Update & Upload", select the "FCA.bin" file in the _bottom_ file selector and click on *Upload*.
+To update the sound-pack of your FC, 
+- (if the sound-pack is a zip file, extract it. It contains one file named FCA.bin)
+- enter the [Config Portal](#the-config-portal),
+- click on "Update & Upload",
+- select the FCA.bin file in the _bottom_ file selector, and
+- click on *Upload*. 
 
 <details>
 <summary>Alternative way</summary>
@@ -721,6 +733,16 @@ Alternatively, you can install the sound-pack the following way:
 <li>power up the Flux Capacitor; the sound-pack will be installed automatically.</li>
 </ul>
 </details>
+
+<!--
+## Factory Reset
+
+To reset your FC to factory default settings, issue command sequence ```*397159ok``` twice in a row. 
+
+Since any configured WiFi connection is deleted as well, the FC will reboot in AP-mode.
+
+-->
+
 
 ---
 
@@ -744,13 +766,11 @@ This leads to the [HomeAssistant/MQTT Settings page](#hamqtt-settings).
 
 This leads to the firmware update and audio upload page.
 
-To upload a new firmware, such as published in the [Release packages](https://github.com/realA10001986/Flux-Capacitor/releases), select the "**fluxcapacitor-A10001986-Vx.xxx.bin**" or "**Flux_Capacitor_vX.YY.bin**" file as contained in the Release package in the _top_ file selector and click *Update*.
+See [here](#firmware-installation--firmware-update) for firmware update instructions.
 
-You can also install the FC's sound-pack on this page; download the sound-pack (which is included in every [Release package](https://github.com/realA10001986/Flux-Capacitor/releases)), extract it and select the resulting FCA.bin file in the _bottom_ file selector. Finally, click *Upload*. An SD card is required for this operation.
-
-See also [here](#firmware-installation--firmware-update).
-
-Finally, this page is also for uploading [custom or replacement sound files](#installing-custom--replacement-audio-files) to the SD card. Select an mp3 file in the _bottom_ file selector and click *Upload*. (Maximum 16 files at a time.)
+This page is also for uploading [custom or replacement sound files](#installing-custom--replacement-audio-files) to the SD card:
+- Select one or more mp3 file(s) in the _bottom_ file selector (max 16 files at a time) and
+- click *Upload*.
 
 ---
 
@@ -803,7 +823,7 @@ By default, when your FC creates a WiFi network of its own ("AP-mode"), this net
 
 By default, and if this field is empty, the FC's own WiFi network ("FC-AP") will be unprotected. If you want to protect your FC access point, enter your password here. It needs to be 8 characters in length and only characters A-Z, a-z, 0-9 and - are allowed.
 
-If you forget this password and are thereby locked out of your FC, enter ```*123456ok``` on the IR remote control; this deletes the WiFi password. Then power-down and power-up your FC and the access point will start unprotected.
+If you forget this password and are thereby locked out of your FC, enter ```*123456ok``` on the IR remote control; this deletes the WiFi password. Then power-down and power-up your FC and the access point will start unprotected.<!-- automatic reboot -->
 
 ##### &#9193; WiFi channel
 
@@ -927,18 +947,14 @@ If your FC is connected wirelessly, this option has no effect.
 
 ##### &#9193; Save secondary settings on SD
 
-If this is checked, secondary settings (volume, chase speed, minimum box light level, flux mode and level, IR lock status, learned IR keys, ...) are stored on the SD card (if one is present). This helps to minimize write operations to the internal flash memory and to prolong the lifetime of your Flux Capacitor. See [Flash Wear](#flash-wear).
+_Please leave this option checked. It is safe to have this option checked even with no SD card present._
 
-Apart from Flash Wear, there is another reason for using an SD card for settings: Writing data to internal flash memory can cause delays of up to 1.5 seconds, which interrupt sound playback and have other undesired effects. The FC needs to save data from time to time, so for a smooth experience without unexpected and unwanted delays, please use an SD card and check this option.
-
-It is safe to have this option checked even with no SD card present.
+If this is checked, some settings are stored on the SD card. This helps to minimize write operations to the internal flash memory and to prolong the lifetime of your FC. Apart from Flash Wear, there is another reason for using an SD card for settings: The FC needs to save data from time to time. Writing data to internal flash memory can cause delays of up to 1.5 seconds, which interrupt sound playback and have other undesired effects.
 
 If you want copy settings from one SD card to another, do as follows:
 - With the old SD card still in the slot, enter the Config Portal, turn off _Save secondary settings on SD_, and click "SAVE".
 - After the FC has rebooted, power it down, and swap the SD card for your new one.
 - Power-up the FC, enter the Config Portal, re-enable _Save secondary settings on SD_, and click "SAVE".
-
-This procedure ensures that all your settings are copied from the old to the new SD card.
 
 #### <ins>Hardware configuration settings</ins>
 
@@ -1063,5 +1079,6 @@ The backchannel is used/required by the A10001986 [Lou's Cafe Jukebox](https://j
 
 ---
 _Text & images: (C) Thomas Winischhofer ("A10001986"). See LICENSE._ [Source](https://fc.out-a%2dti.me)  
+_No generative AI or automated code-completion tools were used in the development of this project._   
 _Other props: [Time Circuits Display](https://tcd.out-a%2dti.me) ... [SID](https://sid.out-a%2dti.me) ... [Dash Gauges](https://dg.out-a%2dti.me) ... [VSR](https://vsr.out-a%2dti.me) ... [Remote Control](https://remote.out-a%2dti.me) ... [TFC](https://tfc.out-a%2dti.me) ... [Jukebox](https://jb.out-a%2dti.me)_
  
