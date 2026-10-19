@@ -31,6 +31,16 @@ Features include
 
 For information on updating the firmware of your FC, see [here](#firmware-installation--firmware-update).
 
+#### What's new in 2.00
+
+- Re-arrange WiFi Configuration page for a better user experience
+- BTTFN: "Hostname of TCD" now defaults to "timecircuits" instead of being empty. As a result, a factory-fresh FC now connects to a TCD in the network without any user configuration changes.
+- IR command sequence ```*123456ok``` now only deletes FC-AP password, and ```*123457ok``` deletes static IP config. Both lead to a reboot if applicable.
+- IR command sequence ```*397159ok```, when entered twice, resets all settings to factory defaults.
+- New sound-pack (FC07)
+- Sound-pack uploads are done through the top file selector, and no longer through the bottom one. The bottom one is for custom mp3 file upload only.
+- **Future firmware updates may only consist of one single file instead of "main firmware" plus "sound-pack". Firmware updates will require an SD card. In order to update to versions beyond 2.00, version 2.00 must be installed first.**
+
 ## Initial Configuration
 
 **Some key features of your FC require an SD card.** The first step is therefore to put a **good-quality** ("endurance", "industrial", "long life", ...) **and empty microSD card into the card slot**. The SD card must be inserted before powering up the FC. It is not recognized if inserted while the FC is running. Furthermore, do not remove the SD card while the FC is powered.
@@ -77,9 +87,9 @@ Click on "WiFi Configuration" and either select a network from the top of the pa
 <details>
 <summary>More...</summary>
 
->If there are several APs with identical SSID nearby, you can select a specific AP by its BSSID (AP's MAC address). You can either manually find out your AP's BSSID and enter it or have it filled out automatically: Click "Scan for networks", then "Show all". If you click on an AP, its BSSID will be copied into BSSID field in the form below. To see which AP is which, hover over the name to see its BSSID as a tooltip.
+>If there are several APs with identical SSID nearby, you can select a specific AP by its BSSID (AP's MAC address). You can either manually find out your AP's BSSID and enter it or have it filled out automatically: Click "Scan for networks", then "Show all APs". If you click on an AP, its BSSID will be copied into BSSID field in the form below. To see which AP is which, hover over the name to see its BSSID as a tooltip.
 
->Your FC requests an IP address via DHCP, unless you entered valid data in the fields for static IP addresses (IP, gateway, netmask, DNS). If the device is inaccessible as a result of incorrect static IPs, wait until it has completed its startup sequence, then type ```*123456ok```<!-- ```*123457ok```--> on the IR remote; static IP data will be deleted and the device will return to DHCP after a reboot.
+>Your FC requests an IP address via DHCP, unless you entered valid data in the fields for static IP addresses (IP, gateway, netmask, DNS). If the device is inaccessible as a result of incorrect static IPs, wait until it has completed its startup sequence, then type ````*123457ok``` on the IR remote; static IP data will be deleted and the device will return to DHCP after a reboot.
 
 </details>
 
@@ -371,11 +381,6 @@ Numbers in brackets are the code to be entered on the TCD keypad if a TCD is con
      <td align="left">Toggle firmware update signals at power-up</td>
      <td align="left"><code>*53281ok</code></td><td><code>3053281</code></td>
     </tr>
-    <tr>
-     <td align="left">Delete static IP address and AP WiFi password (**)</td>
-     <td align="left"><code>*123456ok</code></td><td><code>3123456</code></td>
-    </tr>
-    <!--
       <tr>
      <td align="left">Delete FC-AP WiFi password (**)</td>
      <td align="left"><code>*123456ok</code></td><td><code>3123456</code></td>
@@ -384,7 +389,6 @@ Numbers in brackets are the code to be entered on the TCD keypad if a TCD is con
      <td align="left">Delete static IP configuration (**)</td>
      <td align="left"><code>*123457ok</code></td><td><code>3123457</code></td>
     </tr>
-      -->
     <tr>
      <td align="left">Start IR remote <a href="#ir-learning">learning process</a> (**)</td>
      <td align="left"><code>*987654ok</code></td><td><code>3987654</code></td>
@@ -694,7 +698,7 @@ The firmware consists of two parts: The main firmware, and a sound-pack.
 
 First, download main firmware and sound-pack. Both files are in every [Release package](https://github.com/realA10001986/Flux-Capacitor/releases/latest), and named
 - "**fluxcapacitor-A10001986-Vx.xxx.bin**" for A10001986 releases, "**Flux_Capacitor_vX.YY.bin**" for CircuitSetup releases,
-- "**sound-pack-fcXX.zip**" for A10001986 releases, "**FCA.bin**" for CircuitSetup releases.
+- "**FCA-FCxx.bin**" for A10001986 releases, "**FCA.bin**" for CircuitSetup releases.
 
 ### Main firmware
 
@@ -716,10 +720,9 @@ After updating the main firmware, there will be a notification on the Config Por
 _Installing the sound-pack requires an [SD card](#initial-configuration)._
 
 To update the sound-pack of your FC, 
-- (if the sound-pack is a zip file, extract it. It contains one file named FCA.bin)
 - enter the [Config Portal](#the-config-portal),
 - click on "Update & Upload",
-- select the FCA.bin file in the _bottom_ file selector, and
+- select the FCA-FCxx.bin file in the _top_ file selector, and
 - click on *Upload*. 
 
 <details>
@@ -727,22 +730,18 @@ To update the sound-pack of your FC,
 <br>
 Alternatively, you can install the sound-pack the following way:
 <ul>
-<li>Using a computer, copy "FCA.bin" to the root directory of a FAT32 formatted SD card;</li>
+<li>Using a computer, copy "FCA-FCxx.bin" to a FAT32 formatted SD card and rename it to "FCA.bin",</li>
 <li>power down the Flux Capacitor,</li>
 <li>insert this SD card into the slot and</li>
 <li>power up the Flux Capacitor; the sound-pack will be installed automatically.</li>
 </ul>
 </details>
 
-<!--
 ## Factory Reset
 
 To reset your FC to factory default settings, issue command sequence ```*397159ok``` twice in a row. 
 
 Since any configured WiFi connection is deleted as well, the FC will reboot in AP-mode.
-
--->
-
 
 ---
 
@@ -782,13 +781,27 @@ Through this page you can either connect your FC to your local WiFi network or c
 
 To connect your FC to your WiFi network, all you need to do is either to click on one of the networks listed at the top or to enter a __Network name (SSID)__, and optionally a __password__ (WPAx). If there is no list displayed, click on "Scan for Networks".
 
->By default, the FC requests an IP address via DHCP. However, you can also configure a static IP for the FC by entering the IP, netmask, gateway and DNS server. All four fields must be filled for a valid static IP configuration. If you want to stick to DHCP, leave those four fields empty.
-
-If there are several APs with identical SSID nearby, the FC will connect to the first one it finds, which might not be the one with the strongest signal. It is therefore recommended to select the nearest/strongest AP by its BSSID (AP's MAC address, a unique identifier for a specific AP). You can either manually find out your AP's BSSID and enter it or have it filled out automatically: Click "Scan for networks", then "Show all". If you click on an AP, its BSSID will be copied into BSSID field in the form below. To see which AP is which, hover over the name to see its BSSID as a tooltip.
+If there are several APs with identical SSID nearby, the FC will connect to the first one it finds, which might not be the one with the strongest signal. It is therefore recommended to select the nearest/strongest AP by its BSSID (AP's MAC address, a unique identifier for a specific AP). You can either manually find out your AP's BSSID and enter it or have it filled out automatically: Click "Scan for networks", then "Show all APs". If you click on an AP, its BSSID will be copied into BSSID field in the form below. To see which AP is which, hover over the name to see its BSSID as a tooltip.
 
 ##### &#9193; Forget Saved WiFi Network
 
 Checking this box (and clicking SAVE) deletes the currently saved WiFi network (SSID and password as well as static IP data) and reboots the device; it will restart in "access point" (AP) mode. See [here](#connecting-to-a-wifi-network).
+
+##### &#9193; Static IP
+
+By default, the FC requests an IP address via DHCP. However, you can also configure a static IP for the FC by entering the IP, netmask, gateway and DNS server. All four fields must be filled for a valid static IP configuration. If you want to stick to DHCP, leave those four fields empty.
+
+##### &#9193; WiFi connection attempts
+
+Number of times the firmware tries to reconnect to a WiFi network, before falling back to AP-mode. See [here](#connecting-to-a-wifi-network)
+
+##### &#9193; Hostname
+
+The device's hostname in the WiFi network. Defaults to 'flux'. This also is the domain name at which the Config Portal is accessible from a browser in the same local network. The URL of the Config Portal then is http://<i>hostname</i>.local (the default is http://flux.local)
+
+If you have more than one FC in your local network, please give them unique hostnames.
+
+_This setting applies to both AP-mode and when your FC is connected to a WiFi network._ 
 
 ##### &#9193; Car mode settings
 
@@ -801,18 +814,6 @@ The **_TCD-AP BSSID_** field is optional for you to fill out. The TCD displays i
 
 If you want to enter Car mode immediately after saving your settings, check **_Enable car mode now_**. You can also later enable Car mode by typing ```*991ok``` on the remote. ```*990ok``` disables Car mode.
 
-##### &#9193; Hostname
-
-The device's hostname in the WiFi network. Defaults to 'flux'. This also is the domain name at which the Config Portal is accessible from a browser in the same local network. The URL of the Config Portal then is http://<i>hostname</i>.local (the default is http://flux.local)
-
-If you have more than one FC in your local network, please give them unique hostnames.
-
-_This setting applies to both AP-mode and when your FC is connected to a WiFi network._ 
-
-##### &#9193; WiFi connection attempts
-
-Number of times the firmware tries to reconnect to a WiFi network, before falling back to AP-mode. See [here](#connecting-to-a-wifi-network)
-
 #### <ins>Settings for AP-mode</ins>
 
 ##### &#9193; Network name (SSID) appendix
@@ -823,7 +824,7 @@ By default, when your FC creates a WiFi network of its own ("AP-mode"), this net
 
 By default, and if this field is empty, the FC's own WiFi network ("FC-AP") will be unprotected. If you want to protect your FC access point, enter your password here. It needs to be 8 characters in length and only characters A-Z, a-z, 0-9 and - are allowed.
 
-If you forget this password and are thereby locked out of your FC, enter ```*123456ok``` on the IR remote control; this deletes the WiFi password. Then power-down and power-up your FC and the access point will start unprotected.<!-- automatic reboot -->
+If you forget this password and are thereby locked out of your FC, enter ```*123456ok``` on the IR remote control; this deletes the WiFi password and reboots your FC. Afterwards, the FC-AP access point will be unprotected.
 
 ##### &#9193; WiFi channel
 
@@ -833,7 +834,7 @@ WiFI channel selection is key for a trouble-free operation. Disturbed WiFi commu
 
 If a WiFi Scan was done (which can be triggered by clicking "Scan for Networks"), 
 
-- a list of networks is displayed at the top of the page; click "Show All" to list all networks including their channel;
+- a list of networks is displayed at the top of the page; click "Show All APs" to list all APs including their channel;
 - a "proposed channel" is displayed near the "WiFi channel" drop-down, based on a rather simple heuristic. The banner is green when a channel is excellent, grey when it is impeded by overlapping channels, and when that banner is red operation in AP mode is not recommended due to channels all being used.
 
 The channel proposition is based on all WiFi networks found; it does not take non-WiFi equipment (baby monitors, cordless phones, Bluetooth devices, microwave ovens, etc) into account.
