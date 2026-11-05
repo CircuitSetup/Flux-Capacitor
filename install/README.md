@@ -1,3 +1,7 @@
+__Users of mobile devices__: You can easily download the update file(s) from the [Release](https://fcr.out-a-ti.me) page, under "Assets".
+
+___
+
 This folder holds all files necessary for immediate installation on your Flux Capacitor. Here you'll find
 - a binary of the current firmware, ready for upload to the device ("fluxcapacitor-A10001986-x.xx.bin");
 - the latest matching sound-pack ("FCA-xxxx.bin")
