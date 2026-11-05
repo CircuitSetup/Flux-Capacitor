@@ -700,6 +700,9 @@ First, download main firmware and sound-pack. Both files are in every [Release p
 - "**fluxcapacitor-A10001986-Vx.xxx.bin**" for A10001986 releases, "**Flux_Capacitor_vX.YY.bin**" for CircuitSetup releases,
 - "**FCA-FCxx.bin**" for A10001986 releases, "**FCA.bin**" for CircuitSetup releases.
 
+> [!TIP]
+> &#127381; If you want to update several props at a time, you can download all current files from one place: https://all.out-a-ti.me
+
 ### Main firmware
 
 To update the main firmware of your FC, 
