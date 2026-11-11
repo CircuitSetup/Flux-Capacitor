@@ -18,7 +18,7 @@ The Flux Capacitor can be used stand-alone or in connection with CircuitSetup's 
 Features include
 - movie-accurate default flux sequence, plus 9 alternative flux sequences
 - optional [flux](#the-flux-sound) sound (4 modes)
-- [Time Travel](#time-travel) function, triggered by button, [Time Circuits Display](https://circuitsetup.us/product/complete-time-circuits-display-kit/) (TCD) or via [Home Assistant](#home-assistant--mqtt)
+- [Time Travel](#time-travel) sequence, triggered by button, [Time Circuits Display](https://circuitsetup.us/product/complete-time-circuits-display-kit/) (TCD) or via [Home Assistant](#home-assistant--mqtt)
 - [IR remote controlled](#ir-remote-control); can learn keys from third-party remote
 - [music player](#the-music-player): Play mp3 files located on an SD card
 - advanced network-accessible [Config Portal](#the-config-portal) for setup (http://flux.local)
@@ -182,7 +182,7 @@ Apart from the feedback LED, your FC will also show some feedback signals throug
 - By default, after executing a command, the FC will show a "success" signal. This kind of feedback can be disabled using command sequence ```*62ok``` or in the Config Portal.
 - If a command was unsuccessful or not recognized, a "bad input" signal will be shown.
 
-See [here](#appendix-b-led-signals) for all supported signals.
+See [here](#appendix-b-led-signals) for a list of signals.
 
 ### IR Learning
 
