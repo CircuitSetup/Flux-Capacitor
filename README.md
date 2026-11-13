@@ -18,7 +18,7 @@ The Flux Capacitor can be used stand-alone or in connection with CircuitSetup's 
 Features include
 - movie-accurate default flux sequence, plus 9 alternative flux sequences
 - optional [flux](#the-flux-sound) sound (4 modes)
-- [Time Travel](#time-travel) function, triggered by button, [Time Circuits Display](https://circuitsetup.us/product/complete-time-circuits-display-kit/) (TCD) or via [Home Assistant](#home-assistant--mqtt)
+- [Time Travel](#time-travel) sequence, triggered by button, [Time Circuits Display](https://circuitsetup.us/product/complete-time-circuits-display-kit/) (TCD) or via [Home Assistant](#home-assistant--mqtt)
 - [IR remote controlled](#ir-remote-control); can learn keys from third-party remote
 - [music player](#the-music-player): Play mp3 files located on an SD card
 - advanced network-accessible [Config Portal](#the-config-portal) for setup (http://flux.local)
@@ -182,11 +182,11 @@ Apart from the feedback LED, your FC will also show some feedback signals throug
 - By default, after executing a command, the FC will show a "success" signal. This kind of feedback can be disabled using command sequence ```*62ok``` or in the Config Portal.
 - If a command was unsuccessful or not recognized, a "bad input" signal will be shown.
 
-See [here](#appendix-b-led-signals) for all supported signals.
+See [here](#appendix-b-led-signals) for a list of signals.
 
 ### IR Learning
 
-Your FC can learn the codes of another IR remote control. Most remotes with a carrier signal of 38kHz (which most IR remotes use) will work. However, some remote controls, especially ones for TVs, send keys repeatedly and/or send different codes alternately. If you had the FC learn a remote and the keys are not (always) recognized afterwards or appear to be pressed repeatedly while held, that remote is of that type and cannot be used.
+Your FC can learn the codes of another IR remote control. In order to be compatible, that other remote control must use a carrier signal frequency of 38kHz (which is the most common frequency), send a unique and fixed code for each specific button, and send this code exactly once per key press. Some remote controls, especially ones for TVs, send keys repeatedly and/or send different codes alternately. Such remotes (or these specific keys) cannot be used.
 
 > [!TIP]
 > Usually, home entertainment IR remote controls send repeated codes when pressing the volume keys, and alternate codes for some number keys (in most cases 1 and 2) for using them for entering 2-digit channel numbers. If you have trouble finding a remote that works, a solution can be to use a programmable IR remote with a suitable layout, to program it with working codes from an existing IR remote (which keys those codes come from is unimportant, you can freely map them to keys on your programmable IR remote), and then have the FC learn the keys from said programmable IR remote. 
@@ -473,7 +473,7 @@ Those files are not provided here. You can use any mp3, with a bitrate of 128kpb
 
 Replacements and custom sounds can either be uploaded through the Config Portal or copied to the SD card’s root folder using a computer.
 
-Uploading through the Config Portal works exactly like [installing the sound-pack](#sound-pack-installation); on the main menu, click "Update & Upload". Afterwards choose one or more mp3 files to upload using the bottom file selector, and click "UPLOAD". The firmware will store the uploaded mp3 files on the SD card.
+Uploading through the Config Portal works like this: On the main menu, click "Update & Upload". Afterwards choose one or more mp3 files to upload using the _bottom_ file selector, and click "UPLOAD". The firmware will store the uploaded mp3 files on the SD card.
 
 To delete a file from the SD card, upload a file whose name is prefixed with "delete-". For example: To delete "key3.mp3" from the SD card, upload a file named "delete-key3.mp3"; the file's contents does not matter, so it's easiest to use a newly created empty file. The firmware detects the "delete-" part and, instead of storing the uploaded file, it throws it away and deletes "key3.mp3" from the SD card.
 
